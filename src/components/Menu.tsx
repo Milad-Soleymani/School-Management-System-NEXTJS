@@ -117,14 +117,14 @@ const menuItems = [
 ];
 const Menu = () =>{ 
   return(
-    <div className="flex flex-col items-end"> 
+    <div className="flex flex-col items-end font-thin text-[13px]"> 
     {menuItems.map(i => (
-      <div key={i.title} className="flex flex-col gap-2">
+      <div key={i.title} className="flex flex-col p-0 ">
         <span className="hidden lg:block text-gray-400 font-light my-4">{i.title}</span>
         {i.items.map(item => 
-          <Link href={item.href} key={item.href} className="flex  lg:justify-end gap-4 text-gray-500 py-2" >
+          <Link href={item.href} key={item.href} className="flex  lg:justify-end gap-4 text-gray-500 py-1.5 hover:text-gray-950" >
             <span className="hidden lg:block">{item.label}</span>
-            <Image src={item.icon} width={20} height={20} alt={item.label}/>
+            <Image src={item.icon} width={18} height={18} alt={item.label}/>
           </Link>
         )}
       </div>
