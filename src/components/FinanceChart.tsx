@@ -6,57 +6,57 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 const data = [
     {
         name: 'مهر',
-        درامد: 400000000,
-        هزینه: 2400000,
+        درامد: 400,
+        هزینه: 240,
 
     },
     {
         name: 'ابان',
-        درامد: 3000000000,
-        هزینه: 130098,
+        درامد: 3000,
+        هزینه: 98,
 
     },
     {
         name: 'اذر',
-        درامد: 20000000,
-        هزینه: 199800,
+        درامد: 200,
+        هزینه: 199,
 
     },
     {
         name: 'دی',
-        درامد: 27000000080,
-        هزینه: 3900008,
+        درامد: 2700,
+        هزینه: 3900,
 
     },
     {
         name: 'بهمن',
-        درامد: 18000090,
-        هزینه: 48000000,
+        درامد: 1800,
+        هزینه: 48,
 
     },
     {
         name: 'اسفند',
-        درامد: 2300090,
-        هزینه: 38000,
+        درامد: 20,
+        هزینه:90,
 
     },
     {
         name: 'فروردین',
-        درامد: 3400090,
-        هزینه: 4300000,
+        درامد: 390,
+        هزینه: 50,
 
     },
 
     {
         name: 'اردیبهشت',
-        درامد: 3400090,
-        هزینه: 43000,
+        درامد: 90,
+        هزینه: 4,
 
     },
     {
         name: 'خرداد',
-        درامد: 34000090,
-        هزینه: 43000,
+        درامد: 30,
+        هزینه: 40,
 
     },
 ];
@@ -65,10 +65,10 @@ function FinanceChart() {
     return (
         <div className='bg-white rounded-xl w-full h-full p-4'>
             <div className='flex justify-between items-center'>
-                <h1 className='text-lg font-semibold'>مالی ( تومان)</h1>
+                <h1 className='text-lg font-semibold'>مالی ( میلیون تومان  )</h1>
                 <Image src='/moreDark.png' width={20} height={20} alt='' />
             </div>
-            <ResponsiveContainer width="100%" height="90%">
+            <ResponsiveContainer width="103%" height="90%">
                 <LineChart
                     width={500}
                     height={300}
