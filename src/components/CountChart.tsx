@@ -51,19 +51,19 @@ function CountChart() {
                 <div className="flex flex-col gap-1">
                     <div className=" w-5 h-5 bg-blueSky rounded-full" />
                     <h1 className='font-bold'>۱،۲۳۴</h1>
-                    <h2 className='text-xs text-gray-300'>هفتم (۲۰٪)</h2>
+                    <h2 className='text-xs text-gray-500'>هفتم (۲۰٪)</h2>
                 </div>
 
                 <div className="flex flex-col gap-1">
                     <div className=" w-5 h-5 bg-specialYellow  rounded-full" />
                     <h1 className='font-bold'>۴،۹۳۶</h1>
-                    <h2 className='text-xs text-gray-300'>هشتم (۳۰٪)</h2>
+                    <h2 className='text-xs text-gray-500'>هشتم (۳۰٪)</h2>
                 </div>
 
                 <div className="flex flex-col gap-1">
                     <div className=" w-5 h-5 bg-specialPurple rounded-full" />
                     <h1 className='font-bold'>۱،۲۳۴</h1>
-                    <h2 className='text-xs text-gray-300'>نهم (۳۰٪)</h2>
+                    <h2 className='text-xs text-gray-500'>نهم (۳۰٪)</h2>
                 </div>
             </div>
         </div>
