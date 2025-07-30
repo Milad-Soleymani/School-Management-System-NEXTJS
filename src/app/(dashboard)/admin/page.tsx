@@ -10,7 +10,7 @@ function AdminPage() {
           <UserCard  type="دانش اموزان" />
           <UserCard type="معلم ها" />
           <UserCard type="والدین" />
-          <UserCard type="staff" />
+          <UserCard type="پرسنل" />
         </div>
       </div>
 
