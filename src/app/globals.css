@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.Calendar__day:not(.-blank):not(.-selectedStart):not(.-selectedEnd):not(.-selectedBetween):not(.-selected):hover{
+    background-color: skyblue !important; 
+    color: white !important; 
+}
+.Calendar__day.-today:not(.-selectedStart):not(.-selectedEnd):not(.-selectedBetween){
+    background-color: skyblue !important;
+    color: #fff !important;
+}
+.Calendar{
+    width: 100% !important;
+}
