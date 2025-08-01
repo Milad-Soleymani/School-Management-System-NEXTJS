@@ -1,6 +1,6 @@
 // TEMPORARY DATA
 
-export let role = "admin";
+export let role = "student";
 
 export const teachersData = [
   {
@@ -920,144 +920,185 @@ export const announcementsData = [
 export const calendarEvents = [
   {
     title: "Math",
-    allDay: false,
-    start: new Date(2024, 7, 12, 8, 0),
-    end: new Date(2024, 7, 12, 8, 45),
+    allDay: true,
+    start: new Date(2025, 6, 31, 8, 0), // امروز
+    end: new Date(2025, 6, 31, 8, 45),
+    className: "today-event", // کلاس برای امروز
   },
   {
     title: "English",
     allDay: false,
-    start: new Date(2024, 7, 12, 9, 0),
-    end: new Date(2024, 7, 12, 9, 45),
+    start: new Date(2025, 6, 12, 9, 0), // روز دیگر
+    end: new Date(2025, 6, 12, 9, 45),
+    className: "other-day-event", // کلاس برای روز دیگر
   },
   {
     title: "Biology",
     allDay: false,
-    start: new Date(2024, 7, 12, 10, 0),
-    end: new Date(2024, 7, 12, 10, 45),
+    start: new Date(2025, 6, 12, 10, 0),
+    end: new Date(2025, 6, 12, 10, 45),
+    className: "other-day-event",
   },
   {
     title: "Physics",
     allDay: false,
-    start: new Date(2024, 7, 12, 11, 0),
-    end: new Date(2024, 7, 12, 11, 45),
+    start: new Date(2025, 6, 12, 11, 0),
+    end: new Date(2025, 6, 12, 11, 45),
+    className: "other-day-event",
   },
   {
     title: "Chemistry",
     allDay: false,
-    start: new Date(2024, 7, 12, 13, 0),
-    end: new Date(2024, 7, 12, 13, 45),
+    start: new Date(2025, 6, 12, 13, 0),
+    end: new Date(2025, 6, 12, 13, 45),
+    className: "other-day-event",
   },
   {
     title: "History",
     allDay: false,
-    start: new Date(2024, 7, 12, 14, 0),
-    end: new Date(2024, 7, 12, 14, 45),
+    start: new Date(2025, 6, 12, 10, 0),
+    end: new Date(2025, 6, 12, 10, 45),
+    className: "other-day-event",
   },
   {
     title: "English",
     allDay: false,
-    start: new Date(2024, 7, 13, 9, 0),
-    end: new Date(2024, 7, 13, 9, 45),
+    start: new Date(2025, 6, 13, 9, 0),
+    end: new Date(2025, 6, 13, 9, 45),
+    className: "other-day-event",
   },
   {
     title: "Biology",
     allDay: false,
-    start: new Date(2024, 7, 13, 10, 0),
-    end: new Date(2024, 7, 13, 10, 45),
+    start: new Date(2025, 6, 13, 10, 0),
+    end: new Date(2025, 6, 13, 10, 45),
+    className: "other-day-event",
   },
   {
     title: "Physics",
     allDay: false,
-    start: new Date(2024, 7, 13, 11, 0),
-    end: new Date(2024, 7, 13, 11, 45),
+    start: new Date(2025, 6, 13, 11, 0),
+    end: new Date(2025, 6, 13, 11, 45),
+    className: "other-day-event",
   },
-
   {
     title: "History",
     allDay: false,
-    start: new Date(2024, 7, 13, 14, 0),
-    end: new Date(2024, 7, 13, 14, 45),
+    start: new Date(2025, 6, 13, 14, 0),
+    end: new Date(2025, 6, 13, 14, 45),
+    className: "other-day-event",
   },
   {
     title: "Math",
     allDay: false,
-    start: new Date(2024, 7, 14, 8, 0),
-    end: new Date(2024, 7, 14, 8, 45),
+    start: new Date(2025, 6, 14, 8, 0),
+    end: new Date(2025, 6, 14, 8, 45),
+    className: "other-day-event",
   },
   {
     title: "Biology",
     allDay: false,
-    start: new Date(2024, 7, 14, 10, 0),
-    end: new Date(2024, 7, 14, 10, 45),
+    start: new Date(2025, 6, 14, 10, 0),
+    end: new Date(2025, 6, 14, 10, 45),
+    className: "other-day-event",
   },
-
   {
     title: "Chemistry",
     allDay: false,
-    start: new Date(2024, 7, 14, 13, 0),
-    end: new Date(2024, 7, 14, 13, 45),
+    start: new Date(2025, 6, 14, 13, 0),
+    end: new Date(2025, 6, 14, 13, 45),
+    className: "other-day-event",
   },
   {
     title: "History",
     allDay: false,
-    start: new Date(2024, 7, 14, 14, 0),
-    end: new Date(2024, 7, 13, 14, 45),
+    start: new Date(2025, 6, 14, 14, 0),
+    end: new Date(2025, 6, 14, 14, 45),
+    className: "other-day-event",
   },
   {
     title: "English",
     allDay: false,
-    start: new Date(2024, 7, 15, 9, 0),
-    end: new Date(2024, 7, 15, 9, 45),
+    start: new Date(2025, 6, 15, 9, 0),
+    end: new Date(2025, 6, 15, 9, 45),
+    className: "other-day-event",
   },
   {
     title: "Biology",
     allDay: false,
-    start: new Date(2024, 7, 15, 10, 0),
-    end: new Date(2024, 7, 15, 10, 45),
+    start: new Date(2025, 6, 15, 10, 0),
+    end: new Date(2025, 6, 15, 10, 45),
+    className: "other-day-event",
   },
   {
     title: "Physics",
     allDay: false,
-    start: new Date(2024, 7, 15, 11, 0),
-    end: new Date(2024, 7, 15, 11, 45),
+    start: new Date(2025, 6, 15, 11, 0),
+    end: new Date(2025, 6, 15, 11, 45),
+    className: "other-day-event",
   },
-
   {
     title: "History",
     allDay: false,
-    start: new Date(2024, 7, 15, 14, 0),
-    end: new Date(2024, 7, 15, 14, 45),
+    start: new Date(2025, 6, 15, 14, 0),
+    end: new Date(2025, 6, 15, 14, 45),
+    className: "other-day-event",
   },
   {
     title: "Math",
     allDay: false,
-    start: new Date(2024, 7, 16, 8, 0),
-    end: new Date(2024, 7, 16, 8, 45),
+    start: new Date(2025, 6, 16, 8, 0),
+    end: new Date(2025, 6, 16, 8, 45),
+    className: "other-day-event",
   },
   {
     title: "English",
     allDay: false,
-    start: new Date(2024, 7, 16, 9, 0),
-    end: new Date(2024, 7, 16, 9, 45),
+    start: new Date(2025, 6, 16, 9, 0),
+    end: new Date(2025, 6, 16, 9, 45),
+    className: "other-day-event",
   },
-
   {
     title: "Physics",
     allDay: false,
-    start: new Date(2024, 7, 16, 11, 0),
-    end: new Date(2024, 7, 16, 11, 45),
+    start: new Date(2025, 6, 16, 11, 0),
+    end: new Date(2025, 6, 16, 11, 45),
+    className: "other-day-event",
   },
   {
     title: "Chemistry",
     allDay: false,
-    start: new Date(2024, 7, 16, 13, 0),
-    end: new Date(2024, 7, 16, 13, 45),
+    start: new Date(2025, 6, 16, 13, 0),
+    end: new Date(2025, 6, 16, 13, 45),
+    className: "other-day-event",
   },
   {
     title: "History",
     allDay: false,
-    start: new Date(2024, 7, 16, 14, 0),
-    end: new Date(2024, 7, 16, 14, 45),
+    start: new Date(2025, 6, 16, 14, 0),
+    end: new Date(2025, 6, 16, 14, 45),
+    className: "other-day-event",
+  },
+  // اضافه کردن رویدادهای جدید
+  {
+    title: "Geography",
+    allDay: false,
+    start: new Date(2025, 7, 1, 10, 0), // امروز
+    end: new Date(2025, 7, 1, 11, 0),
+    className: "today-event", // کلاس برای امروز
+  },
+  {
+    title: "Art",
+    allDay: false,
+    start: new Date(2025, 6, 29, 10, 0), // روز دیگر
+    end: new Date(2025, 6, 29, 11, 0),
+    className: "other-day-event", // کلاس برای روز دیگر
+  },
+  {
+    title: "Music",
+    allDay: false,
+    start: new Date(2025, 7, 1, 8, 0), // روز دیگر
+    end: new Date(2025, 7, 1, 9, 0),
+    className: "other-day-event", // کلاس برای روز دیگر
   },
 ];
