@@ -25,7 +25,6 @@ const events = [
 ]
 function EventCalendar() {
   const [date, setDate] = useState();
-  console.log(date)
   return (
     <div className='bg-white p-4 rounded-md'>
       <div className="flex justify-center">
