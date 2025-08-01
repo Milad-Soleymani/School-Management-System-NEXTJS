@@ -13,7 +13,7 @@ function StudentPage() {
         </div>
       </div>
       {/* RIGHT */}
-      <div className="w-full xl:w-1/3 ">
+      <div className=" flex flex-col w-full xl:w-1/3 gap-8">
         <EventCalendar />
         <Announcements />
       </div>
