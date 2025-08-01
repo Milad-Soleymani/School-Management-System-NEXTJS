@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: IranSans;
+  src: url(assets/fonts/IRANSANSWEB.TTF);
+}
+
+*{
+  font-family: IranSans;
+}
+
 .Calendar__day:not(.-blank):not(.-selectedStart):not(.-selectedEnd):not(.-selectedBetween):not(.-selected):hover {
     background-color: skyblue !important;
     color: white !important;
