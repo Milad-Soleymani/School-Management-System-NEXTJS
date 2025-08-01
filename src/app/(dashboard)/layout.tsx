@@ -11,7 +11,7 @@ export default function DashboardLayout({
   return (
     <div className="h-screen flex">
       {/* LEFT */}
-      <div className="w-[86%]  md:w-[92%] lg:w-[84%] xl:w-[86%] bg-[#F7F8FA]  overflow-scroll ">
+      <div className="w-[86%]  md:w-[92%] lg:w-[84%] xl:w-[86%] bg-[#F7F8FA]  overflow-scroll flex flex-col">
         <NavBar />
         {children}
       </div>
