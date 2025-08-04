@@ -94,10 +94,10 @@ const TeacherListPage = () => {
             <button className='w-8 h-8 flex items-center justify-center rounded-full bg-specialYellow'>
               <Image src='/sort.png' width={14} height={14} alt='' />
             </button>
-            <button className='w-8 h-8 flex items-center justify-center rounded-full bg-specialYellow'>
+            {role === "admin" && <button className='w-8 h-8 flex items-center justify-center rounded-full bg-specialYellow'>
               <Image src='/plus.png' width={14} height={14} alt='' />
-            </button>
-            <TableSearch />
+            </button>}
+             <TableSearch />
           </div>
         </div>
         <h1 className='hidden  md:block text-lg font-semibold '> همه معلمان </h1>
