@@ -1,8 +1,8 @@
 "use client"
 import Image from 'next/image';
 import React, { useState } from 'react'
-import { Calendar } from 'react-modern-calendar-datepicker';
-import "react-modern-calendar-datepicker/lib/DatePicker.css";
+import 'react-modern-calendar-datepicker/lib/DatePicker.css';
+import Calendar from 'react-modern-calendar-datepicker';
 
 // TEMPORARY DATA
 const events = [
@@ -28,8 +28,7 @@ function EventCalendar() {
   return (
     <div className='bg-white p-4 rounded-md'>
       <div className="flex justify-center">
-      <Calendar calendarClassName=''
-        value={date}
+      <Calendar 
         shouldHighlightWeekends
         locale="fa"
       />
