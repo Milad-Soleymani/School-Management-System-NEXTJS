@@ -41,7 +41,7 @@ const columns = [
   }, {
     header: "نشانی",
     accessor: "address",
-    className: "hidden md:table-cell"
+    className: "hidden md:table-cell text-right pr-5"
   }, {
     header: "اعمال",
     accessor: "actions",
@@ -64,7 +64,7 @@ const TeacherListPage = () => {
       <td className='hidden md:table-cell'>{item.subjects.join(',')}</td>
       <td className='hidden md:table-cell'>{item.classes.join(',')}</td>
       <td className='hidden md:table-cell'>{item.phone}</td>
-      <td className='hidden md:table-cell'>{item.address}</td>
+      <td className='hidden md:table-cell text-right pr-5'>{item.address}</td>
       <td>
         <div className="flex items-center gap-2">
           <Link href={`/list/teachers/${item.id}`}>
