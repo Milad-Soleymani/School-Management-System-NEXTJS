@@ -16,7 +16,7 @@ type Exam = {
 
 const columns = [
     {
-        header: "نام کلاس",
+        header: "ماده درسی",
         accessor: "name"
     }, {
         header: "کلاس",
