@@ -32,7 +32,7 @@ const menuItems = [
       },
       {
         icon: "/subject.png",
-        label: "موضوعات",
+        label: "مواد درسی",
         href: "/list/subjects",
         visible: ["admin"],
       },
