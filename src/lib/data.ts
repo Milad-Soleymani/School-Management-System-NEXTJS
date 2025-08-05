@@ -1,117 +1,116 @@
 // TEMPORARY DATA
 
 export let role = "admin";
-
 export const teachersData = [
   {
     id: 1,
-    teacherId: "۱۲۳۴۵۶۷۸۹۰",
-    name: "جان دو",
-    email: "john@doe.com",
+    teacherId: "۰۰۱۲۳۴۵۶۷۸",
+    name: "علی رضایی",
+    email: "ali.rezaei@example.com",
     photo: "/teacher1.png",
-    phone: "۱۲۳۴۵۶۷۸۹۰",
+    phone: "۰۹۱۲۳۴۵۶۷۸۱",
     subjects: ["ریاضی", "هندسه"],
     classes: ["۱ ب", "۲ الف", "۳ ج"],
-    address: "خیابان اصلی ۱۲۳، هرشهری، آمریکا"
+    address: "خیابان انقلاب، پلاک ۱۲، تهران"
   },
   {
     id: 2,
-    teacherId: "۱۲۳۴۵۶۷۸۹۰",
-    name: "جین دو",
-    email: "jane@doe.com",
+    teacherId: "۰۰۲۳۴۵۶۷۸۹",
+    name: "فاطمه محمدی",
+    email: "fatemeh.mohammadi@example.com",
     photo: "/teacher2.png",
-    phone: "۱۲۳۴۵۶۷۸۹۰",
+    phone: "۰۹۱۲۳۴۵۶۷۸۲",
     subjects: ["فیزیک", "شیمی"],
     classes: ["۵ الف", "۴ ب", "۳ ج"],
-    address: "خیابان اصلی ۱۲۳، هرشهری، آمریکا"
+    address: "بلوار کشاورز، پلاک ۲۵، تهران"
   },
   {
     id: 3,
-    teacherId: "۱۲۳۴۵۶۷۸۹۰",
-    name: "مایک گلر",
-    email: "mike@geller.com",
+    teacherId: "۰۰۳۴۵۶۷۸۹۰",
+    name: "حسین کریمی",
+    email: "hossein.karimi@example.com",
     photo: "/teacher3.png",
-    phone: "۱۲۳۴۵۶۷۸۹۰",
+    phone: "۰۹۱۲۳۴۵۶۷۸۳",
     subjects: ["زیست‌شناسی"],
     classes: ["۵ الف", "۴ ب", "۳ ج"],
-    address: "خیابان اصلی ۱۲۳، هرشهری، آمریکا"
+    address: "میدان آزادی، پلاک ۸، تهران"
   },
   {
     id: 4,
-    teacherId: "۱۲۳۴۵۶۷۸۹۰",
-    name: "جی فرنچ",
-    email: "jay@gmail.com",
+    teacherId: "۰۰۴۵۶۷۸۹۰۱",
+    name: "زهرا نجفی",
+    email: "zahra.najafi@example.com",
     photo: "/teacher4.png",
-    phone: "۱۲۳۴۵۶۷۸۹۰",
+    phone: "۰۹۱۲۳۴۵۶۷۸۴",
     subjects: ["تاریخ"],
     classes: ["۵ الف", "۴ ب", "۳ ج"],
-    address: "خیابان اصلی ۱۲۳، هرشهری، آمریکا"
+    address: "خیابان ولیعصر، پلاک ۳۰، تهران"
   },
   {
     id: 5,
-    teacherId: "۱۲۳۴۵۶۷۸۹۰",
-    name: "جین اسمیت",
-    email: "jane@gmail.com",
+    teacherId: "۰۰۵۶۷۸۹۰۱۲",
+    name: "محمد حسینی",
+    email: "mohammad.hosseini@example.com",
     photo: "/teacher5.png",
-    phone: "۱۲۳۴۵۶۷۸۹۰",
+    phone: "۰۹۱۲۳۴۵۶۷۸۵",
     subjects: ["موسیقی", "تاریخ"],
     classes: ["۵ الف", "۴ ب", "۳ ج"],
-    address: "خیابان اصلی ۱۲۳، هرشهری، آمریکا"
+    address: "خیابان جمهوری، پلاک ۱۵، تهران"
   },
   {
     id: 6,
-    teacherId: "۱۲۳۴۵۶۷۸۹۰",
-    name: "آنا سانتیاگو",
-    email: "anna@gmail.com",
+    teacherId: "۰۰۶۷۸۹۰۱۲۳",
+    name: "نرگس احمدی",
+    email: "narges.ahmadi@example.com",
     photo: "/teacher6.png",
-    phone: "۱۲۳۴۵۶۷۸۹۰",
+    phone: "۰۹۱۲۳۴۵۶۷۸۶",
     subjects: ["فیزیک"],
     classes: ["۵ الف", "۴ ب", "۳ ج"],
-    address: "خیابان اصلی ۱۲۳، هرشهری، آمریکا"
+    address: "بلوار نلسون ماندلا، پلاک ۱۰، تهران"
   },
   {
     id: 7,
-    teacherId: "۱۲۳۴۵۶۷۸۹۰",
-    name: "آلن بلک",
-    email: "allen@black.com",
+    teacherId: "۰۰۷۸۹۰۱۲۳۴",
+    name: "رضا موسوی",
+    email: "reza.mousavi@example.com",
     photo: "/teacher7.png",
-    phone: "۱۲۳۴۵۶۷۸۹۰",
-    subjects: ["انگلیسی", "اسپانیایی"],
+    phone: "۰۹۱۲۳۴۵۶۷۸۷",
+    subjects: ["زبان انگلیسی", "زبان عربی"],
     classes: ["۵ الف", "۴ ب", "۳ ج"],
-    address: "خیابان اصلی ۱۲۳، هرشهری، آمریکا"
+    address: "خیابان شهید بهشتی، پلاک ۲۲، تهران"
   },
   {
     id: 8,
-    teacherId: "۱۲۳۴۵۶۷۸۹۰",
-    name: "اوپلیا کاسترو",
-    email: "ophelia@castro.com",
+    teacherId: "۰۰۸۹۰۱۲۳۴۵",
+    name: "مریم جعفری",
+    email: "maryam.jafari@example.com",
     photo: "/teacher8.png",
-    phone: "۱۲۳۴۵۶۷۸۹۰",
+    phone: "۰۹۱۲۳۴۵۶۷۸۸",
     subjects: ["ریاضی", "هندسه"],
     classes: ["۵ الف", "۴ ب", "۳ ج"],
-    address: "خیابان اصلی ۱۲۳، هرشهری، آمریکا"
+    address: "خیابان کارگر شمالی، پلاک ۴۰، تهران"
   },
   {
     id: 9,
-    teacherId: "۱۲۳۴۵۶۷۸۹۰",
-    name: "درک بریگز",
-    email: "derek@briggs.com",
+    teacherId: "۰۰۹۰۱۲۳۴۵۶",
+    name: "امیرحسین غفاری",
+    email: "amirhossein.ghafari@example.com",
     photo: "/teacher9.png",
-    phone: "۱۲۳۴۵۶۷۸۹۰",
-    subjects: ["ادبیات", "انگلیسی"],
+    phone: "۰۹۱۲۳۴۵۶۷۸۹",
+    subjects: ["ادبیات فارسی", "زبان انگلیسی"],
     classes: ["۵ الف", "۴ ب", "۳ ج"],
-    address: "خیابان اصلی ۱۲۳، هرشهری، آمریکا"
+    address: "خیابان پیروزی، پلاک ۱۸، تهران"
   },
   {
     id: 10,
-    teacherId: "۱۲۳۴۵۶۷۸۹۰",
-    name: "جان گلاور",
-    email: "john@glover.com",
+    teacherId: "۰۱۰۱۲۳۴۵۶۷",
+    name: "سارا تقوی",
+    email: "sara.taghavi@example.com",
     photo: "/teacher10.png",
-    phone: "۱۲۳۴۵۶۷۸۹۰",
+    phone: "۰۹۱۲۳۴۵۶۷۹۰",
     subjects: ["زیست‌شناسی"],
     classes: ["۵ الف", "۴ ب", "۳ ج"],
-    address: "خیابان اصلی ۱۲۳، هرشهری، آمریکا"
+    address: "خیابان دماوند، پلاک ۵۰، تهران"
   }
 ];
 
@@ -167,6 +166,89 @@ export const subjectsData = [
     id: 10,
     name: "Literature",
     teachers: ["Effie Lynch", "Brett Flowers"],
+  },
+];
+
+export const parentsData = [
+  {
+    id: 1,
+    name: "علی احمدی",
+    students: ["سارا احمدی"],
+    email: "ali.ahmadi@example.com",
+    phone: "۰۹۱۲۳۴۵۶۷۸۱",
+    address: "خیابان انقلاب، پلاک ۱۲، تهران",
+  },
+  {
+    id: 2,
+    name: "فاطمه محمدی",
+    students: ["نرگس محمدی"],
+    email: "fatemeh.mohammadi@example.com",
+    phone: "۰۹۱۲۳۴۵۶۷۸۲",
+    address: "بلوار کشاورز، پلاک ۲۵، تهران",
+  },
+  {
+    id: 3,
+    name: "حسین رضایی",
+    students: ["یاسمن رضایی"],
+    email: "hossein.rezaei@example.com",
+    phone: "۰۹۱۲۳۴۵۶۷۸۳",
+    address: "میدان آزادی، پلاک ۸، تهران",
+  },
+  {
+    id: 4,
+    name: "محمد جعفری",
+    students: ["پرستو جعفری", "پارسا جعفری"],
+    email: "mohammad.jafari@example.com",
+    phone: "۰۹۱۲۳۴۵۶۷۸۴",
+    address: "خیابان ولیعصر، پلاک ۳۰، تهران",
+  },
+  {
+    id: 5,
+    name: "زهرا کریمی",
+    students: ["ترانه کریمی"],
+    email: "zahra.karimi@example.com",
+    phone: "۰۹۱۲۳۴۵۶۷۸۵",
+    address: "خیابان جمهوری، پلاک ۱۵، تهران",
+  },
+  {
+    id: 6,
+    name: "مهدی موسوی",
+    students: ["آرش موسوی"],
+    email: "mehdi.mousavi@example.com",
+    phone: "۰۹۱۲۳۴۵۶۷۸۶",
+    address: "بلوار نلسون ماندلا، پلاک ۱۰، تهران",
+  },
+  {
+    id: 7,
+    name: "نازنین تقوی",
+    students: ["ستاره تقوی", "آرین تقوی"],
+    email: "nazanin.taghavi@example.com",
+    phone: "۰۹۱۲۳۴۵۶۷۸۷",
+    address: "خیابان شهید بهشتی، پلاک ۲۲، تهران",
+  },
+  {
+    id: 8,
+    name: "رضا حسینی",
+    students: ["کاوه حسینی"],
+    email: "reza.hosseini@example.com",
+    phone: "۰۹۱۲۳۴۵۶۷۸۸",
+    address: "خیابان کارگر شمالی، پلاک ۴۰، تهران",
+  },
+  {
+    id: 9,
+    name: "لیلا غفاری",
+    students: ["دانیال غفاری", "آوا غفاری"],
+    email: "leila.ghafari@example.com",
+    phone: "۰۹۱۲۳۴۵۶۷۸۹",
+    address: "خیابان پیروزی، پلاک ۱۸، تهران",
+  },
+  {
+    id: 10,
+    name: "امیرحسین نجفی",
+    students: ["نیما نجفی"],
+    email: "amirhossein.najafi@example.com",
+    phone: "۰۹۱۲۳۴۵۶۷۹۰",
+    address: "خیابان دماوند، پلاک ۵۰، تهران",
   },
 ];
 
