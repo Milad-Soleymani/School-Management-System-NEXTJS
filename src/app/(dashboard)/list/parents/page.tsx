@@ -1,7 +1,7 @@
 import Pagination from '@/components/Pagination'
 import Table from '@/components/Table'
 import TableSearch from '@/components/TableSearch'
-import { parentsData, role, studentsData,  } from '@/lib/data'
+import { parentsData, role  } from '@/lib/data'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
