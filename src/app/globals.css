@@ -7,8 +7,13 @@
   src: url(assets/fonts/IRANSANSWEB.TTF);
 }
 
+@font-face {
+  font-family: Nunito;
+  src: url(assets/fonts/Nunito.ttf);
+}
+
 *{
-  font-family: IranSans;
+  font-family: IranSans, Nunito;
 }
 
 .Calendar__day:not(.-blank):not(.-selectedStart):not(.-selectedEnd):not(.-selectedBetween):not(.-selected):hover {
