@@ -1,3 +1,4 @@
+import BigCalendar from '@/components/BigCalendar'
 import Image from 'next/image'
 import React from 'react'
 
@@ -79,7 +80,10 @@ function SingleTeacherPage() {
                     </div>
                 </div>
                 {/* BOTTOM */}
-                <div className="mt-4">Schedule</div>
+                <div className="mt-4 bg-white rounded-md p-4 h-[800px]">
+                    <h1>برنامه زمانی معلم</h1>
+                    <BigCalendar />
+                </div>
             </div>
             {/* RIGHT */}
             <div className="w-full lg:w-1/3">Right content</div>
