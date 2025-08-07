@@ -16,7 +16,7 @@ function SingleTeacherPage() {
                     <div className="bg-blueSky py-6 px-4 rounded-md flex-1 flex gap-4">
                         <div className="  flex justify-center items-center">
                             <Image 
-                                src='/teacher1.png' 
+                                src='/normalProfile.webp' 
                                 width={144} 
                                 height={144} 
                                 alt='Teacher profile' 
@@ -24,7 +24,7 @@ function SingleTeacherPage() {
                             />
                         </div>
                         <div className="w-2/3 flex flex-col justify-between gap-4 text-right">
-                            <h1 className='text-xl font-semibold'>حسین مرادی فام</h1>
+                            <h1 className='text-xl font-semibold'>علی رضایی</h1>
                             <p className='text-xs text-gray-500'>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است</p>
                             <div className="items-center justify-between gap-2 flex-wrap flex text-xs font-medium">
                                 <div className="w-full md:w-1/3 lg:w-full flex items-center gap-2">
@@ -37,7 +37,7 @@ function SingleTeacherPage() {
                                 </div>
                                 <div className="w-full md:w-1/3 lg:w-full flex items-center gap-2">
                                     <Image src='/mail.png' width={14} height={14} alt='Email' />
-                                    <span>hossein.moradifam@yahoo.com</span>
+                                    <span>aliii&.reZaIiI@yahoo.com</span>
                                 </div>
                                 <div className="w-full md:w-1/3 lg:w-full flex items-center gap-2">
                                     <Image src='/phone.png' width={14} height={14} alt='Phone' />
