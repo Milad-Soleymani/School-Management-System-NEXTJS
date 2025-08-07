@@ -1,5 +1,7 @@
+import Announcements from '@/components/Announcements'
 import BigCalendar from '@/components/BigCalendar'
 import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
 
 function SingleTeacherPage() {
@@ -86,7 +88,19 @@ function SingleTeacherPage() {
                 </div>
             </div>
             {/* RIGHT */}
-            <div className="w-full lg:w-1/3">Right content</div>
+            <div className="w-full lg:w-1/3">
+            <div className="bg-white p-4 rounded-md text-right ">
+                <h1 className='text-xl font-semibold '>لینک‌های میانبر</h1>
+                <div className="mt-4 flex gap-4 flex-wrap text-sm text-gray-500 justify-end">
+                    <Link className='p-3 rounded-md bg-blueSkyLight' href='/'>کلاس های معلم</Link>
+                    <Link className='p-3 rounded-md bg-specialPurpleLight' href='/'>دانش اموزان معلم</Link>
+                    <Link className='p-3 rounded-md bg-specialYellowLight' href='/'>دروس معلم</Link>
+                    <Link className='p-3 rounded-md bg-pink-50' href='/'>امتحانات معلم</Link>
+                    <Link className='p-3 rounded-md bg-blueSkyLight' href='/'>تکالیف معلم</Link>
+                </div>
+            </div>
+            <Announcements />
+            </div>
         </div>
     )
 }
