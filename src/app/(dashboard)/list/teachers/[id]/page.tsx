@@ -58,7 +58,7 @@ function SingleTeacherPage() {
                         </div>
                         {/* CARD */}
                         <div className="bg-white w-full rounded-md flex gap-4 p-4 md:w-[48%] xl:w-[45%] 2xl:w-[48%]">
-                            <Image src='/singleCLass.png' width={24} height={24} alt="Classes" className='w-6 h-6' />
+                            <Image src='/singleClass.png' width={24} height={24} alt="Classes" className='w-6 h-6' />
                             <div>
                                 <h1 className='text-xl font-semibold'>۶</h1>
                                 <span className='text-sm text-gray-400'>کلاس</span>
