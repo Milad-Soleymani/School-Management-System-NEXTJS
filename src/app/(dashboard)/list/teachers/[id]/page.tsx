@@ -47,7 +47,7 @@ function SingleTeacherPage() {
                         </div>
                     </div>
                     {/* SMALL CARD */}
-                    <div className="flex-1 flex gap-4 justify-between flex-wrap">
+                    <div className="flex-1 flex gap-4 flex-wrap ">
                         {/* CARD */}
                         <div className="bg-white w-full rounded-md flex gap-4 p-4 md:w-[48%] xl:w-[45%] 2xl:w-[48%]">
                             <Image src='/singleAttendance.png' width={24} height={24} alt="Attendance" className='w-6 h-6' />
