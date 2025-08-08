@@ -50,7 +50,7 @@ const SingleStudentPage = () => {
           {/* SMALL CARDS */}
           <div className="flex-1 flex gap-4 justify-between flex-wrap">
             {/* CARD */}
-            <div className="bg-white p-4 rounded-md flex gap-4 w-full md:w-[48%] xl:w-[45%] 2xl:w-[48%]">
+            <div className="bg-white p-4 rounded-md flex gap-4 w-full md:w-[48%] xl:w-[45%] ">
               <Image
                 src="/singleAttendance.png"
                 alt="حضور"
@@ -64,7 +64,7 @@ const SingleStudentPage = () => {
               </div>
             </div>
             {/* CARD */}
-            <div className="bg-white p-4 rounded-md flex gap-4 w-full md:w-[48%] xl:w-[45%] 2xl:w-[48%]">
+            <div className="bg-white p-4 rounded-md flex gap-4 w-full md:w-[48%] xl:w-[45%] ">
               <Image
                 src="/singleBranch.png"
                 alt="پایه"
@@ -78,7 +78,7 @@ const SingleStudentPage = () => {
               </div>
             </div>
             {/* CARD */}
-            <div className="bg-white p-4 rounded-md flex gap-4 w-full md:w-[48%] xl:w-[45%] 2xl:w-[48%]">
+            <div className="bg-white p-4 rounded-md flex gap-4 w-full md:w-[48%] xl:w-[45%] ">
               <Image
                 src="/singleLesson.png"
                 alt="درس‌ها"
@@ -92,7 +92,7 @@ const SingleStudentPage = () => {
               </div>
             </div>
             {/* CARD */}
-            <div className="bg-white p-4 rounded-md flex gap-4 w-full md:w-[48%] xl:w-[45%] 2xl:w-[48%]">
+            <div className="bg-white p-4 rounded-md flex gap-4 w-full md:w-[48%] xl:w-[45%] ">
               <Image
                 src="/singleClass.png"
                 alt="کلاس"
