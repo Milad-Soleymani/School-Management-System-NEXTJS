@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import TeacherForm from "./fomrs/TeacherForm";
 
 function FormModal({ table, type, data, id }: {
     table:
@@ -31,7 +32,7 @@ function FormModal({ table, type, data, id }: {
         return type === "delete" && id ? <form action='' className="p-4 flex flex-col gap-4">
             <span className="text-center font-medium"> All data will be lost. Are you sure you want to delete this {table}? </span>
             <button className="bg-red-700 text-white py-2 px-4 rounded-md border-none w-max self-center">Delete</button>
-        </form> : "create or update form"
+        </form> : <TeacherForm />
     }
     return (
         <>
@@ -39,9 +40,9 @@ function FormModal({ table, type, data, id }: {
                 <Image src={`/${type}.png`} width={16} height={16} alt="" />
             </button>
             {open && <div className="w-screen h-screen absolute left-0 top-0 bg-black bg-opacity-60 z-50 flex justify-center items-center">
-                <div className="bg-white rounded-md p-4 relative w-[90%] md:w-[70%} lg:w-[65%] xl:w-[50%] 2x;:w-[40%] ">
+                <div className="bg-white rounded-md p-4 flex-row-reverse text-right relative w-[90%] md:w-[70%} lg:w-[65%] xl:w-[50%] 2x;:w-[40%] ">
                     <Form />
-                    <div className="absolute top-4 right-4 cursor-pointer" onClick={() => setOpen(false)}>
+                    <div className="absolute top-4 left-4 cursor-pointer" onClick={() => setOpen(false)}>
                         <Image src='/close.png' width={14} height={14} alt="" />
                     </div>
                 </div>
