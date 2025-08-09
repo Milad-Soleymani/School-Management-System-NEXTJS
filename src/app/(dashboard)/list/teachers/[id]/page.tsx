@@ -1,5 +1,6 @@
 import Announcements from "@/components/Announcements";
 import BigCalendar from "@/components/BigCalendar";
+import FormModal from "@/components/FormModal";
 import Performance from "@/components/Performance";
 import Image from "next/image";
 import Link from "next/link";
@@ -23,7 +24,28 @@ const SingleStudentPage = () => {
               />
             </div>
             <div className="w-2/3 flex flex-col justify-between gap-4 text-right">
+            <div className="flex items-center ">
+              
               <h1 className="text-xl font-semibold">علی رضایی</h1>
+              <FormModal
+                table="teacher"
+                type="update"
+                data={{
+                  id: 1,
+                  username: "deanguerrero",
+                  email: "deanguerrero@gmail.com",
+                  password: "password",
+                  firstname: "علی",
+                  lastname: "رضایی",
+                  phone: "+1 234 567 89",
+                  address: "1234 Main St, Anytown, USA",
+                  bloodType: "A+",
+                  date0fBirth: "2000-01-01",
+                  sex: "male",
+                  img: "/normalProfile.webp"
+                }}
+                />
+                </div>
               <p className="text-sm text-gray-500">
                 لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.
               </p>
@@ -122,16 +144,16 @@ const SingleStudentPage = () => {
               دروس معلم
             </Link>
             <Link className="p-3 rounded-md bg-specialPurpleLight" href="/">
-              دانش‌آموزان معلم 
+              دانش‌آموزان معلم
             </Link>
             <Link className="p-3 rounded-md bg-pink-50" href="/">
-              امتحانات معلم  
+              امتحانات معلم
             </Link>
             <Link className="p-3 rounded-md bg-blueSkyLight" href="/">
               تکالیف معلم
             </Link>
             <Link className="p-3 rounded-md bg-specialYellowLight" href="/">
-             کلاس های معلم
+              کلاس های معلم
             </Link>
           </div>
         </div>
