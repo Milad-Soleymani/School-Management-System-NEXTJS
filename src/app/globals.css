@@ -118,3 +118,12 @@
   color: gray !important;
   margin-bottom: 5px;
 }
+
+.react-calendar__month-view__weekdays > * > * {
+  text-decoration: none;
+}
+
+.react-calendar{
+  border: none !important;
+}
+
