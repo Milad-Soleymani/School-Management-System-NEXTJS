@@ -25,16 +25,11 @@ const events = [
 ]
 function EventCalendar() {
   const [date, setDate] = useState(new Date());
-  // تابع برای بررسی اینکه آیا یک تاریخ تعطیلات است یا خیر
-  const isHoliday = (date) => {
-    const day = date.getDay(); // 0: یکشنبه، 1: دوشنبه، 2: سه‌شنبه، 3: چهارشنبه، 4: پنج‌شنبه، 5: جمعه، 6: شنبه
-    return day === 4 || day === 5; // پنج‌شنبه (4) و جمعه (5)
-  };
+
   return (
     <div className='bg-white p-4 rounded-md'>
       <div className="flex justify-center">
         <Calendar
-          onChange={setDate}
           value={date}
            locale='fa'
         />
