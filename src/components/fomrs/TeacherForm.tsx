@@ -18,7 +18,7 @@ const schema = z.object({
   phone: z.string().min(3, { message: '!شماره تلفن الزامی است' }),
   address: z.string().min(3, { message: '!آدرس الزامی است' }),
   bloodType: z.string().min(1, { message: '!گروه خونی الزامی است' }),
-  birthday: z.string({ required_error: '!تاریخ تولد الزامی است' }), // اصلاح شد
+  birthday: z.string(), 
   sex: z.enum(["male", "female"], { message: "!جنسیت الزامی است" }),
   img: z.instanceof(File, { message: "!عکس الزامی است" })
 });
