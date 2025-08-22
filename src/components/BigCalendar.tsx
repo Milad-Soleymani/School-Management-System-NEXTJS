@@ -7,14 +7,15 @@ import 'react-big-calendar/lib/css/react-big-calendar.css'
 import { useState } from 'react'
 import { calendarEvents } from '@/lib/data'
 
-moment.locale('fa') // زبان فارسی فعال
+// تنظیم زبان فارسی برای تقویم
+moment.locale('fa')
 const localizer = momentLocalizer(moment)
 
-// تبدیل اعداد به فارسی
+// تابع تبدیل اعداد انگلیسی به فارسی
 const toPersianNumber = (num: number | string) =>
   String(num).replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[+d])
 
-// فرمت برای نمایش ساعت در ستون کناری
+// فرمت نمایش زمان در ستون کناری
 const formats = {
   timeGutterFormat: (date: Date) => {
     const hour = date.getHours()
@@ -25,26 +26,31 @@ const formats = {
 }
 
 const BigCalendar = () => {
+  // وضعیت نمایش فعلی تقویم (کار هفته یا روز)
   const [view, setView] = useState<View>(Views.WORK_WEEK)
 
+  // تغییر نمایش تقویم
   const handleOnChangeView = (selectedView: View) => {
     setView(selectedView)
   }
 
   return (
-    <Calendar
-      localizer={localizer}
-      events={calendarEvents}
-      startAccessor="start"
-      endAccessor="end"
-      views={['work_week', 'day']}
-      view={view}
-      onView={handleOnChangeView}
-      min={new Date(2025, 1, 0, 8, 0)}
-      max={new Date(2025, 1, 0, 14, 0)}
-      formats={formats}
-      style={{ height: '98%' }}
-    />
+    <div className="bg-white p-4 rounded-md h-full">
+      {/* تقویم */}
+      <Calendar
+        localizer={localizer}
+        events={calendarEvents} // داده‌های رویدادها
+        startAccessor="start" // شروع رویداد
+        endAccessor="end" // پایان رویداد
+        views={['work_week', 'day']} // نوع نمایش‌ها
+        view={view} // نمایش فعلی
+        onView={handleOnChangeView} // تغییر نمایش
+        min={new Date(2025, 1, 0, 8, 0)} // ساعت شروع روز
+        max={new Date(2025, 1, 0, 14, 0)} // ساعت پایان روز
+        formats={formats} // فرمت زمان
+        style={{ height: '98%' }}
+      />
+    </div>
   )
 }
 
