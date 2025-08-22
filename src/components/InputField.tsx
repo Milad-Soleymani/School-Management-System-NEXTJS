@@ -1,4 +1,4 @@
-import { FieldError } from "react-hook-form";
+import { FieldError, Merge, FieldErrorsImpl } from "react-hook-form";
 
 type InputFieldProps = {
     label: string;
@@ -6,7 +6,7 @@ type InputFieldProps = {
     register: any;
     name: string;
     defaultValue?: string;
-    error?: FieldError;
+    error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>>; // ← اینجا تغییر کرد
     inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 };
 
