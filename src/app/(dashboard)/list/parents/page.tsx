@@ -13,10 +13,10 @@ type Parent = {
   students: string[]; // لیست نام دانش‌آموزان
   phone: string;
   email?: string;
-  subjects: string[];
-  grade: number;
-  class: string;
   address: string;
+  subjects: [];// temporary موقت
+  grade: 0;// temporary موقت
+  class: "";// temporary موقت
 };
 
 // تعریف ستون‌های جدول
