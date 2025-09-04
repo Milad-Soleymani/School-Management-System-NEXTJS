@@ -33,10 +33,10 @@ const SingleStudentPage = () => {
             {/* تصویر پروفایل / Profile image */}
             <div className="w-1/3">
               <Image
-                src="/normalProfile.webp"
+                src="/noAvatar.png"
                 alt="تصویر پروفایل / Profile image"
-                width={144}
-                height={144}
+                width={290}
+                height={290}
                 className="w-36 h-36 rounded-full object-cover"
               />
             </div>

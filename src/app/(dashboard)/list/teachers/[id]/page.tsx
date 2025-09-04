@@ -16,7 +16,7 @@ const SingleStudentPage = () => {
           <div className="bg-blueSky py-6 px-4 rounded-md flex-1 flex gap-4">
             <div className="w-1/3">
               <Image
-                src="/normalProfile.webp"
+                src="/noAvatar.png"
                 alt="تصویر پروفایل"
                 width={144}
                 height={144}
@@ -41,7 +41,7 @@ const SingleStudentPage = () => {
                     bloodType: "A+",
                     date0fBirth: "2000-01-01",
                     sex: "male",
-                    img: "/normalProfile.webp",
+                    img: "/noAvatar.webp",
                   }}
                 />
               </div>
