@@ -14,7 +14,7 @@ type Result = {
   class: string
   teacher: string
   student: string
-  type: 'exam' | 'assignment'
+  type: string  //'exam' | 'assignment' هنگام متصل شدن با دیتابیس به این مقدار تغییر می کند  
   date: string
   score: number
 }

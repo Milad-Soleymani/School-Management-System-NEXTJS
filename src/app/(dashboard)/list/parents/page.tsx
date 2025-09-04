@@ -13,9 +13,9 @@ type Parent = {
   students: string[]; // لیست نام دانش‌آموزان
   phone: string;
   email?: string;
-  subjects?: string[];
-  grade?: number;
-  class?: string;
+  subjects: string[];
+  grade: number;
+  class: string;
   address: string;
 };
 
