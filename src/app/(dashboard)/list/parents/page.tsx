@@ -14,10 +14,11 @@ type Parent = {
   phone: string;
   email?: string;
   address: string;
-  subjects: [];// temporary موقت
-  grade: 0;// temporary موقت
-  class: "";// temporary موقت
+  subjects?: string[]; // اختیاری شد
+  grade?: number;      // اختیاری شد
+  class?: string;      // اختیاری شد
 };
+
 
 // تعریف ستون‌های جدول
 const columns = [
