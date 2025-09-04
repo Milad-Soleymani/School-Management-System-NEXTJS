@@ -653,7 +653,7 @@ export const resultsData = [
     teacher: "علی رضایی",
     student: "حمید نوری",
     date: "۱۴۰۵-۰۱-۰۱",
-    type: "آزمون",
+    type: "exam",
     score: 18, // نمره از ۲۰
   },
   {
@@ -663,7 +663,7 @@ export const resultsData = [
     teacher: "علی رضایی",
     student: "سارا محمدی",
     date: "۱۴۰۵-۰۱-۰۱",
-    type: "آزمون",
+    type: "exam",
     score: 19,
   },
   {
@@ -673,7 +673,7 @@ export const resultsData = [
     teacher: "علی رضایی",
     student: "مهدی حسینی",
     date: "۱۴۰۵-۰۱-۰۱",
-    type: "آزمون",
+    type: "exam",
     score: 17,
   },
   {
@@ -683,7 +683,7 @@ export const resultsData = [
     teacher: "علی رضایی",
     student: "زینب احمدی",
     date: "۱۴۰۵-۰۱-۰۱",
-    type: "آزمون",
+    type: "exam",
     score: 16,
   },
   {
@@ -693,7 +693,7 @@ export const resultsData = [
     teacher: "علی رضایی",
     student: "نیما اکبری",
     date: "۱۴۰۵-۰۱-۰۱",
-    type: "آزمون",
+    type: "exam",
     score: 20,
   },
   {
@@ -703,7 +703,7 @@ export const resultsData = [
     teacher: "علی رضایی",
     student: "فاطمه صادقی",
     date: "۱۴۰۵-۰۱-۰۱",
-    type: "آزمون",
+    type: "exam",
     score: 15,
   },
   {
@@ -713,7 +713,7 @@ export const resultsData = [
     teacher: "علی رضایی",
     student: "امیررضا کریمی",
     date: "۱۴۰۵-۰۱-۰۱",
-    type: "آزمون",
+    type: "exam",
     score: 19,
   },
   {
@@ -723,7 +723,7 @@ export const resultsData = [
     teacher: "علی رضایی",
     student: "مینا سلیمانی",
     date: "۱۴۰۵-۰۱-۰۱",
-    type: "آزمون",
+    type: "exam",
     score: 18,
   },
   {
@@ -733,7 +733,7 @@ export const resultsData = [
     teacher: "علی رضایی",
     student: "علی اکبر نژاد",
     date: "۱۴۰۵-۰۱-۰۱",
-    type: "آزمون",
+    type: "exam",
     score: 20,
   },
   {
@@ -743,7 +743,7 @@ export const resultsData = [
     teacher: "علی رضایی",
     student: "سمیه قاسمی",
     date: "۱۴۰۵-۰۱-۰۱",
-    type: "آزمون",
+    type: "exam",
     score: 17,
   },
 ];
@@ -833,7 +833,7 @@ export const eventsData = [
 export const announcementsData = [
   {
     id: 1,
-    title: "درباره آزمون ریاضی هفتم ۴",
+    title: "درباره ازمون ریاضی هفتم ۴",
     class: "۴ هفتم",
     date: "۱۴۰۵-۰۱-۰۱",
   },
