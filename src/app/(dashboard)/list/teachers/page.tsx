@@ -8,8 +8,9 @@ import TableSearch from '@/components/TableSearch';
 import { role, teachersData } from '@/lib/data';
 import { Class, Subject, Teacher } from '@prisma/client';
 import prisma from '@/lib/prisma';
+import { ITEM_PER_PAGE } from '@/lib/setting';
 
-type TeacherList = Teacher & {subjects:Subject[]} & {classes:Class[]} 
+type TeacherList = Teacher & { subjects: Subject[] } & { classes: Class[] }
 
 const columns = [
   { header: "اطلاعات", accessor: "info" },
@@ -21,7 +22,7 @@ const columns = [
   { header: "اعمال", accessor: "actions" }
 ];
 
-const renderRow =  (item: TeacherList) => (
+const renderRow = (item: TeacherList) => (
   <tr key={item.id} className='border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-specialPurpleLight'>
     <td className='flex items-center gap-4 p-4'>
       <Image src={item.img || "/noAvatar.png"} width={40} height={40} alt='' className='md:hidden xl:block w-10 h-10 rounded-full object-cover' />
@@ -31,8 +32,8 @@ const renderRow =  (item: TeacherList) => (
       </div>
     </td>
     <td className='hidden md:table-cell'>{item.username}</td>
-    <td className='hidden md:table-cell'>{item.subjects.map(subject=>subject.name).join(', ')}</td>
-    <td className='hidden md:table-cell'>{item.classes.map(classItem=>classItem.name).join(', ')}</td>
+    <td className='hidden md:table-cell'>{item.subjects.map(subject => subject.name).join(', ')}</td>
+    <td className='hidden md:table-cell'>{item.classes.map(classItem => classItem.name).join(', ')}</td>
     <td className='hidden md:table-cell'>{item.phone}</td>
     <td className='hidden md:table-cell text-right pr-5'>{item.address}</td>
     <td>
@@ -48,17 +49,28 @@ const renderRow =  (item: TeacherList) => (
   </tr>
 );
 
-const TeacherListPage = async () => {
+const TeacherListPage = async ({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) => {
 
-  const data = await prisma.teacher.findMany({
-    include:{
-      subjects: true,
-      classes: true 
-    }
-  })
+  // console.log(data)
 
-  console.log(data)
+  const params = await searchParams;
+  console.log(params);
 
+  const { page, ...queryParams } = params;
+  const p = page ? parseInt(page) : 1;
+  const [data, count] = await prisma.$transaction([
+
+    prisma.teacher.findMany({
+      include: {
+        subjects: true,
+        classes: true
+      },
+      take: ITEM_PER_PAGE,
+      skip: ITEM_PER_PAGE * (p - 1)
+    }),
+    prisma.teacher.count()
+  ]
+  )
   return (
     <div className='bg-white p-4 rounded-md flex-1 m-4 mt-0'>
 
@@ -82,7 +94,7 @@ const TeacherListPage = async () => {
       <Table columns={columns} renderRow={renderRow} data={data} />
 
       {/* صفحه‌بندی */}
-      <Pagination />
+      <Pagination page={p} count={count} />
 
     </div>
   );
