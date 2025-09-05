@@ -652,8 +652,8 @@ export const resultsData = [
     class: "نهم",
     teacher: "علی رضایی",
     student: "حمید نوری",
-    date: "۱۴۰۵-۰۱-۰۱",
     type: "exam",
+    date: "۱۴۰۵-۰۱-۰۱",
     score: 18, // نمره از ۲۰
   },
   {

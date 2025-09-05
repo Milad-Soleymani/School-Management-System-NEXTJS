@@ -14,7 +14,7 @@ type Result = {
   class: string
   teacher: string
   student: string
-  type: "exam" | "assignment" 
+  type: string
   date: string
   score: number
 }
