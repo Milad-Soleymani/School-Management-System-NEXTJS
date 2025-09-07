@@ -53,7 +53,6 @@
   birthday  DateTime
 }
 
-
   model Parent {
     id        String    @id
     username  String    @unique
