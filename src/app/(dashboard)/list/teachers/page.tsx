@@ -6,7 +6,7 @@ import Pagination from '@/components/Pagination';
 import Table from '@/components/Table';
 import TableSearch from '@/components/TableSearch';
 import { role, teachersData } from '@/lib/data';
-import { Class, Subject, Teacher } from '@prisma/client';
+import { Class, Prisma, Subject, Teacher } from '@prisma/client';
 import prisma from '@/lib/prisma';
 import { ITEM_PER_PAGE } from '@/lib/setting';
 
@@ -58,46 +58,65 @@ const TeacherListPage = async ({ searchParams }: { searchParams: Promise<{ [key:
 
   const { page, ...queryParams } = params;
   const p = page ? parseInt(page) : 1;
-  const [data, count] = await prisma.$transaction([
 
-    prisma.teacher.findMany({
-      include: {
-        subjects: true,
-        classes: true
-      },
-      take: ITEM_PER_PAGE,
-      skip: ITEM_PER_PAGE * (p - 1)
-    }),
-    prisma.teacher.count()
-  ]
-  )
-  return (
-    <div className='bg-white p-4 rounded-md flex-1 m-4 mt-0'>
+  const query: Prisma.TeacherWhereInput = {};
 
-      {/* بالای صفحه: دکمه‌ها و سرچ سمت چپ، عنوان سمت راست */}
-      <div className="flex flex-wrap justify-between items-center mb-4">
-        <div className="flex items-center gap-4">
-          <button className='w-8 h-8 flex items-center justify-center rounded-full bg-specialYellow'>
-            <Image src='/filter.png' width={14} height={14} alt='فیلتر' />
-          </button>
-          <button className='w-8 h-8 flex items-center justify-center rounded-full bg-specialYellow'>
-            <Image src='/sort.png' width={14} height={14} alt='مرتب‌سازی' />
-          </button>
-          {role === "admin" && <FormModal table='teacher' type='create' />}
-          <TableSearch />
-        </div>
+  // ! URL PARAMS CONDITIONS
 
-        <h1 className='hidden md:block text-lg font-semibold ml-auto'>همه معلمان</h1>
+  if (queryParams) {
+    for (const [key, value] of Object.entries(queryParams)) {
+      if (value !== undefined) {
+
+        switch (key) {
+          case "classId":
+            query.lessons = { some: { classId: parseInt(value) } }
+        }
+      }
+    }
+  }
+
+
+const [data, count] = await prisma.$transaction([
+
+  prisma.teacher.findMany({
+    where: query,
+    include: {
+      subjects: true,
+      classes: true
+    },
+    take: ITEM_PER_PAGE,
+    skip: ITEM_PER_PAGE * (p - 1)
+  }),
+  prisma.teacher.count({ where: query })
+]
+)
+return (
+  <div className='bg-white p-4 rounded-md flex-1 m-4 mt-0'>
+
+    {/* بالای صفحه: دکمه‌ها و سرچ سمت چپ، عنوان سمت راست */}
+    <div className="flex flex-wrap justify-between items-center mb-4">
+      <div className="flex items-center gap-4">
+        <button className='w-8 h-8 flex items-center justify-center rounded-full bg-specialYellow'>
+          <Image src='/filter.png' width={14} height={14} alt='فیلتر' />
+        </button>
+        <button className='w-8 h-8 flex items-center justify-center rounded-full bg-specialYellow'>
+          <Image src='/sort.png' width={14} height={14} alt='مرتب‌سازی' />
+        </button>
+        {role === "admin" && <FormModal table='teacher' type='create' />}
+        <TableSearch />
       </div>
 
-      {/* جدول */}
-      <Table columns={columns} renderRow={renderRow} data={data} />
-
-      {/* صفحه‌بندی */}
-      <Pagination page={p} count={count} />
-
+      <h1 className='hidden md:block text-lg font-semibold ml-auto'>همه معلمان</h1>
     </div>
-  );
+
+    {/* جدول */}
+    <Table columns={columns} renderRow={renderRow} data={data} />
+
+    {/* صفحه‌بندی */}
+    <Pagination page={p} count={count} />
+
+  </div>
+);
 };
 
 export default TeacherListPage;
