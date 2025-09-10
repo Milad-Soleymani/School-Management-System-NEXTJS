@@ -70,6 +70,9 @@ const TeacherListPage = async ({ searchParams }: { searchParams: Promise<{ [key:
         switch (key) {
           case "classId":
             query.lessons = { some: { classId: parseInt(value) } }
+          break;
+          case "search":
+            query.name = {contains:value, mode:"insensitive"}
         }
       }
     }
