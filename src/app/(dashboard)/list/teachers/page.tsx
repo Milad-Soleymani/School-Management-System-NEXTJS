@@ -70,56 +70,59 @@ const TeacherListPage = async ({ searchParams }: { searchParams: Promise<{ [key:
         switch (key) {
           case "classId":
             query.lessons = { some: { classId: parseInt(value) } }
-          break;
+            break;
           case "search":
-            query.name = {contains:value, mode:"insensitive"}
+            query.name = { contains: value, mode: "insensitive" }
+            break;
+          default:
+            break;
         }
       }
     }
   }
 
 
-const [data, count] = await prisma.$transaction([
+  const [data, count] = await prisma.$transaction([
 
-  prisma.teacher.findMany({
-    where: query,
-    include: {
-      subjects: true,
-      classes: true
-    },
-    take: ITEM_PER_PAGE,
-    skip: ITEM_PER_PAGE * (p - 1)
-  }),
-  prisma.teacher.count({ where: query })
-]
-)
-return (
-  <div className='bg-white p-4 rounded-md flex-1 m-4 mt-0'>
+    prisma.teacher.findMany({
+      where: query,
+      include: {
+        subjects: true,
+        classes: true
+      },
+      take: ITEM_PER_PAGE,
+      skip: ITEM_PER_PAGE * (p - 1)
+    }),
+    prisma.teacher.count({ where: query })
+  ]
+  )
+  return (
+    <div className='bg-white p-4 rounded-md flex-1 m-4 mt-0'>
 
-    {/* بالای صفحه: دکمه‌ها و سرچ سمت چپ، عنوان سمت راست */}
-    <div className="flex flex-wrap justify-between items-center mb-4">
-      <div className="flex items-center gap-4">
-        <button className='w-8 h-8 flex items-center justify-center rounded-full bg-specialYellow'>
-          <Image src='/filter.png' width={14} height={14} alt='فیلتر' />
-        </button>
-        <button className='w-8 h-8 flex items-center justify-center rounded-full bg-specialYellow'>
-          <Image src='/sort.png' width={14} height={14} alt='مرتب‌سازی' />
-        </button>
-        {role === "admin" && <FormModal table='teacher' type='create' />}
-        <TableSearch />
+      {/* بالای صفحه: دکمه‌ها و سرچ سمت چپ، عنوان سمت راست */}
+      <div className="flex flex-wrap justify-between items-center mb-4">
+        <div className="flex items-center gap-4">
+          <button className='w-8 h-8 flex items-center justify-center rounded-full bg-specialYellow'>
+            <Image src='/filter.png' width={14} height={14} alt='فیلتر' />
+          </button>
+          <button className='w-8 h-8 flex items-center justify-center rounded-full bg-specialYellow'>
+            <Image src='/sort.png' width={14} height={14} alt='مرتب‌سازی' />
+          </button>
+          {role === "admin" && <FormModal table='teacher' type='create' />}
+          <TableSearch />
+        </div>
+
+        <h1 className='hidden md:block text-lg font-semibold ml-auto'>همه معلمان</h1>
       </div>
 
-      <h1 className='hidden md:block text-lg font-semibold ml-auto'>همه معلمان</h1>
+      {/* جدول */}
+      <Table columns={columns} renderRow={renderRow} data={data} />
+
+      {/* صفحه‌بندی */}
+      <Pagination page={p} count={count} />
+
     </div>
-
-    {/* جدول */}
-    <Table columns={columns} renderRow={renderRow} data={data} />
-
-    {/* صفحه‌بندی */}
-    <Pagination page={p} count={count} />
-
-  </div>
-);
+  );
 };
 
 export default TeacherListPage;
