@@ -11,7 +11,7 @@ import Link from 'next/link'
 import React from 'react'
 
 // ===== Type Definition / تعریف نوع دانش‌آموز =====
-type StudentList = Student & {class: Class}
+type StudentList = Student & { class: Class }
 // ===== Table Columns / ستون‌های جدول =====
 const columns = [
   { header: 'اطلاعات', accessor: 'info' },
@@ -99,7 +99,10 @@ const StudentListPage = async ({ searchParams }: { searchParams: Promise<{ [key:
             }
             break;
           case "search":
-            query.name = { contains: value, mode: "insensitive" }
+            query.name = { contains: value, mode: "insensitive" };
+            break;
+          default:
+            break;
         }
       }
     }
@@ -151,7 +154,7 @@ const StudentListPage = async ({ searchParams }: { searchParams: Promise<{ [key:
       <Table columns={columns} renderRow={renderRow} data={data} />
 
       {/* Pagination / صفحه‌بندی */}
-      <Pagination page={p} count={count}/>
+      <Pagination page={p} count={count} />
     </div>
   )
 }
