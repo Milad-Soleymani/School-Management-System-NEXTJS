@@ -14,7 +14,7 @@ const smallCardsData = [
 
 // داده‌های داینامیک لینک‌های میانبر / Shortcut links dynamic data
 const shortcutLinks = [
-  { href: "/", label: "درس‌های دانش‌آموز", style: "bg-blueSkyLight" },
+  { href: `/list/teachers?classId=${2}`, label: "درس‌های دانش‌آموز", style: "bg-blueSkyLight" },
   { href: "/", label: "معلمان دانش‌آموز", style: "bg-specialPurpleLight" },
   { href: "/", label: "امتحانات دانش‌آموز", style: "bg-pink-50" },
   { href: "/", label: "تکالیف دانش‌آموز", style: "bg-blueSkyLight" },
