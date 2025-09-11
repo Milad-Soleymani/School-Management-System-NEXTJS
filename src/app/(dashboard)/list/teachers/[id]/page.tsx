@@ -118,7 +118,7 @@ const SingleStudentPage = () => {
         <div className="bg-white p-4 rounded-md text-right">
           <h1 className="text-xl font-semibold">لینک‌های میانبر</h1>
           <div className="mt-4 flex gap-4 flex-wrap justify-end text-xs text-gray-500">
-            <Link className="p-3 rounded-md bg-blueSkyLight" href="">
+            <Link className="p-3 rounded-md bg-blueSkyLight" href={`/list/lessons?teacherId=${"teacher2"}`}>
               دروس معلم
             </Link>
             <Link className="p-3 rounded-md bg-specialPurpleLight" href={`/list/students?teacherId=${"teacher2"}`}>
