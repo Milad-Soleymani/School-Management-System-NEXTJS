@@ -10,7 +10,7 @@ import prisma from '@/lib/prisma'
 import { ITEM_PER_PAGE } from '@/lib/setting'
 
 // نوع داده‌ی هر درس / Type definition for a lesson
-type LessonList = Lesson & {subject: Subject} & {class: Class} & {teacher: Teacher};
+type LessonList = Lesson & { subject: Subject } & { class: Class } & { teacher: Teacher };
 
 // تعریف ستون‌های جدول / Table column definitions
 const columns = [
@@ -66,11 +66,17 @@ const LessonListPage = async ({ searchParams }: { searchParams: Promise<{ [key: 
     for (const [key, value] of Object.entries(queryParams)) {
       if (value !== undefined) {
         switch (key) {
+          case "classId":
+            query.classId = parseInt(value);
+            break;
           case "teacherId":
             query.teacherId = value;
             break;
           case "search":
-            query.name = { contains: value, mode: "insensitive" };
+            query.OR = [
+              {subject:{ name: {contains: value, mode: 'insensitive'}}},
+              {teacher:{ name: {contains: value, mode: 'insensitive'}}},
+            ]
             break;
         }
       }
