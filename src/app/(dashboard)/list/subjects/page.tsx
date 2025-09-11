@@ -5,12 +5,11 @@ import Pagination from '@/components/Pagination';
 import Table from '@/components/Table';
 import TableSearch from '@/components/TableSearch';
 import { role, subjectsData } from '@/lib/data';
+import { Prisma, Subject, Teacher } from '@prisma/client';
+import prisma from '@/lib/prisma';
+import { ITEM_PER_PAGE } from '@/lib/setting';
 
-type Subject = {
-  id: number;
-  name: string;
-  teachers: string[];
-}
+type SubjectList = Subject & {teachers: Teacher[]}
 
 // ستون‌های جدول
 const columns = [
@@ -19,25 +18,67 @@ const columns = [
   { header: "اعمال", accessor: "actions" },
 ];
 
-const SubjectListPage = () => {
+// رندر هر ردیف جدول
+const renderRow = (item: SubjectList) => (
+  <tr key={item.id} className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-specialPurpleLight">
+    <td className="flex items-center gap-4 p-4">{item.name}</td>
+    <td className="hidden md:table-cell">{item.teachers.map(teacher => teacher.name).join(', ')}</td>
+    <td>
+      <div className="flex items-center gap-2">
+        {role === "admin" && (
+          <>
+            <FormModal table="subject" type="update" data={item} />
+            <FormModal table="subject" type="delete" id={item.id} />
+          </>
+        )}
+      </div>
+    </td>
+  </tr>
+);
 
-  // رندر هر ردیف جدول
-  const renderRow = (item: Subject) => (
-    <tr key={item.id} className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-specialPurpleLight">
-      <td className="flex items-center gap-4 p-4">{item.name}</td>
-      <td className="hidden md:table-cell">{item.teachers.join(', ')}</td>
-      <td>
-        <div className="flex items-center gap-2">
-          {role === "admin" && (
-            <>
-              <FormModal table="subject" type="update" data={item} />
-              <FormModal table="subject" type="delete" id={item.id} />
-            </>
-          )}
-        </div>
-      </td>
-    </tr>
-  );
+const SubjectListPage = async ({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) => {
+
+  // console.log(data)
+
+  const params = await searchParams;
+  console.log(params);
+
+  const { page, ...queryParams } = params;
+  const p = page ? parseInt(page) : 1;
+
+  const query: Prisma.SubjectWhereInput = {};
+
+  // ! URL PARAMS CONDITIONS
+
+  if (queryParams) {
+    for (const [key, value] of Object.entries(queryParams)) {
+      if (value !== undefined) {
+
+        switch (key) {         
+          case "search":
+            query.name = { contains: value, mode: "insensitive" };
+            break;
+        }
+      }
+    }
+  }
+
+
+  const [data, count] = await prisma.$transaction([
+
+    prisma.subject.findMany({
+      where: query,
+      include: {
+        teachers: true,
+      },
+      take: ITEM_PER_PAGE,
+      skip: ITEM_PER_PAGE * (p - 1)
+    }),
+    prisma.subject.count({ where: query })
+  ]
+  )
+
+
 
   return (
     <div className="bg-white p-4 rounded-md flex-1 m-4 mt-0">
@@ -62,10 +103,10 @@ const SubjectListPage = () => {
       </div>
 
       {/* جدول لیست */}
-      <Table columns={columns} renderRow={renderRow} data={subjectsData} />
+      <Table columns={columns} renderRow={renderRow} data={data} />
 
       {/* صفحه‌بندی */}
-      <Pagination />
+      <Pagination page={p} count={count} />
 
     </div>
   );
