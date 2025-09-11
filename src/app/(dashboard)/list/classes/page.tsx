@@ -10,7 +10,7 @@ import Image from 'next/image'
 import React from 'react'
 
 // ✅ Define Class type properly
-type ClassList = Class & {supervisor: Teacher}
+type ClassList = Class & { supervisor: Teacher }
 const columns = [
   { header: "نام کلاس", accessor: "name" },
   { header: "ظرفیت", accessor: "capacity", className: "hidden md:table-cell" },
@@ -70,7 +70,7 @@ const ClassListPage = async ({ searchParams }: { searchParams: Promise<{ [key: s
 
         switch (key) {
           case "supervisorId":
-            query.supervisorId = { contains: value, mode: "insensitive" };
+            query.supervisorId = value;
             break;
           case "search":
             query.name = { contains: value, mode: "insensitive" };
@@ -129,7 +129,7 @@ const ClassListPage = async ({ searchParams }: { searchParams: Promise<{ [key: s
       <Table columns={columns} renderRow={renderRow} data={data} />
 
       {/* ---------- PAGINATION ---------- */}
-      <Pagination  page={p} count={count}/>
+      <Pagination page={p} count={count} />
     </div>
   )
 }
