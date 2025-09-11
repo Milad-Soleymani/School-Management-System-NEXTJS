@@ -124,10 +124,10 @@ const SingleStudentPage = () => {
             <Link className="p-3 rounded-md bg-specialPurpleLight" href={`/list/students?teacherId=${"teacher2"}`}>
               دانش‌آموزان معلم
             </Link>
-            <Link className="p-3 rounded-md bg-pink-50" href="/">
+            <Link className="p-3 rounded-md bg-pink-50" href={`/list/exams?teacherId=${"teacher12"}`}>
               امتحانات معلم
             </Link>
-            <Link className="p-3 rounded-md bg-blueSkyLight" href="/">
+            <Link className="p-3 rounded-md bg-blueSkyLight" href={`/list/assignments?teacherId=${"teacher12"}`}>
               تکالیف معلم
             </Link>
             <Link className="p-3 rounded-md bg-specialYellowLight" href={`/list/classes?supervisorId=${"teacher12"}`}>
