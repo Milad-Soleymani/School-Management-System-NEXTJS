@@ -16,9 +16,9 @@ const smallCardsData = [
 const shortcutLinks = [
   { href: `/list/lessons?classId=${2}`, label: "درس‌های دانش‌آموز", style: "bg-blueSkyLight" },
   { href: "/", label: "معلمان دانش‌آموز", style: "bg-specialPurpleLight" },
-  { href: "/", label: "امتحانات دانش‌آموز", style: "bg-pink-50" },
-  { href: "/", label: "تکالیف دانش‌آموز", style: "bg-blueSkyLight" },
-  { href: "/", label: "نتایج دانش‌آموز", style: "bg-specialYellowLight" },
+  { href: `/list/exams?classId=${2}`, label: "امتحانات دانش‌آموز", style: "bg-pink-50" },
+  { href: `/list/assignments?classId=${2}`, label: "تکالیف دانش‌آموز", style: "bg-blueSkyLight" },
+  { href: `/list/results?classId=${2}`, label: "نتایج دانش‌آموز", style: "bg-specialYellowLight" },
 ];
 
 const SingleStudentPage = () => {
