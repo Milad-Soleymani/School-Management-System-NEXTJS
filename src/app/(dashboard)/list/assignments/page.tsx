@@ -92,106 +92,109 @@ const renderRow = (item: AssignmentList) => (
 
 const AssignmentListPage = async ({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) => {
 
-    // console.log(data)
+  // console.log(data)
 
-    const params = await searchParams;
-    console.log(params);
+  const params = await searchParams;
+  console.log(params);
 
-    const { page, ...queryParams } = params;
-    const p = page ? parseInt(page) : 1;
+  const { page, ...queryParams } = params;
+  const p = page ? parseInt(page) : 1;
 
-    const query: Prisma.AssignmentWhereInput = {};
+  const query: Prisma.AssignmentWhereInput = {};
 
-    // ! URL PARAMS CONDITIONS
+  // ! URL PARAMS CONDITIONS
 
-    if (queryParams) {
-      for (const [key, value] of Object.entries(queryParams)) {
-        if (value !== undefined) {
-          switch (key) {
-            case "classId":
-              query.lesson = { classId: parseInt(value) };
-              break;
-            case "teacherId":
-              query.lesson = {
-                teacherId: value,
+  if (queryParams) {
+    for (const [key, value] of Object.entries(queryParams)) {
+      if (value !== undefined) {
+        switch (key) {
+          case "classId":
+            query.lesson = { classId: parseInt(value) };
+            break;
+          case "teacherId":
+            query.lesson = {
+              teacherId: value,
+            }
+            break;
+          case "search":
+            query.lesson = {
+              subject: {
+                name: { contains: value, mode: "insensitive" }
               }
-              break;
-            case "search":
-              query.lesson = {
-                subject: {
-                  name: { contains: value, mode: "insensitive" }
-                }
-              }
-              break;
-          }
+            }
+            break;
+
+          default:
+            break;
         }
       }
     }
+  }
 
 
-    const [data, count] = await prisma.$transaction([
+  const [data, count] = await prisma.$transaction([
 
-      prisma.assignment.findMany({
-        where: query,
-        include: {
-          lesson: {
-            select: {
-              subject: { select: { name: true } },
-              teacher: { select: { name: true, surname: true } },
-              class: { select: { name: true } },
-            }
+    prisma.assignment.findMany({
+      where: query,
+      include: {
+        lesson: {
+          select: {
+            subject: { select: { name: true } },
+            teacher: { select: { name: true, surname: true } },
+            class: { select: { name: true } },
           }
-        },
-        take: ITEM_PER_PAGE,
-        skip: ITEM_PER_PAGE * (p - 1)
-      }),
-      prisma.assignment.count({ where: query })
-    ]
-    )
+        }
+      },
+      take: ITEM_PER_PAGE,
+      skip: ITEM_PER_PAGE * (p - 1)
+    }),
+    prisma.assignment.count({ where: query })
+  ]
+  )
 
-    return (
-      <div className="bg-white p-4 rounded-md flex-1 m-4 mt-0">
-        {/* ================= TOP BAR ================= */}
-        {/* نوار بالا شامل دکمه‌های فیلتر، مرتب‌سازی، ایجاد و جستجو */}
-        {/* Top bar includes filter, sort, create, and search */}
-        <div className="flex justify-between">
-          <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
-            <div className="flex items-center gap-4 self-end">
-              {/* Filter button */}
-              <button className="w-8 h-8 flex items-center justify-center rounded-full bg-specialYellow">
-                <Image src="/filter.png" width={14} height={14} alt="Filter" />
-              </button>
+  return (
+    <div className="bg-white p-4 rounded-md flex-1 m-4 mt-0">
+      {/* ================= TOP BAR ================= */}
+      {/* نوار بالا شامل دکمه‌های فیلتر، مرتب‌سازی، ایجاد و جستجو */}
+      {/* Top bar includes filter, sort, create, and search */}
+      <div className="flex justify-between">
+        <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
+          <div className="flex items-center gap-4 self-end">
+            {/* Filter button */}
+            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-specialYellow">
+              <Image src="/filter.png" width={14} height={14} alt="Filter" />
+            </button>
 
-              {/* Sort button */}
-              <button className="w-8 h-8 flex items-center justify-center rounded-full bg-specialYellow">
-                <Image src="/sort.png" width={14} height={14} alt="Sort" />
-              </button>
+            {/* Sort button */}
+            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-specialYellow">
+              <Image src="/sort.png" width={14} height={14} alt="Sort" />
+            </button>
 
-              {/* Create new assignment (admin only) */}
-              {role === "admin" && <FormModal table="assignment" type="create" />}
+            {/* Create new assignment (admin only) */}
+            {role === "admin" && <FormModal table="assignment" type="create" />}
 
-              {/* Search input */}
-              <TableSearch />
-            </div>
+            {/* Search input */}
+            <TableSearch />
           </div>
-
-          {/* Page title */}
-          <h1 className="hidden md:block text-lg font-semibold">
-            همه تکالیف {/* All Assignments */}
-          </h1>
         </div>
 
-        {/* ================= LIST ================= */}
-        {/* جدول تکالیف */}
-        {/* Assignments Table */}
-        <Table columns={columns} renderRow={renderRow} data={data} />
-
-        {/* ================= PAGINATION ================= */}
-        {/* صفحه‌بندی */}
-        {/* Pagination */}
-        <Pagination page={p} count={count}/>
+        {/* Page title */}
+        <h1 className="hidden md:block text-lg font-semibold">
+          همه تکالیف {/* All Assignments */}
+        </h1>
       </div>
-    );
-  };
 
-  export default AssignmentListPage;
+      {/* ================= LIST ================= */}
+      {/* جدول تکالیف */}
+      {/* Assignments Table */}
+      <Table columns={columns} renderRow={renderRow} data={data} />
+
+      {/* ================= PAGINATION ================= */}
+      {/* صفحه‌بندی */}
+      {/* Pagination */}
+      <Pagination page={p} count={count} />
+    </div>
+  );
+};
+
+export default AssignmentListPage;
