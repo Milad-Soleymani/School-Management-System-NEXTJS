@@ -75,6 +75,9 @@ const ClassListPage = async ({ searchParams }: { searchParams: Promise<{ [key: s
           case "search":
             query.name = { contains: value, mode: "insensitive" };
             break;
+
+          default:
+            break;
         }
       }
     }

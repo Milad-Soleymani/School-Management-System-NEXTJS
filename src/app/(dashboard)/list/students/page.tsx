@@ -103,6 +103,7 @@ const StudentListPage = async ({ searchParams }: { searchParams: Promise<{ [key:
             break;
           default:
             break;
+            
         }
       }
     }

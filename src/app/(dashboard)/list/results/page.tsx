@@ -5,24 +5,27 @@ import Pagination from '@/components/Pagination'
 import Table from '@/components/Table'
 import TableSearch from '@/components/TableSearch'
 import { resultsData, role } from '@/lib/data'
+import { Prisma } from '@prisma/client'
+import prisma from '@/lib/prisma'
+import { ITEM_PER_PAGE } from '@/lib/setting'
 
 // نوع داده برای نتایج (Result Type Definition)
 // Defines the Result data structure
-type Result = {
-  id: number
-  subject: string
-  class: string
-  teacher: string
-  student: string
-  type: string
-  date: string
+type ResultList = {
+  id: number,
+  title: string,
+  studentName: string
+  studentSurname: string
+  teacherName: string
+  teacherSurname: string
   score: number
+  className: string
+  startTime: Date;
 }
-
 // ستون‌های جدول (Table Columns Definition)
 // Define the table columns with headers and accessors
 const columns = [
-  { header: 'ماده درسی', accessor: 'subject' }, // Subject
+  { header: 'ماده درسی', accessor: 'title' }, // Subject
   { header: 'دانش آموز', accessor: 'student' }, // Student
   { header: 'نمره', accessor: 'score', className: 'hidden md:table-cell' }, // Score
   { header: 'معلم', accessor: 'teacher', className: 'hidden md:table-cell' }, // Teacher
@@ -31,35 +34,135 @@ const columns = [
   { header: 'اعمال', accessor: 'actions' } // Actions
 ]
 
-const ResultListPage = () => {
-  // رندر هر ردیف جدول (Render each row in the table)
-  // Handles displaying a single Result row
-  const renderRow = (item: Result) => (
-    <tr
-      key={item.id}
-      className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-specialPurpleLight"
-    >
-      <td className="flex items-center gap-4 p-4">{item.subject}</td>
-      <td>{item.student}</td>
-      <td className="hidden md:table-cell">{item.score}</td>
-      <td className="hidden md:table-cell">{item.teacher}</td>
-      <td className="hidden md:table-cell">{item.class}</td>
-      <td className="hidden md:table-cell">{item.date}</td>
-      <td>
-        {/* دکمه‌های اعمال فقط برای ادمین فعال هستند */}
-        {/* Actions buttons are only visible for admin */}
-        <div className="flex items-center gap-2">
-          {role === 'admin' && (
-            <>
-              <FormModal table="subject" type="update" data={item} />
-              <FormModal table="subject" type="delete" id={Number(item.id)} />
-            </>
-          )}
-        </div>
-      </td>
-    </tr>
-  )
+// رندر هر ردیف جدول (Render each row in the table)
+// Handles displaying a single Result row
+const renderRow = (item: ResultList) => (
+  <tr
+    key={item.id}
+    className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-specialPurpleLight"
+  >
+    <td className="flex items-center gap-4 p-4">{item.title}</td>
+    <td>{item.studentName + " " + item.studentSurname}</td>
+    <td className="hidden md:table-cell">{item.score}</td>
+    <td className="hidden md:table-cell">{item.teacherName + " " + item.teacherSurname}</td>
+    <td className="hidden md:table-cell">{item.className}</td>
+    <td className="hidden md:table-cell">{new Intl.DateTimeFormat("fa-IR").format(item.startTime)}</td>
+    <td>
+      {/* دکمه‌های اعمال فقط برای ادمین فعال هستند */}
+      {/* Actions buttons are only visible for admin */}
+      <div className="flex items-center gap-2">
+        {role === 'admin' && (
+          <>
+            <FormModal table="subject" type="update" data={item} />
+            <FormModal table="subject" type="delete" id={Number(item.id)} />
+          </>
+        )}
+      </div>
+    </td>
+  </tr>
+)
 
+const ResultListPage = async ({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) => {
+
+  // console.log(data)
+
+  const params = await searchParams;
+  console.log(params);
+
+  const { page, ...queryParams } = params;
+  const p = page ? parseInt(page) : 1;
+
+  const query: Prisma.ResultWhereInput = {};
+
+  // ! URL PARAMS CONDITIONS
+
+  if (queryParams) {
+    for (const [key, value] of Object.entries(queryParams)) {
+      if (value !== undefined) {
+        switch (key) {
+          case "classId":
+            query.lesson = { classId: parseInt(value) };
+            break;
+          case "teacherId":
+            query.lesson = {
+              teacherId: value,
+            }
+            break;
+          case "search":
+            query.OR = [
+              {exam:{title:{contains:value, mode:"insensitive"}}},
+              {student:{name:{contains:value, mode:"insensitive"}}}
+            ]
+            break;
+            default:
+              break;
+        }
+      }
+    }
+  }
+
+
+  const [dataRes, count] = await prisma.$transaction([
+
+    prisma.result.findMany({
+      // where: query,
+      include: {
+        student: {
+          select: {
+            name: true,
+            surname: true
+          }
+        },
+        exam: {
+          include: {
+            lesson: {
+              select: {
+                class: { select: { name: true } },
+                teacher: { select: { name: true, surname: true } },
+              }
+
+            }
+          }
+        },
+        assignment: {
+          include: {
+            lesson: {
+              select: {
+                class: { select: { name: true } },
+                teacher: { select: { name: true, surname: true } },
+              }
+
+            }
+          }
+        }
+      },
+      take: ITEM_PER_PAGE,
+      skip: ITEM_PER_PAGE * (p - 1)
+    }),
+    prisma.result.count({ where: query })
+  ]
+  );
+  const data = dataRes.map((item) => {
+    const assessment = item.exam || item.assignment
+
+    if (!assessment) return null;
+
+    const isExam = "startTime" in assessment;
+
+
+    return {
+
+      id: item.id,
+      title: assessment.title,
+      studentName: item.student.name,
+      studentSurname: item.student.surname,
+      teacherName: assessment.lesson.teacher.name,
+      teacherSurname: assessment.lesson.teacher.surname,
+      score: item.score,
+      className: assessment.lesson.class.name,
+      startTime: isExam ? assessment.startTime : assessment.startDate
+    }
+  });
   return (
     <div className="bg-white p-4 rounded-md flex-1 m-4 mt-0">
       {/* بالای صفحه - فیلتر و جستجو */}
@@ -94,11 +197,11 @@ const ResultListPage = () => {
 
       {/* جدول نتایج */}
       {/* Results Table */}
-      <Table columns={columns} renderRow={renderRow} data={resultsData} />
+      <Table columns={columns} renderRow={renderRow} data={data} />
 
       {/* صفحه‌بندی */}
       {/* Pagination */}
-      <Pagination />
+      <Pagination page={p} count={count} />
     </div>
   )
 }

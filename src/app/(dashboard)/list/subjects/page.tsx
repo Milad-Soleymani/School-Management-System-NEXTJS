@@ -9,7 +9,7 @@ import { Prisma, Subject, Teacher } from '@prisma/client';
 import prisma from '@/lib/prisma';
 import { ITEM_PER_PAGE } from '@/lib/setting';
 
-type SubjectList = Subject & {teachers: Teacher[]}
+type SubjectList = Subject & { teachers: Teacher[] }
 
 // ستون‌های جدول
 const columns = [
@@ -54,9 +54,12 @@ const SubjectListPage = async ({ searchParams }: { searchParams: Promise<{ [key:
     for (const [key, value] of Object.entries(queryParams)) {
       if (value !== undefined) {
 
-        switch (key) {         
+        switch (key) {
           case "search":
             query.name = { contains: value, mode: "insensitive" };
+            break;
+
+          default:
             break;
         }
       }

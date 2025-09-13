@@ -74,9 +74,11 @@ const LessonListPage = async ({ searchParams }: { searchParams: Promise<{ [key: 
             break;
           case "search":
             query.OR = [
-              {subject:{ name: {contains: value, mode: 'insensitive'}}},
-              {teacher:{ name: {contains: value, mode: 'insensitive'}}},
+              { subject: { name: { contains: value, mode: 'insensitive' } } },
+              { teacher: { name: { contains: value, mode: 'insensitive' } } },
             ]
+            break;
+          default:
             break;
         }
       }

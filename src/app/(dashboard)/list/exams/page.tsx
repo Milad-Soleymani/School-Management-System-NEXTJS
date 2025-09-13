@@ -105,6 +105,8 @@ const ExamListPage = async ({ searchParams }: { searchParams: Promise<{ [key: st
               }
             }
             break;
+            default:
+              break;
         }
       }
     }
