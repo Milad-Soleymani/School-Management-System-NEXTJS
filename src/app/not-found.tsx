@@ -9,7 +9,7 @@ import React from "react";
 function NotFound() {
   return (
     <div className="flex justify-center items-center min-h-screen text-center bg-gradient-to-br from-yellow-400 to-sky-400 text-[#333333]">
-      <main className="p-8 max-w-xl mx-4">
+      <main className="p-8 max-w-xl rounded-lg shadow-xl mx-4 bg-white">
         {/* تصویر یا انیمیشن */}
         <div className="flex justify-center items-center">
           <Image
@@ -23,7 +23,7 @@ function NotFound() {
         <h1 className="text-4xl font-bold mt-4 mb-2 text-[#4e4e4e]">
           صفحه مورد نظر یافت نشد
         </h1>
-        <p className="text-xl text-[#fff] mb-8">سیستم مدیریت مدرسه</p>
+        <p className="text-xl text-[#525151] mb-8">سیستم مدیریت مدرسه</p>
 
         <Link href="/">
           <button className="py-3 px-6 text-base font-semibold text-white bg-[#7cb7ff] rounded-lg cursor-pointer transition-colors duration-300 hover:bg-[#338fff]">
