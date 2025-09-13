@@ -80,13 +80,8 @@ const ResultListPage = async ({ searchParams }: { searchParams: Promise<{ [key: 
     for (const [key, value] of Object.entries(queryParams)) {
       if (value !== undefined) {
         switch (key) {
-          case "classId":
-            query.lesson = { classId: parseInt(value) };
-            break;
-          case "teacherId":
-            query.lesson = {
-              teacherId: value,
-            }
+          case "studentId":
+            query.studentId = value;
             break;
           case "search":
             query.OR = [
@@ -105,7 +100,7 @@ const ResultListPage = async ({ searchParams }: { searchParams: Promise<{ [key: 
   const [dataRes, count] = await prisma.$transaction([
 
     prisma.result.findMany({
-      // where: query,
+      where: query,
       include: {
         student: {
           select: {
