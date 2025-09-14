@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@clerk/elements": "^0.23.63",
+    "@clerk/nextjs": "^6.32.0",
     "@hookform/resolvers": "^5.2.1",
     "@ijavad805/react-datepicker": "^2.2.18",
     "@prisma/client": "^6.15.0",
