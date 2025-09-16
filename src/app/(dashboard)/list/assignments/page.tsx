@@ -6,9 +6,9 @@ import FormModal from "@/components/FormModal";
 import Pagination from "@/components/Pagination";
 import Table from "@/components/Table";
 import TableSearch from "@/components/TableSearch";
-import { assignmentsData, role } from "@/lib/data";
 import prisma from "@/lib/prisma";
 import { ITEM_PER_PAGE } from "@/lib/setting";
+import { getUserRole } from "@/lib/utils";
 import { Assignment, Class, Prisma, Subject, Teacher } from "@prisma/client";
 import Image from "next/image";
 import React from "react";
@@ -24,39 +24,10 @@ type AssignmentList = Assignment & {
   }
 }
 
-// ==== Table Columns ====
-// تعریف ستون‌های جدول تکالیف
-// Define table columns for assignments
-const columns = [
-  {
-    header: "ماده درسی", // Subject
-    accessor: "subject",
-  },
-  {
-    header: "کلاس", // Class
-    accessor: "class",
-    className: "hidden md:table-cell",
-  },
-  {
-    header: "معلم", // Teacher
-    accessor: "teacher",
-    className: "hidden md:table-cell",
-  },
-  {
-    header: "مهلت", // Due Date
-    accessor: "dueDate",
-    className: "hidden md:table-cell",
-  },
-  {
-    header: "اعمال", // Actions
-    accessor: "actions",
-  },
-];
-
 // ==== Render Row Function ====
 // تابع برای نمایش هر سطر از جدول
 // Function to render each row in the table
-const renderRow = (item: AssignmentList) => (
+const renderRow = (item: AssignmentList, role: string) => (
   <tr
     key={item.id}
     className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-specialPurpleLight"
@@ -76,12 +47,9 @@ const renderRow = (item: AssignmentList) => (
     {/* Actions */}
     <td>
       <div className="flex items-center gap-2">
-        {role === "admin" && (
+        {(role === "admin" || role === "teacher") && (
           <>
-            {/* Update Assignment */}
             <FormModal table="assignment" type="update" data={item} />
-
-            {/* Delete Assignment */}
             <FormModal table="assignment" type="delete" id={item.id} />
           </>
         )}
@@ -90,11 +58,38 @@ const renderRow = (item: AssignmentList) => (
   </tr>
 );
 
-const AssignmentListPage = async ({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) => {
+const AssignmentListPage = async ({ searchParams }: { searchParams: { [key: string]: string | undefined } }) => {
 
   // console.log(data)
+  const role = await getUserRole();
 
-  const params = await searchParams;
+  // ==== Table Columns ====
+  // تعریف ستون‌های جدول تکالیف
+  // Define table columns for assignments
+  const columns = [
+    {
+      header: "ماده درسی", // Subject
+      accessor: "subject",
+    },
+    {
+      header: "کلاس", // Class
+      accessor: "class",
+      className: "hidden md:table-cell",
+    },
+    {
+      header: "معلم", // Teacher
+      accessor: "teacher",
+      className: "hidden md:table-cell",
+    },
+    {
+      header: "مهلت", // Due Date
+      accessor: "dueDate",
+      className: "hidden md:table-cell",
+    },
+    ...(role === "admin" ? [{ header: "اعمال", accessor: "actions" }] : []),
+
+  ];
+  const params = searchParams;
   console.log(params);
 
   const { page, ...queryParams } = params;
@@ -187,8 +182,11 @@ const AssignmentListPage = async ({ searchParams }: { searchParams: Promise<{ [k
       {/* ================= LIST ================= */}
       {/* جدول تکالیف */}
       {/* Assignments Table */}
-      <Table columns={columns} renderRow={renderRow} data={data} />
-
+      <Table
+        columns={columns}
+        renderRow={(item) => renderRow(item, role)}
+        data={data}
+      />
       {/* ================= PAGINATION ================= */}
       {/* صفحه‌بندی */}
       {/* Pagination */}
