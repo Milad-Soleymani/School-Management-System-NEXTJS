@@ -61,7 +61,7 @@ const renderRow = (item: AssignmentList, role: string) => (
 const AssignmentListPage = async ({ searchParams }: { searchParams: { [key: string]: string | undefined } }) => {
 
   // console.log(data)
-  const role = await getUserRole();
+  const { role, currentUserId } = await getUserRole();
 
   // ==== Table Columns ====
   // تعریف ستون‌های جدول تکالیف
@@ -96,6 +96,7 @@ const AssignmentListPage = async ({ searchParams }: { searchParams: { [key: stri
   const p = page ? parseInt(page) : 1;
 
   const query: Prisma.AssignmentWhereInput = {};
+  query.lesson = {};
 
   // ! URL PARAMS CONDITIONS
 
@@ -104,19 +105,16 @@ const AssignmentListPage = async ({ searchParams }: { searchParams: { [key: stri
       if (value !== undefined) {
         switch (key) {
           case "classId":
-            query.lesson = { classId: parseInt(value) };
+            query.lesson.classId = parseInt(value);
             break;
           case "teacherId":
-            query.lesson = {
-              teacherId: value,
-            }
+            query.lesson.teacherId = value;
             break;
           case "search":
-            query.lesson = {
-              subject: {
-                name: { contains: value, mode: "insensitive" }
-              }
+            query.lesson.subject = {
+              name: { contains: value, mode: "insensitive" }
             }
+
             break;
 
           default:
@@ -126,6 +124,37 @@ const AssignmentListPage = async ({ searchParams }: { searchParams: { [key: stri
     }
   }
 
+
+
+  // ROLE CONDITION
+  switch (role) {
+    case "admin":
+
+      break;
+    case "teacher":
+      query.lesson.teacherId = currentUserId!;
+      break;
+    case "student":
+      query.lesson.class = {
+        students: {
+          some: {
+            id: currentUserId!
+          }
+        }
+      }
+      break;
+    case "parent":
+      query.lesson.class = {
+        students: {
+          some: {
+            parentId: currentUserId!
+          }
+        }
+      }
+      break;
+    default:
+      break;
+  }
 
   const [data, count] = await prisma.$transaction([
 
