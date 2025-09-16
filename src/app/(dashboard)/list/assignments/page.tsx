@@ -86,7 +86,7 @@ const AssignmentListPage = async ({ searchParams }: { searchParams: { [key: stri
       accessor: "dueDate",
       className: "hidden md:table-cell",
     },
-    ...(role === "admin" ? [{ header: "اعمال", accessor: "actions" }] : []),
+    ...(role === "admin" || "teacher" ? [{ header: "اعمال", accessor: "actions" }] : []),
 
   ];
   const params = searchParams;
