@@ -30,7 +30,7 @@ const renderRow = (item: AnnouncementList, role: string) => (
       {new Intl.DateTimeFormat("fa-IR").format(item.date)}
     </td>
     <td>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 justify-center">
         {role === "admin" && (
           <>
             <FormModal table="subject" type="update" data={item} />
@@ -48,13 +48,15 @@ const AnnouncementListPage = async ({
   searchParams: { [key: string]: string | undefined };
 }) => {
   // ==== دریافت رول کاربر ====
-  const role = await getUserRole(); // رول کاربر را می‌گیریم
+  const {role} = await getUserRole(); // رول کاربر را می‌گیریم
   // ==== ستون‌های جدول ====
   const columns = [
     { header: "موضوع", accessor: "title" },
     { header: "کلاس", accessor: "class", className: "hidden md:table-cell" },
     { header: "تاریخ", accessor: "date", className: "hidden md:table-cell" },
-    ...(role === "admin" ? [{ header: "اعمال", accessor: "actions" }] : []),
+    ...(role === "admin"
+    ? [{ header: "اعمال", accessor: "actions", className: "text-center" }]
+    : []),
   ];
 
   // ==== دریافت پارامترهای URL ====
