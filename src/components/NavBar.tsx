@@ -1,7 +1,15 @@
 import { UserButton } from "@clerk/nextjs";
+import { currentUser } from "@clerk/nextjs/server";
 import Image from "next/image";
+const roleMap = {
+  admin: "مدیر",
+  student: "دانش‌آموز",
+  parent: "والدین",
+  teacher: "معلم"
+};
 
-const NavBar = () => {
+const NavBar =async () => {
+  const user = await currentUser();
   return (
     <div className="flex items-center justify-between p-4">
 
@@ -34,7 +42,7 @@ const NavBar = () => {
         {/* USER NAME AND ROLE */}
         <div className="flex flex-col text-right">
           <span className="text-xs leading-3 font-medium">محسن ایرانی</span>
-          <span className="text-[10px] text-gray-500">مدیر</span>
+          <span className="text-[10px] text-gray-500">{roleMap[user?.publicMetadata.role as string]}</span>
         </div>
 
         {/* USER AVATAR */}
