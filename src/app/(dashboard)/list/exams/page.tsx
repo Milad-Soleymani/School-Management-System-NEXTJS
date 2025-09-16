@@ -77,7 +77,6 @@ const ExamListPage = async ({ searchParams }: { searchParams: Promise<{ [key: st
   // console.log(data)
 
   const params = await searchParams;
-  console.log(params);
 
   const { page, ...queryParams } = params;
   const p = page ? parseInt(page) : 1;
