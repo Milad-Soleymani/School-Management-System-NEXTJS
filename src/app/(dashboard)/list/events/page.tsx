@@ -7,30 +7,21 @@ import FormModal from '@/components/FormModal'
 import Pagination from '@/components/Pagination'
 import Table from '@/components/Table'
 import TableSearch from '@/components/TableSearch'
-import { eventsData, role } from '@/lib/data'
 import prisma from '@/lib/prisma'
 import { ITEM_PER_PAGE } from '@/lib/setting'
+import { getUserRole } from '@/lib/utils'
 import { Class, Event, Prisma } from '@prisma/client'
 import Image from 'next/image'
 import React from 'react'
 
 // 📌 Type definition for Event object
 // فارسی: تعریف نوع داده رویداد
-type EventList = Event & {class: Class}
+type EventList = Event & { class: Class }
 
-// 📌 Table Columns Configuration
-// فارسی: تنظیمات ستون‌های جدول
-const columns = [
-  { header: "موضوع", accessor: "title" },
-  { header: "کلاس", accessor: "class", className: "hidden md:table-cell" },
-  { header: "تاریخ", accessor: "date", className: "hidden md:table-cell" },
-  { header: "زمان شروع", accessor: "startTime", className: "hidden md:table-cell" },
-  { header: "زمان پایان", accessor: "endTime", className: "hidden md:table-cell" },
-  { header: "اعمال", accessor: "actions" }
-]
+
 // 📌 Render a single row of the table
 // فارسی: رندر کردن یک ردیف جدول
-const renderRow = (item: EventList) => (
+const renderRow = (item: EventList, role: string) => (
   <tr
     key={item.id}
     className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-specialPurpleLight"
@@ -40,20 +31,20 @@ const renderRow = (item: EventList) => (
     <td className="flex items-center gap-4 p-4">{item.title}</td>
 
     {/* Class */}
-    <td>{item.class.name}</td>
+    <td>{item.class?.name || "-"}</td>
 
     {/* Date */}
     <td className="hidden md:table-cell">{new Intl.DateTimeFormat("fa-IR").format(item.startTime)}</td>
 
     {/* Start Time */}
-    <td className="hidden md:table-cell">{item.startTime.toLocaleTimeString("fa-IR",{
+    <td className="hidden md:table-cell">{item.startTime.toLocaleTimeString("fa-IR", {
       hour: "2-digit",
       minute: "2-digit",
       hour12: false
     })}</td>
 
     {/* End Time */}
-    <td className="hidden md:table-cell">{item.endTime.toLocaleTimeString("fa-IR",{
+    <td className="hidden md:table-cell">{item.endTime.toLocaleTimeString("fa-IR", {
       hour: "2-digit",
       minute: "2-digit",
       hour12: false
@@ -77,8 +68,18 @@ const renderRow = (item: EventList) => (
 )
 
 const EventListPage = async ({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) => {
-
+  const { role, currentUserId } = await getUserRole();
   // console.log(data)
+  // 📌 Table Columns Configuration
+  // فارسی: تنظیمات ستون‌های جدول
+  const columns = [
+    { header: "موضوع", accessor: "title" },
+    { header: "کلاس", accessor: "class", className: "hidden md:table-cell" },
+    { header: "تاریخ", accessor: "date", className: "hidden md:table-cell" },
+    { header: "زمان شروع", accessor: "startTime", className: "hidden md:table-cell" },
+    { header: "زمان پایان", accessor: "endTime", className: "hidden md:table-cell" },
+    ...(role === "admin" ? [{ header: "اعمال", accessor: "actions" }] : [])
+  ]
 
   const params = await searchParams;
   console.log(params);
@@ -105,6 +106,39 @@ const EventListPage = async ({ searchParams }: { searchParams: Promise<{ [key: s
     }
   }
 
+  // ROLE CONDITION
+
+  const roleConditions = {
+    teacher: {
+      lessons:{
+        some:{
+          teacherId: currentUserId!
+        }
+      }
+    },
+
+    student: {
+      students:{
+        some:{
+          id: currentUserId!
+        }
+      }
+    },
+
+    parent: {
+      students:{
+        some:{
+          parentId: currentUserId!
+        }
+      }
+    }
+  };
+
+  query.OR = [
+    {classId: null},{
+      class: roleConditions[role as keyof typeof roleConditions] || {},
+    }
+  ]
 
   const [data, count] = await prisma.$transaction([
 
@@ -153,11 +187,11 @@ const EventListPage = async ({ searchParams }: { searchParams: Promise<{ [key: s
 
       {/* 📌 EVENTS TABLE */}
       {/* فارسی: جدول رویدادها */}
-      <Table columns={columns} renderRow={renderRow} data={data} />
+      <Table columns={columns} renderRow={(item) => renderRow(item, role)} data={data} />
 
       {/* 📌 PAGINATION */}
       {/* فارسی: صفحه‌بندی */}
-      <Pagination page={p} count={count}/>
+      <Pagination page={p} count={count} />
     </div>
   )
 }
