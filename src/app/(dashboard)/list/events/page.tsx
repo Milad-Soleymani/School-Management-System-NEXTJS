@@ -133,13 +133,13 @@ const EventListPage = async ({ searchParams }: { searchParams: Promise<{ [key: s
       }
     }
   };
-
+if (role !== "admin") {
   query.OR = [
     {classId: null},{
       class: roleConditions[role as keyof typeof roleConditions] || {},
     }
   ]
-
+}
   const [data, count] = await prisma.$transaction([
 
     prisma.event.findMany({

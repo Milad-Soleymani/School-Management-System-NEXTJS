@@ -25,7 +25,7 @@ const renderRow = (item: AnnouncementList, role: string) => (
     className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-specialPurpleLight"
   >
     <td className="flex items-center gap-4 p-4">{item.title}</td>
-    <td>{item.class.name}</td>
+    <td>{item.class?.name || "-"}</td>
     <td className="hidden md:table-cell">
       {new Intl.DateTimeFormat("fa-IR").format(item.date)}
     </td>
@@ -48,7 +48,7 @@ const AnnouncementListPage = async ({
   searchParams: { [key: string]: string | undefined };
 }) => {
   // ==== دریافت رول کاربر ====
-  const {role} = await getUserRole(); // رول کاربر را می‌گیریم
+  const {role, currentUserId} = await getUserRole(); // رول کاربر را می‌گیریم
   // ==== ستون‌های جدول ====
   const columns = [
     { header: "موضوع", accessor: "title" },
@@ -79,6 +79,40 @@ const AnnouncementListPage = async ({
     }
   }
 
+   // ROLE CONDITION
+
+  const roleConditions = {
+    teacher: {
+      lessons:{
+        some:{
+          teacherId: currentUserId!
+        }
+      }
+    },
+
+    student: {
+      students:{
+        some:{
+          id: currentUserId!
+        }
+      }
+    },
+
+    parent: {
+      students:{
+        some:{
+          parentId: currentUserId!
+        }
+      }
+    }
+  };
+if (role !== "admin") {
+  query.OR = [
+    {classId: null},{
+      class: roleConditions[role as keyof typeof roleConditions] || {},
+    }
+  ]
+ }
   // ==== گرفتن داده‌ها از دیتابیس ====
   const [data, count] = await prisma.$transaction([
     prisma.announcement.findMany({
