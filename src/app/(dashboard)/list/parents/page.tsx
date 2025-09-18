@@ -4,25 +4,17 @@ import FormModal from '@/components/FormModal';
 import Pagination from '@/components/Pagination';
 import Table from '@/components/Table';
 import TableSearch from '@/components/TableSearch';
-import { parentsData, role } from '@/lib/data';
 import { Parent, Prisma, Student } from '@prisma/client';
 import prisma from '@/lib/prisma';
 import { ITEM_PER_PAGE } from '@/lib/setting';
+import { getUserRole } from '@/lib/utils';
 
 // تعریف نوع داده برای والدین
 type ParentList = Parent & { students: Student[] }
 
-// تعریف ستون‌های جدول
-const columns = [
-  { header: "اطلاعات", accessor: "info" },
-  { header: "نام دانش‌آموزان", accessor: "students", className: "hidden md:table-cell" },
-  { header: "شماره تلفن", accessor: "phone", className: "hidden md:table-cell" },
-  { header: "نشانی", accessor: "address", className: "hidden md:table-cell text-right pr-5" },
-  { header: "اعمال", accessor: "actions" },
-];
 
 // رندر هر ردیف جدول
-const renderRow = (item: ParentList) => {
+const renderRow = (item: ParentList, role: string) => {
   // بررسی اینکه students آرایه باشد قبل از join
   const studentsList = Array.isArray(item.students) ? item.students.join(', ') : "";
 
@@ -63,8 +55,20 @@ const renderRow = (item: ParentList) => {
   );
 };
 const ParentListPage = async ({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) => {
+  const { role, currentUserId } = await getUserRole();
+
 
   // console.log(data)
+
+  
+// تعریف ستون‌های جدول
+const columns = [
+  { header: "اطلاعات", accessor: "info" },
+  { header: "نام دانش‌آموزان", accessor: "students", className: "hidden md:table-cell" },
+  { header: "شماره تلفن", accessor: "phone", className: "hidden md:table-cell" },
+  { header: "نشانی", accessor: "address", className: "hidden md:table-cell text-right pr-5" },
+  ...(role === "admin" ? [{ header: "اعمال", accessor: "actions" }] : []),
+];
 
   const params = await searchParams;
   console.log(params);
@@ -134,7 +138,7 @@ const ParentListPage = async ({ searchParams }: { searchParams: Promise<{ [key: 
       </div>
 
       {/* جدول لیست والدین */}
-      <Table columns={columns} renderRow={renderRow} data={data} />
+      <Table columns={columns} renderRow={(item) => renderRow(item, role)} data={data} />
 
       {/* صفحه‌بندی */}
       <Pagination page={p} count={count} />
