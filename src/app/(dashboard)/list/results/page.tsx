@@ -4,10 +4,10 @@ import FormModal from '@/components/FormModal'
 import Pagination from '@/components/Pagination'
 import Table from '@/components/Table'
 import TableSearch from '@/components/TableSearch'
-import { resultsData, role } from '@/lib/data'
 import { Prisma } from '@prisma/client'
 import prisma from '@/lib/prisma'
 import { ITEM_PER_PAGE } from '@/lib/setting'
+import { getUserRole } from '@/lib/utils'
 
 // نوع داده برای نتایج (Result Type Definition)
 // Defines the Result data structure
@@ -22,28 +22,17 @@ type ResultList = {
   className: string
   startTime: Date;
 }
-// ستون‌های جدول (Table Columns Definition)
-// Define the table columns with headers and accessors
-const columns = [
-  { header: 'ماده درسی', accessor: 'title' }, // Subject
-  { header: 'دانش آموز', accessor: 'student' }, // Student
-  { header: 'نمره', accessor: 'score', className: 'hidden md:table-cell' }, // Score
-  { header: 'معلم', accessor: 'teacher', className: 'hidden md:table-cell' }, // Teacher
-  { header: 'کلاس', accessor: 'class', className: 'hidden md:table-cell' }, // Class
-  { header: 'تاریخ', accessor: 'date', className: 'hidden md:table-cell' }, // Date
-  { header: 'اعمال', accessor: 'actions' } // Actions
-]
 
 // رندر هر ردیف جدول (Render each row in the table)
 // Handles displaying a single Result row
-const renderRow = (item: ResultList) => (
+const renderRow = (item: ResultList, role: string) => (
   <tr
     key={item.id}
     className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-specialPurpleLight"
   >
     <td className="flex items-center gap-4 p-4">{item.title}</td>
     <td>{item.studentName + " " + item.studentSurname}</td>
-    <td className="hidden md:table-cell">{item.score}</td>
+    <td className="hidden md:table-cell">{item.score.toLocaleString("fa-IR")}</td>
     <td className="hidden md:table-cell">{item.teacherName + " " + item.teacherSurname}</td>
     <td className="hidden md:table-cell">{item.className}</td>
     <td className="hidden md:table-cell">{new Intl.DateTimeFormat("fa-IR").format(item.startTime)}</td>
@@ -63,8 +52,21 @@ const renderRow = (item: ResultList) => (
 )
 
 const ResultListPage = async ({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) => {
+  const { role, currentUserId } = await getUserRole();
 
   // console.log(data)
+
+  // ستون‌های جدول (Table Columns Definition)
+  // Define the table columns with headers and accessors
+  const columns = [
+    { header: 'ماده درسی', accessor: 'title' }, // Subject
+    { header: 'دانش آموز', accessor: 'student' }, // Student
+    { header: 'نمره', accessor: 'score', className: 'hidden md:table-cell' }, // Score
+    { header: 'معلم', accessor: 'teacher', className: 'hidden md:table-cell' }, // Teacher
+    { header: 'کلاس', accessor: 'class', className: 'hidden md:table-cell' }, // Class
+    { header: 'تاریخ', accessor: 'date', className: 'hidden md:table-cell' }, // Date
+    ...(role === "admin" || role === "teacher" ? [{ header: 'اعمال', accessor: 'actions' }] : []) // Actions
+  ]
 
   const params = await searchParams;
   console.log(params);
@@ -85,15 +87,41 @@ const ResultListPage = async ({ searchParams }: { searchParams: Promise<{ [key: 
             break;
           case "search":
             query.OR = [
-              {exam:{title:{contains:value, mode:"insensitive"}}},
-              {student:{name:{contains:value, mode:"insensitive"}}}
+              { exam: { title: { contains: value, mode: "insensitive" } } },
+              { student: { name: { contains: value, mode: "insensitive" } } }
             ]
             break;
-            default:
-              break;
+          default:
+            break;
         }
       }
     }
+  }
+
+
+
+  // ROLE CONDITIONs
+
+  switch (role) {
+    case "admin":
+      break;
+    case "teacher":
+      query.OR = [
+        { exam: { lesson: { teacherId: currentUserId! } } },
+        { assignment: { lesson: { teacherId: currentUserId! } } },
+      ]
+      break;
+
+    case "student":
+      query.studentId = currentUserId!;
+      break;
+
+    case "parent":
+      query.student = {
+        parentId: currentUserId!
+      }
+    default:
+      break;
   }
 
 
@@ -179,7 +207,7 @@ const ResultListPage = async ({ searchParams }: { searchParams: Promise<{ [key: 
 
             {/* دکمه ایجاد نتیجه جدید فقط برای ادمین */}
             {/* Create new result button only for admin */}
-            {role === 'admin' && <FormModal table="subject" type="create" />}
+            {(role === 'admin' || role === "teacher") && <FormModal table="subject" type="create" />}
 
             {/* کامپوننت جستجوی جدول */}
             {/* Table search component */}
@@ -192,7 +220,7 @@ const ResultListPage = async ({ searchParams }: { searchParams: Promise<{ [key: 
 
       {/* جدول نتایج */}
       {/* Results Table */}
-      <Table columns={columns} renderRow={renderRow} data={data} />
+      <Table columns={columns} renderRow={(item) => renderRow(item, role)} data={data} />
 
       {/* صفحه‌بندی */}
       {/* Pagination */}
