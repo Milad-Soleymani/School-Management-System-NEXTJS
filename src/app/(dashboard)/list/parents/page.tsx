@@ -55,7 +55,7 @@ const renderRow = (item: ParentList, role: string) => {
   );
 };
 const ParentListPage = async ({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) => {
-  const { role, currentUserId } = await getUserRole();
+  const { role } = await getUserRole();
 
 
   // console.log(data)
