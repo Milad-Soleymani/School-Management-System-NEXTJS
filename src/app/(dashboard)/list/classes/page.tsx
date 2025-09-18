@@ -5,6 +5,7 @@ import TableSearch from '@/components/TableSearch'
 import { classesData, role } from '@/lib/data'
 import prisma from '@/lib/prisma'
 import { ITEM_PER_PAGE } from '@/lib/setting'
+import { getUserRole } from '@/lib/utils'
 import { Class, Prisma, Teacher } from '@prisma/client'
 import Image from 'next/image'
 import React from 'react'
@@ -16,7 +17,7 @@ const columns = [
   { header: "ظرفیت", accessor: "capacity", className: "hidden md:table-cell" },
   { header: "پایه", accessor: "grade", className: "hidden md:table-cell" },
   { header: "ناظر", accessor: "supervisor", className: "hidden md:table-cell" },
-  { header: "اعمال", accessor: "actions" }
+  ...(role === "admin" ? [{ header: "اعمال", accessor: "actions" }] : [])
 ]
 
 // ✅ Render each row safely
@@ -51,6 +52,7 @@ const renderRow = (item: ClassList) => (
   </tr>
 )
 const ClassListPage = async ({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) => {
+  const { role, currentUserId } = await getUserRole();
 
   // console.log(data)
 
