@@ -2,7 +2,6 @@ import FormModal from '@/components/FormModal'
 import Pagination from '@/components/Pagination'
 import Table from '@/components/Table'
 import TableSearch from '@/components/TableSearch'
-import { classesData, role } from '@/lib/data'
 import prisma from '@/lib/prisma'
 import { ITEM_PER_PAGE } from '@/lib/setting'
 import { getUserRole } from '@/lib/utils'
@@ -12,35 +11,28 @@ import React from 'react'
 
 // ✅ Define Class type properly
 type ClassList = Class & { supervisor: Teacher }
-const columns = [
-  { header: "نام کلاس", accessor: "name" },
-  { header: "ظرفیت", accessor: "capacity", className: "hidden md:table-cell" },
-  { header: "پایه", accessor: "grade", className: "hidden md:table-cell" },
-  { header: "ناظر", accessor: "supervisor", className: "hidden md:table-cell" },
-  ...(role === "admin" ? [{ header: "اعمال", accessor: "actions" }] : [])
-]
 
 // ✅ Render each row safely
-const renderRow = (item: ClassList) => (
+const renderRow = (item: ClassList, role: string) => (
   <tr
     key={item.id}
-    className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-specialPurpleLight"
+    className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-specialPurpleLight "
   >
     {/* Class name */}
     <td className="flex items-center gap-4 p-4">{item.name}</td>
 
     {/* Capacity */}
-    <td className="hidden md:table-cell">{item.capacity}</td>
+    <td className="hidden sm:table-cell">{item.capacity}</td>
 
-    {/* Name */}
-    <td className="hidden md:table-cell">{item.name[0]}</td>
+    {/* grade */}
+    <td className=" md:table-cell max-w-1">{item.name[0]}</td>
 
     {/* Supervisor(s) - Safe rendering */}
-    <td className="hidden md:table-cell">{item.supervisor.name + " " + item.supervisor.surname}</td>
+    <td className="hidden  md:table-cell max-w-1">{item.supervisor.name + " " + item.supervisor.surname}</td>
 
     {/* Actions */}
     <td>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 justify-center">
         {role === "admin" && (
           <>
             <FormModal table="subject" type="update" data={item} />
@@ -52,7 +44,15 @@ const renderRow = (item: ClassList) => (
   </tr>
 )
 const ClassListPage = async ({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) => {
-  const { role, currentUserId } = await getUserRole();
+  const { role } = await getUserRole();
+
+  const columns = [
+    { header: "نام کلاس", accessor: "name" },
+    { header: "ظرفیت", accessor: "capacity", className: "hidden sm:table-cell" },
+    { header: "پایه", accessor: "grade", className: " md:table-cell" },
+    { header: "ناظر", accessor: "supervisor", className: "hidden md:table-cell" },
+    ...(role === "admin" ? [{ header: "اعمال", accessor: "actions",className: "text-center" }] : [])
+  ]
 
   // console.log(data)
 
@@ -131,7 +131,8 @@ const ClassListPage = async ({ searchParams }: { searchParams: Promise<{ [key: s
       </div>
 
       {/* ---------- TABLE LIST ---------- */}
-      <Table columns={columns} renderRow={renderRow} data={data} />
+      <Table columns={columns} renderRow={(item) => renderRow(item, role)}
+        data={data} />
 
       {/* ---------- PAGINATION ---------- */}
       <Pagination page={p} count={count} />
