@@ -4,23 +4,17 @@ import FormModal from '@/components/FormModal'
 import Pagination from '@/components/Pagination'
 import Table from '@/components/Table'
 import TableSearch from '@/components/TableSearch'
-import { lessonsData, role } from '@/lib/data'
 import { Class, Lesson, Prisma, Subject, Teacher } from '@prisma/client'
 import prisma from '@/lib/prisma'
 import { ITEM_PER_PAGE } from '@/lib/setting'
+import { getUserRole } from '@/lib/utils'
 
 // نوع داده‌ی هر درس / Type definition for a lesson
 type LessonList = Lesson & { subject: Subject } & { class: Class } & { teacher: Teacher };
 
-// تعریف ستون‌های جدول / Table column definitions
-const columns = [
-  { header: "نام کلاس", accessor: "subject" }, // عنوان ستون / Column title
-  { header: "کلاس", accessor: "class", className: "hidden md:table-cell" },
-  { header: "معلم", accessor: "teacher", className: "hidden md:table-cell" },
-  { header: "اعمال", accessor: "actions" }
-]
 
-const renderRow = (item: LessonList) => (
+
+const renderRow = (item: LessonList, role: string) => (
   <tr key={item.id} className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-specialPurpleLight">
 
     {/* نام درس / Lesson name */}
@@ -50,8 +44,16 @@ const renderRow = (item: LessonList) => (
 )
 const LessonListPage = async ({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) => {
 
+  const {role, currentUserId} = await getUserRole();
   // console.log(data)
 
+  // تعریف ستون‌های جدول / Table column definitions
+  const columns = [
+    { header: "نام کلاس", accessor: "subject" }, // عنوان ستون / Column title
+    { header: "کلاس", accessor: "class", className: "hidden md:table-cell" },
+    { header: "معلم", accessor: "teacher", className: "hidden md:table-cell" },
+    ...(role === "admin" ?[{ header: "اعمال", accessor: "actions" }]: [])
+  ]
   const params = await searchParams;
   console.log(params);
 
@@ -134,7 +136,7 @@ const LessonListPage = async ({ searchParams }: { searchParams: Promise<{ [key: 
       </div>
 
       {/* جدول دروس / Lessons table */}
-      <Table columns={columns} renderRow={renderRow} data={data} />
+      <Table columns={columns} renderRow={(item) =>renderRow(item, role)} data={data} />
 
       {/* صفحه‌بندی / Pagination */}
       <Pagination page={p} count={count} />
