@@ -2,9 +2,9 @@ import FormModal from '@/components/FormModal'
 import Pagination from '@/components/Pagination'
 import Table from '@/components/Table'
 import TableSearch from '@/components/TableSearch'
-import { role, studentsData } from '@/lib/data'
 import prisma from '@/lib/prisma'
 import { ITEM_PER_PAGE } from '@/lib/setting'
+import { getUserRole } from '@/lib/utils'
 import { Class, Prisma, Student } from '@prisma/client'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -13,18 +13,10 @@ import React from 'react'
 // ===== Type Definition / تعریف نوع دانش‌آموز =====
 type StudentList = Student & { class: Class }
 // ===== Table Columns / ستون‌های جدول =====
-const columns = [
-  { header: 'اطلاعات', accessor: 'info' },
-  { header: 'شناسه دانش آموز', accessor: 'studentId', className: 'hidden md:table-cell' },
-  { header: 'پایه', accessor: 'grade', className: 'hidden md:table-cell' },
-  { header: 'شماره تلفن', accessor: 'phone', className: 'hidden md:table-cell' },
-  { header: 'نشانی', accessor: 'address', className: 'hidden md:table-cell text-right pr-5' },
-  { header: 'اعمال', accessor: 'actions' },
-]
 
 
 // ===== Render Single Row / رندر یک ردیف جدول =====
-const renderRow = (item: StudentList) => (
+const renderRow = (item: StudentList, role: string) => (
   <tr key={item.id} className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-specialPurpleLight">
     {/* Info / اطلاعات دانش‌آموز */}
     <td className="flex items-center gap-4 p-4">
@@ -71,6 +63,16 @@ const renderRow = (item: StudentList) => (
 )
 // ===== Student List Page Component / کامپوننت صفحه لیست دانش‌آموزان =====
 const StudentListPage = async ({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) => {
+  const {role} = await getUserRole();
+
+  const columns = [
+  { header: 'اطلاعات', accessor: 'info' },
+  { header: 'شناسه دانش آموز', accessor: 'studentId', className: 'hidden md:table-cell' },
+  { header: 'پایه', accessor: 'grade', className: 'hidden md:table-cell' },
+  { header: 'شماره تلفن', accessor: 'phone', className: 'hidden md:table-cell' },
+  { header: 'نشانی', accessor: 'address', className: 'hidden md:table-cell text-right pr-5' },
+  ...(role === "admin" ?[{ header: 'اعمال', accessor: 'actions' }] : []),
+]
 
   // console.log(data)
 
@@ -152,7 +154,7 @@ const StudentListPage = async ({ searchParams }: { searchParams: Promise<{ [key:
       </div>
 
       {/* Table / جدول */}
-      <Table columns={columns} renderRow={renderRow} data={data} />
+      <Table columns={columns} renderRow={(item) => renderRow(item, role)} data={data} />
 
       {/* Pagination / صفحه‌بندی */}
       <Pagination page={p} count={count} />
