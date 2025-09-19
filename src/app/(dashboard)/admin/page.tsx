@@ -8,8 +8,12 @@ import CountChart from "@/components/CountChart";
 import EventCalendar from "@/components/EventCalendar";
 import FinanceChart from "@/components/FinanceChart";
 import UserCard from "@/components/UserCard";
+import prisma from "@/lib/prisma";
 
-function AdminPage() {
+const AdminPage= async () => {
+  // سرور: تعداد دانش‌آموزان هر پایه را حساب می‌کنیم
+  const firstGrade = await prisma.student.count({ where: { gradeId: 1 } })
+  const secondGrade = await prisma.student.count({ where: { gradeId: 2 } })
   return (
     <div className="p-4 flex flex-col gap-4 md:flex-row">
       {/* ================= LEFT SIDE ================= */}
@@ -36,7 +40,7 @@ function AdminPage() {
           {/* نمودار تعداد کاربران */}
           {/* User count chart */}
           <div className="w-full lg:w-1/3 h-[450px]">
-            <CountChart />
+            <CountChart firstGrade={firstGrade} secondGrade={secondGrade} />
           </div>
           
           {/* ATTENDANCE CHART */}
