@@ -8,18 +8,14 @@ import { role, subjectsData } from '@/lib/data';
 import { Prisma, Subject, Teacher } from '@prisma/client';
 import prisma from '@/lib/prisma';
 import { ITEM_PER_PAGE } from '@/lib/setting';
+import { getUserRole } from '@/lib/utils';
 
 type SubjectList = Subject & { teachers: Teacher[] }
 
-// ستون‌های جدول
-const columns = [
-  { header: "نام ماده درسی", accessor: "subject" },
-  { header: "نام معلمان", accessor: "teachers", className: "hidden md:table-cell" },
-  { header: "اعمال", accessor: "actions" },
-];
+
 
 // رندر هر ردیف جدول
-const renderRow = (item: SubjectList) => (
+const renderRow = (item: SubjectList, role: string) => (
   <tr key={item.id} className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-specialPurpleLight">
     <td className="flex items-center gap-4 p-4">{item.name}</td>
     <td className="hidden md:table-cell">{item.teachers.map(teacher => teacher.name).join(', ')}</td>
@@ -37,9 +33,15 @@ const renderRow = (item: SubjectList) => (
 );
 
 const SubjectListPage = async ({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) => {
+  const { role } = await getUserRole();
 
   // console.log(data)
-
+  // ستون‌های جدول
+  const columns = [
+    { header: "نام ماده درسی", accessor: "subject" },
+    { header: "نام معلمان", accessor: "teachers", className: "hidden md:table-cell" },
+    { header: "اعمال", accessor: "actions" },
+  ];
   const params = await searchParams;
   console.log(params);
 
@@ -106,7 +108,7 @@ const SubjectListPage = async ({ searchParams }: { searchParams: Promise<{ [key:
       </div>
 
       {/* جدول لیست */}
-      <Table columns={columns} renderRow={renderRow} data={data} />
+      <Table columns={columns} renderRow={(item) => renderRow(item, role)} data={data} />
 
       {/* صفحه‌بندی */}
       <Pagination page={p} count={count} />
