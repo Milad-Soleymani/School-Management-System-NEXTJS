@@ -21,10 +21,10 @@ function AdminPage() {
         {/* کارت‌های خلاصه آمار کاربران مختلف */}
         {/* User summary cards for different roles */}
         <div className="flex flex-wrap justify-between gap-4">
-          <UserCard type="دانش آموزان" /> {/* Students */}
-          <UserCard type="معلم ها" />       {/* Teachers */}
-          <UserCard type="والدین" />       {/* Parents */}
-          <UserCard type="پرسنل" />        {/* Staff */}
+          <UserCard type="student" /> {/* Students */}
+          <UserCard type="teacher" />       {/* Teachers */}
+          <UserCard type="parent" />       {/* Parents */}
+          <UserCard type="admin" />        {/* Admin */}
         </div>
 
         {/* ==== MIDDLE CHARTS ==== */}
