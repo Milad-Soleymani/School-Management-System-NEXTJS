@@ -3,7 +3,7 @@
 // Admin Dashboard Page - Displays statistics, charts, and announcements
 
 import Announcements from "@/components/Announcements";
-import AttendanceChart from "@/components/AttendanceChart";
+import AttendanceChartContainer from "@/components/AttendanceChartContainer";
 import CountChart from "@/components/CountChart";
 import EventCalendar from "@/components/EventCalendar";
 import FinanceChart from "@/components/FinanceChart";
@@ -47,7 +47,7 @@ const AdminPage= async () => {
           {/* نمودار حضور و غیاب */}
           {/* Attendance statistics chart */}
           <div className="w-full lg:w-2/3 h-[450px]">
-            <AttendanceChart />
+            <AttendanceChartContainer />
           </div>
         </div>
 
