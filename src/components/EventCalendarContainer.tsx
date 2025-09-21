@@ -2,6 +2,7 @@ import Image from 'next/image'
 import React from 'react'
 import EventList from './EventList'
 import EventCalendar from './EventCalendar'
+import Link from 'next/link'
 
 const EventCalendarContainer = ({ searchParams }: { searchParams: { [key: string]: string | undefined } }) => {
     // امن‌سازی: اگر searchParams خالی بود، undefined میمونه
@@ -17,7 +18,9 @@ const EventCalendarContainer = ({ searchParams }: { searchParams: { [key: string
             {/* بخش عنوان و گزینه‌ها */}
             <div className="flex items-center justify-between mb-4">
                 <h1 className="text-xl font-semibold">رویدادها</h1>
-                <Image src="/moreDark.png" alt="گزینه‌ها" width={20} height={20} />
+                <Link href={'/list/events'}>
+                    <Image src="/moreDark.png" alt="گزینه‌ها" width={20} height={20} />
+                </Link>
             </div>
 
             {/* لیست رویدادها */}
