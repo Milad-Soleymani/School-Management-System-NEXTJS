@@ -23,10 +23,12 @@ const schema = z.object({
   img: z.instanceof(File, { message: "!عکس الزامی است" })
 });
 
+type Inputs = z.infer<typeof schema>;
+
 // کامپوننت فرم معلم
 function TeacherForm({ type, data }: { type: 'create' | 'update'; data?: any }) {
   // استفاده از react-hook-form همراه با Zod
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const { register, handleSubmit, formState: { errors } } = useForm<Inputs>({
     resolver: zodResolver(schema),
   });
 
