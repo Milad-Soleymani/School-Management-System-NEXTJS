@@ -18,10 +18,16 @@ const StudentForm = dynamic(() => import("./fomrs/StudentForm"), {
     </div>
 });
 
+const SubjectForm = dynamic(() => import("./fomrs/SubjectForm"), {
+    loading: () => <div className="flex justify-center items-center">
+        <OrbitProgress color="#CFCEFF" size="medium" text="" textColor="" />
+    </div>
+});
 // مپ فرم‌ها بر اساس نوع جدول
 const forms: { [key: string]: (type: "create" | "update", data?: unknown) => React.ReactNode } = {
     teacher: (type, data) => <TeacherForm type={type} data={data} />,
-    student: (type, data) => <StudentForm type={type} data={data} />
+    student: (type, data) => <StudentForm type={type} data={data} />,
+    subject: (type, data) => <SubjectForm type={type} data={data} />,
 };
 
 // کامپوننت اصلی Modal

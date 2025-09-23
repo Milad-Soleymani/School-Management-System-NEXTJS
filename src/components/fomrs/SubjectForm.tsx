@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import InputField from "../InputField";
 import Image from "next/image";
 import { SubjectSchema, subjectSchema } from "@/lib/formValidationSchema";
+import { createSubject } from "@/lib/actions";
 
 
 
@@ -19,6 +20,7 @@ function SubjectForm({ type, data }: { type: 'create' | 'update'; data?: any }) 
   // تابع ارسال فرم
   const onSubmit = handleSubmit((formData) => {
     console.log(formData);
+    createSubject(formData)
   });
 
   return (
