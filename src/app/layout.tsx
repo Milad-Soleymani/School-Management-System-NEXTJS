@@ -14,13 +14,38 @@ export const metadata: Metadata = {
   }
 };
 
+const faLocalization = {
+  formFieldError: {
+    identifier: {
+      invalid_email_address: "ایمیل وارد شده معتبر نیست",
+      invalid_username: "نام کاربری معتبر نیست",
+      not_found: "این کاربر وجود ندارد",
+    },
+    password: {
+      incorrect_password: "رمز عبور اشتباه است",
+      too_short: "رمز عبور خیلی کوتاه است",
+    },
+  },
+  globalError: {
+    default: "خطای ناشناخته‌ای رخ داده است، دوباره تلاش کنید.",
+  },
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
+    <ClerkProvider localization={faLocalization} appearance={{
+        variables: {
+          fontFamily: "Vazir, sans-serif",
+          colorPrimary: "#1D4ED8",
+        },
+        layout: {
+          direction: "rtl",
+        },
+      }}>
 
       <html lang="en">
         <Head>
