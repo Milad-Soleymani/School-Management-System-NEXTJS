@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { OrbitProgress } from "react-loading-indicators";
@@ -24,10 +24,10 @@ const SubjectForm = dynamic(() => import("./fomrs/SubjectForm"), {
     </div>
 });
 // مپ فرم‌ها بر اساس نوع جدول
-const forms: { [key: string]: (type: "create" | "update", data?: unknown) => React.ReactNode } = {
-    teacher: (type, data) => <TeacherForm type={type} data={data} />,
-    student: (type, data) => <StudentForm type={type} data={data} />,
-    subject: (type, data) => <SubjectForm type={type} data={data} />,
+const forms: { [key: string]: (setOpen: Dispatch<SetStateAction<boolean>>,type: "create" | "update", data?: unknown) => React.ReactNode } = {
+    teacher: (setOpen, type, data) => <TeacherForm type={type} data={data} setOpen={setOpen}/>,
+    student: (setOpen, type, data) => <StudentForm type={type} data={data} setOpen={setOpen}/>,
+    subject: (setOpen, type, data) => <SubjectForm type={type} data={data} setOpen={setOpen}/>,
 };
 
 // کامپوننت اصلی Modal
@@ -62,7 +62,7 @@ function FormModal({
                 </form>
             );
         } else if (type === "create" || type === "update") {
-            return forms[table](type, data);
+            return forms[table](setOpen, type, data);
         } else {
             return <span>Form Not Found</span>;
         }
