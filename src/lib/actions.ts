@@ -42,3 +42,20 @@ export const updateSubject = async (CurrentState: CurrentState,data: SubjectSche
   }
 };
 
+export const deleteSubject = async (CurrentState: CurrentState,data: SubjectSchema) => {
+  try {
+    await prisma.subject.delete({
+      where:{
+        id: data.id
+      },
+    });
+
+    // revalidatePath("/list/subjects");
+    return { success: true, error: false };
+  } catch (err) {
+    console.error("Error creating subject:", err);
+    return { success: false, error: true };
+  }
+};
+
+
