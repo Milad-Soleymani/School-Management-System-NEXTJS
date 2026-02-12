@@ -108,7 +108,7 @@ const SingleStudentPage = () => {
 
         {/* BOTTOM */}
         <div className="mt-4 bg-white rounded-md p-4 h-[800px]">
-          <h1>برنامه زمانی دانش‌آموز</h1>
+          <h1>برنامه زمانی معلم</h1>
           <BigCalendar />
         </div>
       </div>
