@@ -17,7 +17,7 @@ const UserCard = async ({ type }: UserCardProps) => {
   }
 
   const typeMap: Record<UserType, string> = {
-  admin: "مدیر",
+  admin: "پرسنل",
   teacher: "معلم",
   student: "دانش‌آموز",
   parent: "اولیا",
@@ -33,17 +33,17 @@ const UserCard = async ({ type }: UserCardProps) => {
 
       {/* هدر کارت شامل تاریخ و آیکون گزینه‌ها */}
       <div className="flex justify-between items-center">
+        <Image src="/more.png" alt="Options" width={20} height={20} />
         <span className="text-[10px] bg-white px-2 py-1 rounded-full text-green-600">
           ۱۴۰۴/۵
         </span>
-        <Image src="/more.png" alt="Options" width={20} height={20} />
       </div>
 
       {/* مقدار اصلی */}
-      <h1 className="text-2xl font-semibold my-3">{persianNumber}</h1>
+      <h1 className="text-2xl font-semibold my-3 text-right">{persianNumber}</h1>
 
       {/* نوع کارت */}
-      <h2 className="capitalize text-sm font-medium text-gray-500">{typeMap[type]}</h2>
+      <h2 className="capitalize text-sm font-medium text-gray-500 text-right">{typeMap[type]}</h2>
     </div>
   );
 };
