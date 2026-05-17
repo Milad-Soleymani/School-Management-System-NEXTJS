@@ -5,6 +5,8 @@ import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { ClerkProvider } from "@clerk/nextjs";
 import Head from "next/head";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 export const metadata: Metadata = {
@@ -37,21 +39,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider localization={faLocalization} appearance={{
-        variables: {
-          fontFamily: "Vazir, sans-serif",
-          colorPrimary: "#1D4ED8",
-        },
-        layout: {
-          direction: "rtl",
-        },
-      }}>
+    <ClerkProvider>
 
       <html lang="en">
         <Head>
           <link rel="shortcut icon" href="/logo.png" />
         </Head>
-        <body>{children}</body>
+        <body>{children}<ToastContainer position="bottom-right" theme="dark" /></body>
         <Analytics />
         <SpeedInsights />
 

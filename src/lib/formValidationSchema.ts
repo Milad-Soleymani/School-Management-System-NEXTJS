@@ -2,8 +2,7 @@ import { z } from "zod";
 
 // تعریف اسکیمای اعتبارسنجی با Zod
 export const subjectSchema = z.object({
-  id: z.coerce.number().optional(),
-  name: z.string().min(1, { message: 'نام کاربری الزامی است' }),
+  name: z.string().min(1, { message: 'نام الزامی است' }),
 });
 
 // تایپ ورودی استخراج شده از اسکیمای بالا

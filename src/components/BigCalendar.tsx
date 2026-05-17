@@ -15,7 +15,7 @@ const toPersianNumber = (num: number | string) =>
   String(num).replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[+d])
 
 // فرمت نمایش زمان در ستون کناری
-const formats = {
+const  formats = {
   timeGutterFormat: (date: Date) => {
     const hour = date.getHours()
     const persianHour = toPersianNumber(hour)

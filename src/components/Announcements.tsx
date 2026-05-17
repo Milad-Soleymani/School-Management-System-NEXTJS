@@ -22,7 +22,7 @@ const Announcements = async () => {
     parent: {
       students: {
         some: {
-          parenId:
+          parentId:
             currentUserId!
 
         }

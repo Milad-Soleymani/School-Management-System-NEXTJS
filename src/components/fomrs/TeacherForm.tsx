@@ -20,7 +20,7 @@ const schema = z.object({
   bloodType: z.string().min(1, { message: '!گروه خونی الزامی است' }),
   birthday: z.string(), 
   sex: z.enum(["male", "female"], { message: "!جنسیت الزامی است" }),
-  img: z.instanceof(File, { message: "!عکس الزامی است" })
+  img: z.any().optional()
 });
 
 type Inputs = z.infer<typeof schema>;
