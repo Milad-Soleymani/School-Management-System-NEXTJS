@@ -5,6 +5,7 @@ import moment from 'moment'
 import 'moment/locale/fa'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import { useState } from 'react'
+import { calendarEvents } from '@/lib/data'
 
 // تنظیم زبان فارسی برای تقویم
 moment.locale('fa')
@@ -15,7 +16,7 @@ const toPersianNumber = (num: number | string) =>
   String(num).replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[+d])
 
 // فرمت نمایش زمان در ستون کناری
-const  formats = {
+const formats = {
   timeGutterFormat: (date: Date) => {
     const hour = date.getHours()
     const persianHour = toPersianNumber(hour)
@@ -24,7 +25,7 @@ const  formats = {
   },
 }
 
-const BigCalendar = ({data} : {data:{title: string, start: Date, end: Date}[]}) => {
+const BigCalendar = () => {
   // وضعیت نمایش فعلی تقویم (کار هفته یا روز)
   const [view, setView] = useState<View>(Views.WORK_WEEK)
 
@@ -38,7 +39,7 @@ const BigCalendar = ({data} : {data:{title: string, start: Date, end: Date}[]}) 
       {/* تقویم */}
       <Calendar
         localizer={localizer}
-        events={data} // داده‌های رویدادها
+        events={calendarEvents} // داده‌های رویدادها
         startAccessor="start" // شروع رویداد
         endAccessor="end" // پایان رویداد
         views={['work_week', 'day']} // نوع نمایش‌ها

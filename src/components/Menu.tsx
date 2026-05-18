@@ -1,4 +1,4 @@
-import { currentUser } from "@clerk/nextjs/server";
+import { role } from "@/lib/data";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -33,9 +33,7 @@ const menuItems = [
   },
 ];
 
-const Menu = async () => {
-  const user = await currentUser();
-  const role = user?.publicMetadata.role as string
+const Menu = () => {
   return (
     <div className="flex flex-col items-end font-thin w-full text-[13px]">
       {menuItems.map(section => (

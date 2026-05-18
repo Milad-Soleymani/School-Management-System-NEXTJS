@@ -1,11 +1,8 @@
-
 import { Day, PrismaClient, UserSex } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  // ======================
   // ADMIN
-  // ======================
   await prisma.admin.upsert({
     where: { id: "admin1" },
     create: { id: "admin1", username: "admin1" },
@@ -17,10 +14,8 @@ async function main() {
     update: {},
   });
 
-  // ======================
-  // GRADE (فقط 2 پایه)
-  // ======================
-  for (let i = 1; i <= 2; i++) {
+  // GRADE
+  for (let i = 1; i <= 6; i++) {
     await prisma.grade.upsert({
       where: { level: i },
       create: { level: i },
@@ -28,10 +23,8 @@ async function main() {
     });
   }
 
-  // ======================
-  // CLASS (فقط 2 کلاس)
-  // ======================
-  for (let i = 1; i <= 2; i++) {
+  // CLASS
+  for (let i = 1; i <= 6; i++) {
     await prisma.class.upsert({
       where: { id: i },
       create: {
@@ -44,9 +37,7 @@ async function main() {
     });
   }
 
-  // ======================
   // SUBJECT
-  // ======================
   const subjectData = [
     { id: 1, name: "Mathematics" },
     { id: 2, name: "Science" },
@@ -68,10 +59,8 @@ async function main() {
     });
   }
 
-  // ======================
   // TEACHER
-  // ======================
-  for (let i = 1; i <= 10; i++) { // کاهش تعداد معلم برای هماهنگی
+  for (let i = 1; i <= 15; i++) {
     await prisma.teacher.upsert({
       where: { id: `teacher${i}` },
       create: {
@@ -85,17 +74,15 @@ async function main() {
         bloodType: "A+",
         sex: i % 2 === 0 ? UserSex.MALE : UserSex.FEMALE,
         subjects: { connect: [{ id: (i % 10) + 1 }] },
-        classes: { connect: [{ id: (i % 2) + 1 }] },
+        classes: { connect: [{ id: (i % 6) + 1 }] },
         birthday: new Date(new Date().setFullYear(new Date().getFullYear() - 30)),
       },
       update: {},
     });
   }
 
-  // ======================
   // LESSON
-  // ======================
-  for (let i = 1; i <= 20; i++) { // کاهش تعداد درس‌ها
+  for (let i = 1; i <= 30; i++) {
     await prisma.lesson.upsert({
       where: { id: i },
       create: {
@@ -107,26 +94,24 @@ async function main() {
           ] as keyof typeof Day
         ],
         startTime: new Date(new Date().setHours(new Date().getHours() + 1)),
-        endTime: new Date(new Date().setHours(new Date().getHours() + 2)),
+        endTime: new Date(new Date().setHours(new Date().getHours() + 3)),
         subjectId: (i % 10) + 1,
-        classId: (i % 2) + 1,
-        teacherId: `teacher${(i % 10) + 1}`,
+        classId: (i % 6) + 1,
+        teacherId: `teacher${(i % 15) + 1}`,
       },
       update: {},
     });
   }
 
-  // ======================
   // PARENT
-  // ======================
-  for (let i = 1; i <= 10; i++) { // کاهش تعداد والدین
+  for (let i = 1; i <= 25; i++) {
     await prisma.parent.upsert({
       where: { id: `parentId${i}` },
       create: {
         id: `parentId${i}`,
         username: `parentId${i}`,
-        name: `PName${i}`,
-        surname: `PSurname${i}`,
+        name: `PName ${i}`,
+        surname: `PSurname ${i}`,
         email: `parent${i}@example.com`,
         phone: `123-456-789${i}`,
         address: `Address${i}`,
@@ -135,35 +120,31 @@ async function main() {
     });
   }
 
-  // ======================
   // STUDENT
-  // ======================
-  for (let i = 1; i <= 20; i++) { // کاهش تعداد دانش‌آموز
+  for (let i = 1; i <= 50; i++) {
     await prisma.student.upsert({
       where: { id: `student${i}` },
       create: {
         id: `student${i}`,
         username: `student${i}`,
         name: `SName${i}`,
-        surname: `SSurname${i}`,
+        surname: `SSurname ${i}`,
         email: `student${i}@example.com`,
         phone: `987-654-321${i}`,
         address: `Address${i}`,
         bloodType: "O-",
         sex: i % 2 === 0 ? UserSex.MALE : UserSex.FEMALE,
-        parentId: `parentId${(i % 10) + 1}`,
-        gradeId: (i % 2) + 1,
-        classId: (i % 2) + 1,
+        parentId: `parentId${Math.ceil(i / 2) % 25 || 25}`,
+        gradeId: (i % 6) + 1,
+        classId: (i % 6) + 1,
         birthday: new Date(new Date().setFullYear(new Date().getFullYear() - 10)),
       },
       update: {},
     });
   }
 
-  // ======================
   // EXAM
-  // ======================
-  for (let i = 1; i <= 5; i++) {
+  for (let i = 1; i <= 10; i++) {
     await prisma.exam.upsert({
       where: { id: i },
       create: {
@@ -171,16 +152,14 @@ async function main() {
         title: `Exam ${i}`,
         startTime: new Date(new Date().setHours(new Date().getHours() + 1)),
         endTime: new Date(new Date().setHours(new Date().getHours() + 2)),
-        lessonId: (i % 20) + 1,
+        lessonId: (i % 30) + 1,
       },
       update: {},
     });
   }
 
-  // ======================
   // ASSIGNMENT
-  // ======================
-  for (let i = 1; i <= 5; i++) {
+  for (let i = 1; i <= 10; i++) {
     await prisma.assignment.upsert({
       where: { id: i },
       create: {
@@ -188,31 +167,27 @@ async function main() {
         title: `Assignment ${i}`,
         startDate: new Date(new Date().setHours(new Date().getHours() + 1)),
         dueDate: new Date(new Date().setDate(new Date().getDate() + 1)),
-        lessonId: (i % 20) + 1,
+        lessonId: (i % 30) + 1,
       },
       update: {},
     });
   }
 
-  // ======================
   // RESULT
-  // ======================
   for (let i = 1; i <= 10; i++) {
     await prisma.result.upsert({
       where: { id: i },
       create: {
         id: i,
         score: 90,
-        studentId: `student${(i % 20) + 1}`,
+        studentId: `student${i}`,
         ...(i <= 5 ? { examId: i } : { assignmentId: i - 5 }),
       },
       update: {},
     });
   }
 
-  // ======================
   // ATTENDANCE
-  // ======================
   for (let i = 1; i <= 10; i++) {
     await prisma.attendance.upsert({
       where: { id: i },
@@ -220,17 +195,15 @@ async function main() {
         id: i,
         date: new Date(),
         present: true,
-        studentId: `student${(i % 20) + 1}`,
-        lessonId: (i % 20) + 1,
+        studentId: `student${i}`,
+        lessonId: (i % 30) + 1,
       },
       update: {},
     });
   }
 
-  // ======================
   // EVENT
-  // ======================
-  for (let i = 1; i <= 3; i++) {
+  for (let i = 1; i <= 5; i++) {
     await prisma.event.upsert({
       where: { id: i },
       create: {
@@ -239,16 +212,14 @@ async function main() {
         description: `Description for Event ${i}`,
         startTime: new Date(new Date().setHours(new Date().getHours() + 1)),
         endTime: new Date(new Date().setHours(new Date().getHours() + 2)),
-        classId: (i % 2) + 1,
+        classId: (i % 5) + 1,
       },
       update: {},
     });
   }
 
-  // ======================
   // ANNOUNCEMENT
-  // ======================
-  for (let i = 1; i <= 3; i++) {
+  for (let i = 1; i <= 5; i++) {
     await prisma.announcement.upsert({
       where: { id: i },
       create: {
@@ -256,13 +227,13 @@ async function main() {
         title: `Announcement ${i}`,
         description: `Description for Announcement ${i}`,
         date: new Date(),
-        classId: (i % 2) + 1,
+        classId: (i % 5) + 1,
       },
       update: {},
     });
   }
 
-  console.log("✅ Seeding completed successfully with 2 grades!");
+  console.log("✅ Seeding completed successfully.");
 }
 
 main()

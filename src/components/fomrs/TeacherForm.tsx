@@ -20,15 +20,13 @@ const schema = z.object({
   bloodType: z.string().min(1, { message: '!گروه خونی الزامی است' }),
   birthday: z.string(), 
   sex: z.enum(["male", "female"], { message: "!جنسیت الزامی است" }),
-  img: z.any().optional()
+  img: z.instanceof(File, { message: "!عکس الزامی است" })
 });
-
-type Inputs = z.infer<typeof schema>;
 
 // کامپوننت فرم معلم
 function TeacherForm({ type, data }: { type: 'create' | 'update'; data?: any }) {
   // استفاده از react-hook-form همراه با Zod
-  const { register, handleSubmit, formState: { errors } } = useForm<Inputs>({
+  const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(schema),
   });
 

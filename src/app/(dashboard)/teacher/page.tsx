@@ -1,17 +1,11 @@
 import Announcements from "@/components/Announcements";
-import BigCalendarContainer from "@/components/BigCalendarContainer";
-import { getUserRole } from "@/lib/utils";
-import { auth } from "@clerk/nextjs/server";
+import BigCalendar from "@/components/BigCalendar";
 
 /**
  * TeacherPage Component
  * صفحه برنامه زمانی معلم
  */
-const TeacherPage = async() => {
-
-  const {currentUserId} = await getUserRole()
-  
-
+function TeacherPage() {
   return (
     <div className="flex-1 p-4 flex flex-col gap-4 xl:flex-row">
       {/* LEFT SIDE - Calendar */}
@@ -21,7 +15,7 @@ const TeacherPage = async() => {
           <h1 className="text-xl font-semibold text-right mb-2">
             برنامه زمانی
           </h1>
-          <BigCalendarContainer type="teacherId" id={currentUserId!} />
+          <BigCalendar />
         </div>
       </div>
 

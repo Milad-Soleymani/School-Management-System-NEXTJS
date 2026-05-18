@@ -11,7 +11,7 @@ export const teachersData = [
     phone: "۰۹۱۲۳۴۵۶۷۸۱",
     subjects: ["ریاضی", "هندسه"],
     classes: ["۱ ب", "۲ الف", "۳ ج"],
-    address: "خیابان انقلاب، پلاک ۱۲، تهران"
+    address: "خیابان انقلاب، پلاک ۱۲، تهران",
   },
   {
     id: 2,
@@ -22,7 +22,7 @@ export const teachersData = [
     phone: "۰۹۱۲۳۴۵۶۷۸۲",
     subjects: ["فیزیک", "شیمی"],
     classes: ["۵ الف", "۴ ب", "۳ ج"],
-    address: "بلوار کشاورز، پلاک ۲۵، تهران"
+    address: "بلوار کشاورز، پلاک ۲۵، تهران",
   },
   {
     id: 3,
@@ -33,7 +33,7 @@ export const teachersData = [
     phone: "۰۹۱۲۳۴۵۶۷۸۳",
     subjects: ["زیست‌شناسی"],
     classes: ["۵ الف", "۴ ب", "۳ ج"],
-    address: "میدان آزادی، پلاک ۸، تهران"
+    address: "میدان آزادی، پلاک ۸، تهران",
   },
   {
     id: 4,
@@ -44,7 +44,7 @@ export const teachersData = [
     phone: "۰۹۱۲۳۴۵۶۷۸۴",
     subjects: ["تاریخ"],
     classes: ["۵ الف", "۴ ب", "۳ ج"],
-    address: "خیابان ولیعصر، پلاک ۳۰، تهران"
+    address: "خیابان ولیعصر، پلاک ۳۰، تهران",
   },
   {
     id: 5,
@@ -55,7 +55,7 @@ export const teachersData = [
     phone: "۰۹۱۲۳۴۵۶۷۸۵",
     subjects: ["موسیقی", "تاریخ"],
     classes: ["۵ الف", "۴ ب", "۳ ج"],
-    address: "خیابان جمهوری، پلاک ۱۵، تهران"
+    address: "خیابان جمهوری، پلاک ۱۵، تهران",
   },
   {
     id: 6,
@@ -66,7 +66,7 @@ export const teachersData = [
     phone: "۰۹۱۲۳۴۵۶۷۸۶",
     subjects: ["فیزیک"],
     classes: ["۵ الف", "۴ ب", "۳ ج"],
-    address: "بلوار نلسون ماندلا، پلاک ۱۰، تهران"
+    address: "بلوار نلسون ماندلا، پلاک ۱۰، تهران",
   },
   {
     id: 7,
@@ -77,7 +77,7 @@ export const teachersData = [
     phone: "۰۹۱۲۳۴۵۶۷۸۷",
     subjects: ["زبان انگلیسی", "زبان عربی"],
     classes: ["۵ الف", "۴ ب", "۳ ج"],
-    address: "خیابان شهید بهشتی، پلاک ۲۲، تهران"
+    address: "خیابان شهید بهشتی، پلاک ۲۲، تهران",
   },
   {
     id: 8,
@@ -88,7 +88,7 @@ export const teachersData = [
     phone: "۰۹۱۲۳۴۵۶۷۸۸",
     subjects: ["ریاضی", "هندسه"],
     classes: ["۵ الف", "۴ ب", "۳ ج"],
-    address: "خیابان کارگر شمالی، پلاک ۴۰، تهران"
+    address: "خیابان کارگر شمالی، پلاک ۴۰، تهران",
   },
   {
     id: 9,
@@ -99,7 +99,7 @@ export const teachersData = [
     phone: "۰۹۱۲۳۴۵۶۷۸۹",
     subjects: ["ادبیات فارسی", "زبان انگلیسی"],
     classes: ["۵ الف", "۴ ب", "۳ ج"],
-    address: "خیابان پیروزی، پلاک ۱۸، تهران"
+    address: "خیابان پیروزی، پلاک ۱۸، تهران",
   },
   {
     id: 10,
@@ -110,11 +110,9 @@ export const teachersData = [
     phone: "۰۹۱۲۳۴۵۶۷۹۰",
     subjects: ["زیست‌شناسی"],
     classes: ["۵ الف", "۴ ب", "۳ ج"],
-    address: "خیابان دماوند، پلاک ۵۰، تهران"
-  }
+    address: "خیابان دماوند، پلاک ۵۰، تهران",
+  },
 ];
-
-
 
 export const subjectsData = [
   {
@@ -435,7 +433,6 @@ export const studentsData = [
   },
 ];
 
-
 export const lessonsData = [
   {
     id: 1,
@@ -578,70 +575,70 @@ export const assignmentsData = [
     subject: "ریاضی",
     class: "هفتم",
     teacher: "احمد حسینی",
-    dueDate: "۱۴۰۵-۰۱-۰۱",
+    dueDate: new Date("2026-03-21"),
   },
   {
     id: 2,
     subject: "انگلیسی",
     class: "هشتم",
     teacher: "مریم سادات",
-    dueDate: "۱۴۰۵-۰۱-۰۱",
+    dueDate: new Date("2026-03-21"),
   },
   {
     id: 3,
     subject: "علوم",
     class: "نهم",
     teacher: "حسین اکبری",
-    dueDate: "۱۴۰۵-۰۱-۰۱",
+    dueDate: new Date("2026-03-21"),
   },
   {
     id: 4,
     subject: "مطالعات اجتماعی",
     class: "هفتم",
     teacher: "علی رحیمی",
-    dueDate: "۱۴۰۵-۰۱-۰۱",
+    dueDate: new Date("2026-03-21"),
   },
   {
     id: 5,
     subject: "هنر",
     class: "هشتم",
     teacher: "سارا محمدی",
-    dueDate: "۱۴۰۵-۰۱-۰۱",
+    dueDate: new Date("2026-03-21"),
   },
   {
     id: 6,
     subject: "موسیقی",
     class: "نهم",
     teacher: "کیمیا رستمی",
-    dueDate: "۱۴۰۵-۰۱-۰۱",
+    dueDate: new Date("2026-03-21"),
   },
   {
     id: 7,
     subject: "تاریخ",
     class: "هفتم",
     teacher: "رضا قاسمی",
-    dueDate: "۱۴۰۵-۰۱-۰۱",
+    dueDate: new Date("2026-03-21"),
   },
   {
     id: 8,
     subject: "جغرافیا",
     class: "هشتم",
     teacher: "فاطمه نوری",
-    dueDate: "۱۴۰۵-۰۱-۰۱",
+    dueDate: new Date("2026-03-21"),
   },
   {
     id: 9,
     subject: "فیزیک",
     class: "نهم",
     teacher: "سعید احمدی",
-    dueDate: "۱۴۰۵-۰۱-۰۱",
+    dueDate: new Date("2026-03-21"),
   },
   {
     id: 10,
     subject: "شیمی",
     class: "هشتم",
     teacher: "سمیه علیزاده",
-    dueDate: "۱۴۰۵-۰۱-۰۱",
+    dueDate: new Date("2026-03-21"),
   },
 ];
 
@@ -752,7 +749,7 @@ export const eventsData = [
   {
     id: 1,
     title: "سفر به دریاچه",
-    class: "۱ الف",
+    class: "هفتم ۱",
     date: "۱۴۰۵-۰۱-۰۱",
     startTime: "۱۰:۰۰",
     endTime: "۱۱:۰۰",
@@ -760,7 +757,7 @@ export const eventsData = [
   {
     id: 2,
     title: "پیک نیک",
-    class: "۲ الف",
+    class: "هفتم ۲",
     date: "۱۴۰۵-۰۱-۰۱",
     startTime: "۱۰:۰۰",
     endTime: "۱۱:۰۰",
@@ -768,7 +765,7 @@ export const eventsData = [
   {
     id: 3,
     title: "سفر به ساحل",
-    class: "۳ الف",
+    class: "هفتم ۳",
     date: "۱۴۰۵-۰۱-۰۱",
     startTime: "۱۰:۰۰",
     endTime: "۱۱:۰۰",
@@ -776,7 +773,7 @@ export const eventsData = [
   {
     id: 4,
     title: "سفر به موزه",
-    class: "۴ الف",
+    class: "هشتم ۱",
     date: "۱۴۰۵-۰۱-۰۱",
     startTime: "۱۰:۰۰",
     endTime: "۱۱:۰۰",
@@ -784,7 +781,7 @@ export const eventsData = [
   {
     id: 5,
     title: "کنسرت موسیقی",
-    class: "۵ الف",
+    class: "هشتم ۲",
     date: "۱۴۰۵-۰۱-۰۱",
     startTime: "۱۰:۰۰",
     endTime: "۱۱:۰۰",
@@ -792,107 +789,76 @@ export const eventsData = [
   {
     id: 6,
     title: "نمایش شعبده بازی",
-    class: "۱ ب",
+    class: "هشتم ۳",
     date: "۱۴۰۵-۰۱-۰۱",
     startTime: "۱۰:۰۰",
     endTime: "۱۱:۰۰",
   },
-  {
-    id: 7,
-    title: "سفر به دریاچه",
-    class: "۲ ب",
-    date: "۱۴۰۵-۰۱-۰۱",
-    startTime: "۱۰:۰۰",
-    endTime: "۱۱:۰۰",
-  },
-  {
-    id: 8,
-    title: "مسابقه دوچرخه سواری",
-    class: "۳ ب",
-    date: "۱۴۰۵-۰۱-۰۱",
-    startTime: "۱۰:۰۰",
-    endTime: "۱۱:۰۰",
-  },
-  {
-    id: 9,
-    title: "نمایشگاه هنری",
-    class: "۴ ب",
-    date: "۱۴۰۵-۰۱-۰۱",
-    startTime: "۱۰:۰۰",
-    endTime: "۱۱:۰۰",
-  },
-  {
-    id: 10,
-    title: "مسابقات ورزشی",
-    class: "۵ ب",
-    date: "۱۴۰۵-۰۱-۰۱",
-    startTime: "۱۰:۰۰",
-    endTime: "۱۱:۰۰",
-  },
+  // ...
 ];
+
 export const announcementsData = [
   {
     id: 1,
     title: "درباره ازمون ریاضی هفتم ۴",
-    class: "۴ هفتم",
-    date: "۱۴۰۵-۰۱-۰۱",
+    class: { name: "۴ هفتم" }, // تبدیل به آبجکت با کلید name
+    date: new Date("2026-03-21"), // ۱۴۰۵-۰۱-۰۱ شمسی معادل 2026-03-21 میلادی
   },
   {
     id: 2,
     title: "درباره آزمون ریاضی هفتم ۳",
-    class: "۳ هفتم",
-    date: "۱۴۰۵-۰۱-۰۱",
+    class: { name: "۳ هفتم" },
+    date: new Date("2026-03-21"),
   },
   {
     id: 3,
     title: "درباره آزمون ریاضی هشتم ۳",
-    class: "۳ هشتم",
-    date: "۱۴۰۵-۰۱-۰۱",
+    class: { name: "۳ هشتم" },
+    date: new Date("2026-03-21"),
   },
   {
     id: 4,
     title: "درباره آزمون ریاضی هفتم ۶",
-    class: "۶ هفتم",
-    date: "۱۴۰۵-۰۱-۰۱",
+    class: { name: "۶ هفتم" },
+    date: new Date("2026-03-21"),
   },
   {
     id: 5,
     title: "درباره آزمون ریاضی نهم ۸",
-    class: "۸ نهم",
-    date: "۱۴۰۵-۰۱-۰۱",
+    class: { name: "۸ نهم" },
+    date: new Date("2026-03-21"),
   },
   {
     id: 6,
     title: "درباره آزمون ریاضی هفتم ۲",
-    class: "۲ هفتم",
-    date: "۱۴۰۵-۰۱-۰۱",
+    class: { name: "۲ هفتم" },
+    date: new Date("2026-03-21"),
   },
   {
     id: 7,
     title: "درباره آزمون ریاضی هشتم ۴",
-    class: "۴ هشتم",
-    date: "۱۴۰۵-۰۱-۰۱",
+    class: { name: "۴ هشتم" },
+    date: new Date("2026-03-21"),
   },
   {
     id: 8,
     title: "درباره آزمون ریاضی نهم ۴",
-    class: "۴ نهم",
-    date: "۱۴۰۵-۰۱-۰۱",
+    class: { name: "۴ نهم" },
+    date: new Date("2026-03-21"),
   },
   {
     id: 9,
     title: "درباره آزمون ریاضی نهم ۳",
-    class: "۳ نهم",
-    date: "۱۴۰۵-۰۱-۰۱",
+    class: { name: "۳ نهم" },
+    date: new Date("2026-03-21"),
   },
   {
     id: 10,
     title: "درباره آزمون ریاضی نهم ۱",
-    class: "۱ نهم",
-    date: "۱۴۰۵-۰۱-۰۱",
+    class: { name: "۱ نهم" },
+    date: new Date("2026-03-21"),
   },
 ];
-
 // YOU SHOULD CHANGE THE DATES OF THE EVENTS TO THE CURRENT DATE TO SEE THE EVENTS ON THE CALENDAR
 export const calendarEvents = [
   {
@@ -1069,5 +1035,5 @@ export const calendarEvents = [
     start: new Date(2025, 7, 6, 10, 0), // روز دیگر
     end: new Date(2025, 7, 6, 11, 0),
     className: "other-day-event", // کلاس برای روز دیگر
-  }
+  },
 ];

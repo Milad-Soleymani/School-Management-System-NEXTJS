@@ -1,56 +1,58 @@
-import FormModal from '@/components/FormModal';
-import Pagination from '@/components/Pagination';
-import Table from '@/components/Table';
-import TableSearch from '@/components/TableSearch';
-import prisma from '@/lib/prisma';
-import { ITEM_PER_PAGE } from '@/lib/setting';
-import { getUserRole } from '@/lib/utils';
-import { Class, Exam, Prisma, Subject, Teacher } from '@prisma/client';
-import Image from 'next/image';
-import React from 'react';
+// ExamListPage.tsx
+// صفحه لیست امتحانات - با داده استاتیک (بدون دیتابیس)
 
-// ==============================
-// Type Definition | تعریف نوع داده
-// ==============================
-type ExamList = Exam & {
-  lesson: {
-    subject: Subject,
-    class: Class,
-    teacher: Teacher
-  }
-}
+import FormModal from "@/components/FormModal";
+import Pagination from "@/components/Pagination";
+import Table from "@/components/Table";
+import TableSearch from "@/components/TableSearch";
+import { examsData, role } from "@/lib/data";
+import Image from "next/image";
+import React from "react";
 
+// ========== Types ==========
+// مدل داده‌ای امتحان بر اساس examsData در فایل data.ts
+type ExamList = {
+  id: number;
+  subject: string;   // نام ماده درسی
+  class: string;     // نام کلاس (مثلاً "هفتم ۱")
+  teacher: string;   // نام معلم
+  date: string;      // تاریخ شمسی (مثلاً "۱۴۰۵-۰۱-۰۱")
+};
 
-// ==============================
-// Render Row Function
-// تابع رندر هر سطر جدول
-// ==============================
-const renderRow = (item: ExamList, role: string) => (
+// ========== Table Columns ==========
+const columns = [
+  { header: "ماده درسی", accessor: "subject" },
+  { header: "کلاس", accessor: "class", className: "hidden md:table-cell" },
+  { header: "معلم", accessor: "teacher", className: "hidden md:table-cell" },
+  { header: "تاریخ", accessor: "date", className: "hidden md:table-cell" },
+  { header: "اعمال", accessor: "actions" },
+];
+
+// ========== Render Row Function ==========
+const renderRow = (item: ExamList) => (
   <tr
     key={item.id}
     className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-specialPurpleLight"
   >
-    {/* Subject | ماده درسی */}
-    <td className="flex items-center gap-4 p-4">
-      {item.lesson.subject.name}
-    </td>
+    {/* ماده درسی */}
+    <td className="flex items-center gap-4 p-4">{item.subject}</td>
 
-    {/* Class | کلاس */}
-    <td>{item.lesson.class.name}</td>
+    {/* کلاس */}
+    <td>{item.class}</td>
 
-    {/* Teacher | معلم */}
-    <td className="hidden md:table-cell">{item.lesson.teacher.name + " " + item.lesson.teacher.surname}</td>
+    {/* معلم */}
+    <td className="hidden md:table-cell">{item.teacher}</td>
 
-    {/* Date | تاریخ */}
-    <td className="hidden md:table-cell">{new Intl.DateTimeFormat("fa-IR").format(item.startTime)}</td>
+    {/* تاریخ (همان رشته شمسی) */}
+    <td className="hidden md:table-cell">{item.date}</td>
 
-    {/* Actions | عملیات */}
+    {/* عملیات (فقط ادمین) */}
     <td>
       <div className="flex items-center gap-2">
-        {role === "admin" || role === "teacher" && (
+        {role === "admin" && (
           <>
-            <FormModal table="subject" type="update" data={item} />
-            <FormModal table="subject" type="delete" id={item.id} />
+            <FormModal table="exam" type="update" data={item} />
+            <FormModal table="exam" type="delete" id={item.id} />
           </>
         )}
       </div>
@@ -58,154 +60,46 @@ const renderRow = (item: ExamList, role: string) => (
   </tr>
 );
 
-// ==============================
-// Exam List Page Component
-// صفحه لیست امتحانات
-// ==============================
-const ExamListPage = async ({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) => {
+// ========== Main Component ==========
+const ExamListPage = () => {
+  // استفاده مستقیم از داده استاتیک
+  const data = examsData;
+  const count = data.length;
+  const page = 1; // صفحه‌بندی ساده (در صورت نیاز بعداً اضافه شود)
 
-  // console.log(data)
-  const { role, currentUserId } = await getUserRole();
-
-  // ==============================
-  // Table Columns | ستون‌های جدول
-  // ==============================
-  const columns = [
-    { header: "ماده درسی ", accessor: "subject" },
-    { header: "کلاس ", accessor: "class", className: "hidden md:table-cell" },
-    { header: "معلم ", accessor: "teacher", className: "hidden md:table-cell" },
-    { header: "تاریخ ", accessor: "date", className: "hidden md:table-cell" },
-    ...(role === "Admin" || role === "teacher" ? [{ header: "اعمال ", accessor: "actions" },] : [])
-  ];
-
-
-  const params = await searchParams;
-
-  const { page, ...queryParams } = params;
-  const p = page ? parseInt(page) : 1;
-
-  const query: Prisma.ExamWhereInput = {};
-
-  // ! URL PARAMS CONDITIONS
-
-  query.lesson = {}
-  if (queryParams) {
-    for (const [key, value] of Object.entries(queryParams)) {
-      if (value !== undefined) {
-        switch (key) {
-          case "classId":
-            query.lesson.classId = parseInt(value);
-            break;
-          case "teacherId":
-            query.lesson.teacherId = value
-            break;
-          case "search":
-            query.lesson.subject = {
-              name: { contains: value, mode: "insensitive" }
-            }
-            break;
-          default:
-            break;
-        }
-      }
-    }
-  }
-
-  // ROLE CONDITIONS
-
-  switch (role) {
-    case "admin":
-      break;
-    case "teacher":
-      query.lesson.teacherId = currentUserId!;
-      break;
-    case "student":
-      query.lesson.class = {
-        students:{
-          some:{
-            id: currentUserId!
-          }
-        }
-      }
-      break;
-    case "parent":
-      query.lesson.class = {
-        students:{
-          some:{
-            parentId:currentUserId!
-          }
-        }
-      };
-      break;
-    default:
-      break;
-  }
-
-  const [data, count] = await prisma.$transaction([
-
-    prisma.exam.findMany({
-      where: query,
-      include: {
-        lesson: {
-          select: {
-            subject: { select: { name: true } },
-            teacher: { select: { name: true, surname: true } },
-            class: { select: { name: true } },
-          }
-        }
-      },
-      take: ITEM_PER_PAGE,
-      skip: ITEM_PER_PAGE * (p - 1)
-    }),
-    prisma.exam.count({ where: query })
-  ]
-  )
-
-
-  // ==============================
-  // Page Return | خروجی صفحه
-  // ==============================
   return (
     <div className="bg-white p-4 rounded-md flex-1 m-4 mt-0">
-
-      {/* -------------------- */}
-      {/* TOP SECTION | بخش بالا */}
-      {/* -------------------- */}
+      {/* ===== TOP BAR ===== */}
       <div className="flex justify-between">
         <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
           <div className="flex items-center gap-4 self-end">
-
-            {/* Filter Button | دکمه فیلتر */}
+            {/* دکمه فیلتر */}
             <button className="w-8 h-8 flex items-center justify-center rounded-full bg-specialYellow">
               <Image src="/filter.png" width={14} height={14} alt="Filter" />
             </button>
 
-            {/* Sort Button | دکمه مرتب‌سازی */}
+            {/* دکمه مرتب‌سازی */}
             <button className="w-8 h-8 flex items-center justify-center rounded-full bg-specialYellow">
               <Image src="/sort.png" width={14} height={14} alt="Sort" />
             </button>
 
-            {/* Create New Exam | ایجاد امتحان جدید */}
-            {role === "admin" && <FormModal table="subject" type="create" />}
+            {/* دکمه ایجاد امتحان جدید (فقط ادمین) */}
+            {role === "admin" && <FormModal table="exam" type="create" />}
 
-            {/* Search | جستجو */}
+            {/* جستجو */}
             <TableSearch />
           </div>
         </div>
 
-        {/* Title | عنوان صفحه */}
+        {/* عنوان صفحه */}
         <h1 className="hidden md:block text-lg font-semibold">همه امتحانات</h1>
       </div>
 
-      {/* -------------------- */}
-      {/* LIST SECTION | لیست امتحانات */}
-      {/* -------------------- */}
-      <Table columns={columns} renderRow={(item) => renderRow(item, role)} data={data} />
+      {/* ===== TABLE ===== */}
+      <Table columns={columns} renderRow={renderRow} data={data} />
 
-      {/* -------------------- */}
-      {/* PAGINATION | صفحه‌بندی */}
-      {/* -------------------- */}
-      <Pagination page={p} count={count} />
+      {/* ===== PAGINATION ===== */}
+      <Pagination page={page} count={count} />
     </div>
   );
 };
