@@ -35,12 +35,15 @@ const studentSchema = z.object({
     img: z.instanceof(File, { message: "!عکس الزامی است" })
 });
 
+type Inputs = z.infer<typeof schema>;
+
+
 // =======================
 //  کامپوننت فرم دانش‌آموز
 // =======================
 function StudentForm({ type, data }: { type: 'create' | 'update'; data?: any }) {
     // ایجاد فرم با React Hook Form و Zod
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, handleSubmit, formState: { errors } } = useForm<Inputs>({
         resolver: zodResolver(studentSchema),
         defaultValues: data || {}
     });

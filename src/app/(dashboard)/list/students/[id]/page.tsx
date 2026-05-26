@@ -84,7 +84,7 @@ const SingleStudentPage = () => {
 
         {/* بخش پایین / Bottom section */}
         <div className="mt-4 bg-white rounded-md p-4 h-[800px]">
-          <h1 className="mb-2">برنامه زمانی دانش‌آموز / Student Schedule</h1>
+          <h1 className="mb-2">برنامه زمانی دانش‌آموز </h1>
           <BigCalendar />
         </div>
       </div>
