@@ -2,45 +2,71 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import z from "zod";
 import InputField from "../InputField";
 import Image from "next/image";
+import { Dispatch, SetStateAction, startTransition, useActionState, useEffect, useState } from "react";
+import { teacherSchema, TeacherSchema } from "@/lib/formValidationSchema";
+import { createTeacher, updateTeacher } from "@/lib/actions";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import { CldUploadWidget } from 'next-cloudinary';
 
-// تعریف اسکیمای اعتبارسنجی با Zod
-const schema = z.object({
-  username: z.string()
-    .min(3, { message: '!نام کاربری باید حداقل ۳ کاراکتر باشد' })
-    .max(20, { message: '!نام کاربری باید حداکثر ۲۰ کاراکتر باشد' }),
-  email: z.string().email({ message: "!آدرس ایمیل نامعتبر است" }),
-  password: z.string().min(8, { message: '!رمز عبور باید حداقل ۸ کاراکتر باشد' }),
-  firstname: z.string().min(3, { message: '!نام کوچک الزامی است' }),
-  lastname: z.string().min(3, { message: '!نام خانوادگی الزامی است' }),
-  phone: z.string().min(3, { message: '!شماره تلفن الزامی است' }),
-  address: z.string().min(3, { message: '!آدرس الزامی است' }),
-  bloodType: z.string().min(1, { message: '!گروه خونی الزامی است' }),
-  birthday: z.string(), 
-  sex: z.enum(["male", "female"], { message: "!جنسیت الزامی است" }),
-  img: z.any().optional()
-});
-
-type Inputs = z.infer<typeof schema>;
 
 // کامپوننت فرم معلم
-function TeacherForm({ type, data }: { type: 'create' | 'update'; data?: any }) {
+function TeacherForm({
+  type,
+  data,
+  setOpen,
+  relatedData
+}: {
+  type: 'create' | 'update';
+  data?: any;
+  setOpen?: Dispatch<SetStateAction<boolean>>
+  relatedData?: any
+}) {
   // استفاده از react-hook-form همراه با Zod
-  const { register, handleSubmit, formState: { errors } } = useForm<Inputs>({
-    resolver: zodResolver(schema),
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<TeacherSchema>({
+    resolver: zodResolver(teacherSchema),
   });
 
-  // تابع ارسال فرم
+  const [Img, setImg] =  useState<any>()
+
+  const [state, formAction] = useActionState(
+    type === "create" ? createTeacher : updateTeacher,
+    { success: false, error: false }
+  );
+
   const onSubmit = handleSubmit((formData) => {
     console.log(formData);
+    startTransition(() => {
+      formAction(formData);
+    });
   });
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (state.success) {
+      toast(
+        type === "create"
+          ? "معلم با موفقیت ایجاد شد"
+          : "معلم با موفقیت به‌روزرسانی شد"
+      );
+      setOpen(false);
+      router.refresh();
+    }
+  }, [state, router, type, setOpen]);
+
+  const { subjects } = relatedData;
 
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-8">
       {/* عنوان فرم */}
-      <h1 className="text-xl font-semibold">ایجاد یک معلم جدید</h1>
+      <h1 className="text-xl font-semibold">{type === "create" ? "ایجاد یک معلم جدید" : "بروزرسانی معلم"}</h1>
 
       {/* بخش اطلاعات هویتی */}
       <span className="text-xs font-medium text-gray-400">اطلاعات هویتی</span>
@@ -53,32 +79,52 @@ function TeacherForm({ type, data }: { type: 'create' | 'update'; data?: any }) 
       {/* بخش اطلاعات شخصی */}
       <span className="text-xs font-medium text-gray-400">اطلاعات شخصی</span>
       <div className="flex gap-4 justify-between flex-wrap flex-row-reverse">
-        <InputField label="نام" name="firstname" defaultValue={data?.firstname} register={register} error={errors?.firstname} />
-        <InputField label="نام خانوادگی" name="lastname" defaultValue={data?.lastname} register={register} error={errors?.lastname} />
+        <InputField label="نام" name="name" defaultValue={data?.name} register={register} error={errors?.name} />
+        <InputField label="نام خانوادگی" name="surname" defaultValue={data?.surname} register={register} error={errors?.surname} />
         <InputField label="شماره تلفن" name="phone" defaultValue={data?.phone} register={register} error={errors?.phone} />
         <InputField label="آدرس" name="address" defaultValue={data?.address} register={register} error={errors?.address} />
         <InputField label="گروه خونی" name="bloodType" defaultValue={data?.bloodType} register={register} error={errors?.bloodType} />
         <InputField label="تاریخ تولد" name="birthday" type="date" defaultValue={data?.birthday} register={register} error={errors?.birthday} />
 
         {/* انتخاب جنسیت */}
+
         <div className="flex flex-col gap-2 w-full md:w-1/4 text-right">
           <label className="text-xs text-gray-500">جنسیت</label>
           <select className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full" {...register("sex")} defaultValue={data?.sex}>
-            <option value="male">مذکر</option>
-            <option value="female">مونث</option>
+            <option value="MALE">مذکر</option>
+            <option value="FEMALE">مونث</option>
           </select>
           {errors.sex?.message && <p className="text-xs text-red-400">{errors.sex.message.toString()}</p>}
         </div>
+        <div className="flex flex-col gap-2 w-full md:w-1/4 text-right">
+          <label className="text-xs text-gray-500">مواد درسی</label>
+          <select multiple className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full" {...register("subjects")} defaultValue={data?.subjects}>
+            {subjects.map(
+              (subject: { id: number; name: string }) => (
+                <option value={subject.id} key={subject.id}>
+                  {subject.name}
+                </option>
+              )
+            )}
+          </select>
+          {errors.subjects?.message && <p className="text-xs text-red-400">{errors.subjects.message.toString()}</p>}
+        </div>
 
-        {/* بارگذاری تصویر */}
-        <div className="flex flex-col gap-2 w-full md:w-1/4 text-right justify-center pt-4">
-          <label className="text-xs text-gray-500 flex items-center gap-2 cursor-pointer" htmlFor="img">
+
+        <CldUploadWidget uploadPreset="school" onSuccess={(result, {widget} )=> {
+          setImg(result.info)
+          widget.close()
+        }}>
+          {({ open }) => {
+            return (
+              <div className="text-xs text-gray-500 flex items-center gap-2 cursor-pointer" onClick={() => open()}>
             <span>عکسی را بارگذاری کنید</span>
             <Image src='/upload.png' width={28} height={28} alt="" />
-          </label>
-          <input type="file" id="img" {...register('img')} className="hidden" />
-          {errors.img?.message && <p className="text-xs text-red-400">{errors.img.message.toString()}</p>}
-        </div>
+          </div>
+            );
+          }}
+        </CldUploadWidget>
+
       </div>
 
       {/* دکمه ارسال فرم */}

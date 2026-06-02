@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import FormModal from '@/components/FormModal';
+import FormContainer from '@/components/forms/FormContainer';
 import Pagination from '@/components/Pagination';
 import Table from '@/components/Table';
 import TableSearch from '@/components/TableSearch';
@@ -34,7 +34,7 @@ const renderRow = (item: TeacherList, role: string) => (
             <Image src='/view.png' alt='' width={16} height={16} />
           </button>
         </Link>
-        {role === "admin" && <FormModal table='teacher' type='delete' id={item.id} />}
+        {role === "admin" && <FormContainer table='teacher' type='delete' id={item.id} />}
       </div>
     </td>
   </tr>
@@ -110,7 +110,7 @@ const columns = [
           <button className='w-8 h-8 flex items-center justify-center rounded-full bg-specialYellow'>
             <Image src='/sort.png' width={14} height={14} alt='مرتب‌سازی' />
           </button>
-          {role === "admin" && <FormModal table='teacher' type='create' />}
+          {role === "admin" && <FormContainer table='teacher' type='create' />}
           <TableSearch />
         </div>
 

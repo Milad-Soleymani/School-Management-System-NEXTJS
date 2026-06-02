@@ -6,14 +6,14 @@ import dynamic from "next/dynamic";
 import { OrbitProgress } from "react-loading-indicators";
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
-import { deleteClass, deleteSubject } from '@/lib/actions';
+import { deleteClass, deleteSubject, deleteTeacher } from '@/lib/actions';
 import { FormContainerProps } from './forms/FormContainer';
 import ClassForm from './forms/ClassForm';
 
 const deleteActionMap = {
     subject: deleteSubject,
     class: deleteClass,
-    teacher: deleteSubject,
+    teacher: deleteTeacher,
     student: deleteSubject,
     parent: deleteSubject,
     lesson: deleteSubject,
@@ -89,9 +89,9 @@ const forms: {
             relatedData={relatedData}
         />
     ),
-    // teacher: (setOpen, type, data) => (
-    //     <TeacherForm type={type} data={data} setOpen={setOpen} relatedData={relatedData} />
-    // ),
+    teacher: (setOpen, type, data, relatedData) => (
+        <TeacherForm type={type} data={data} setOpen={setOpen} relatedData={relatedData} />
+    ),
     // student: (setOpen, type, data) => (
     //     <StudentForm type={type} data={data} setOpen={setOpen} relatedData={relatedData} />
     // )
