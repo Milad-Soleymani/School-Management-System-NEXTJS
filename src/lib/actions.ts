@@ -32,9 +32,7 @@ export const updateSubject = async (
   currentState: { success: boolean; error: boolean },
   data: SubjectSchema & { id?: number },
 ) => {
-console.log("teachers:", data.teachers);
-console.log("type:", typeof data.teachers?.[0]);
-console.log("first:", data.teachers?.[0]);
+
   try {
     await prisma.subject.update({
       where: { id: data.id },
