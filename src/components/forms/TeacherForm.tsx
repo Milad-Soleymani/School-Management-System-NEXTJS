@@ -84,7 +84,7 @@ function TeacherForm({
         <InputField label="شماره تلفن" name="phone" defaultValue={data?.phone} register={register} error={errors?.phone} />
         <InputField label="آدرس" name="address" defaultValue={data?.address} register={register} error={errors?.address} />
         <InputField label="گروه خونی" name="bloodType" defaultValue={data?.bloodType} register={register} error={errors?.bloodType} />
-        <InputField label="تاریخ تولد" name="birthday" type="date" defaultValue={data?.birthday} register={register} error={errors?.birthday} />
+        <InputField label="تاریخ تولد" name="birthday" type="date" defaultValue={data?.birthday.toISOString().split("T")[0]} register={register} error={errors?.birthday} />
 
         {/* انتخاب جنسیت */}
 
