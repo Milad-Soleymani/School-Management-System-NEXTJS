@@ -65,59 +65,61 @@ export const deleteSubject = async (
   }
 };
 
-// export const createClass = async (
-//   currentState: CurrentState,
-//   data: ClassSchema,
-// ) => {
-//   try {
-//     await prisma.class.create({
-//       data: {},
-//     });
+export const createClass = async (
+  currentState: CurrentState,
+  data: ClassSchema,
+) => {
+  try {
+  const maxClass = await prisma.class.findFirst({
+    orderBy: {
+      id: "desc",
+    },
+  });
 
-//     revalidatePath("/list/classes");
-//     return { success: true, error: false };
-//   } catch (error) {
-//     console.log(error);
-//     return { success: false, error: true };
-//   }
-// };
+  console.log(maxClass);
+} catch (error) {
+  console.log(error);
+}
+  try {
+    await prisma.class.create({
+      data
+    });
 
-// export const updateClass = async (
-//   currentState: { success: boolean; error: boolean },
-//   data: ClassSchema & { id?: number },
-// ) => {
-//   try {
-//     await prisma.class.update({
-//       where: { id: data.id },
-//       data: {
-//         name: data.name,
-//         teachers: {
-//           set:
-//             data.teachers
-//               ?.map((id: any) => Number(id))
-//               .filter((id) => !Number.isNaN(id))
-//               .map((id) => ({ id })) || [],
-//         },
-//       },
-//     });
-//     revalidatePath("/list/classes");
-//     return { success: true, error: false };
-//   } catch (error) {
-//     console.log(error);
-//     return { success: false, error: true };
-//   }
-// };
-// export const deleteClass = async (
-//   currentState: CurrentState,
-//   data: FormData,
-// ) => {
-//   const id = parseInt(data.get("id") as string);
-//   try {
-//     await prisma.class.delete({ where: { id } });
-//     revalidatePath("/list/classes");
-//     return { success: true, error: false };
-//   } catch (err) {
-//     console.error("Error deleting subject:", err);
-//     return { success: false, error: true };
-//   }
-// };
+    revalidatePath("/list/classes");
+    return { success: true, error: false };
+  } catch (error) {
+    console.log(error);
+    return { success: false, error: true };
+  }
+};
+
+export const updateClass = async (
+  currentState: { success: boolean; error: boolean },
+  data: ClassSchema
+) => {
+  try {
+    await prisma.class.update({
+      where: { id: data.id },
+      data
+    });
+    revalidatePath("/list/classes");
+    return { success: true, error: false };
+  } catch (error) {
+    console.log(error);
+    return { success: false, error: true };
+  }
+};
+export const deleteClass = async (
+  currentState: CurrentState,
+  data: FormData,
+) => {
+  const id = parseInt(data.get("id") as string);
+  try {
+    await prisma.class.delete({ where: { id } });
+    revalidatePath("/list/classes");
+    return { success: true, error: false };
+  } catch (err) {
+    console.error("Error deleting subject:", err);
+    return { success: false, error: true };
+  }
+};

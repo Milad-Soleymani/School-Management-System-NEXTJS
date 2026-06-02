@@ -2,20 +2,20 @@ import prisma from "@/lib/prisma";
 import FormModal from "../FormModal";
 
 export type FormContainerProps = {
-    table: "teacher" 
-    | "student" 
-    | "parent" 
-    | "subject" 
-    | "class" 
-    | "lesson" 
-    | "exam" 
-    | "assignment" 
-    | "result" 
-    | "attendance" 
-    | "event" 
+    table: "teacher"
+    | "student"
+    | "parent"
+    | "subject"
+    | "class"
+    | "lesson"
+    | "exam"
+    | "assignment"
+    | "result"
+    | "attendance"
+    | "event"
     | "announcement";
-    type: "create" 
-    | "update" 
+    type: "create"
+    | "update"
     | "delete";
     data?: unknown;
     id?: string | number;
@@ -39,6 +39,15 @@ const FormContainer = async ({
                     select: { id: true, name: true, surname: true }
                 });
                 relatedData = { teachers: subjectTeachers };
+                break;
+            case "class":
+                const classGrades = await prisma.grade.findMany({
+                    select: { id: true, level: true }
+                });
+                const classTeachers = await prisma.teacher.findMany({
+                    select: { id: true, name: true, surname: true }
+                });
+                relatedData = { teachers: classTeachers, grades: classGrades };
                 break;
 
             default:
