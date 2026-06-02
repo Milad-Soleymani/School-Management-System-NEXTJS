@@ -5,62 +5,94 @@ import { FieldError, useForm } from "react-hook-form";
 import z from "zod";
 import InputField from "../InputField";
 import Image from "next/image";
+import { Dispatch, SetStateAction, startTransition, useActionState, useEffect, useState } from "react";
+import { studentSchema, StudentSchema } from "@/lib/formValidationSchema";
+import { createStudent, updateStudent } from "@/lib/actions";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import { CldUploadWidget } from "next-cloudinary";
 
-// =======================
-//  تعریف اسکیمای اعتبارسنجی با Zod
-// =======================
-const studentSchema = z.object({
-    username: z.string()
-        .min(3, { message: '!نام کاربری باید حداقل ۳ کاراکتر باشد' })
-        .max(20, { message: '!نام کاربری باید حداکثر ۲۰ کاراکتر باشد' }),
-    email: z.string()
-        .email({ message: "!آدرس ایمیل نامعتبر است" }),
-    password: z.string()
-        .min(8, { message: '!رمز عبور باید حداقل ۸ کاراکتر باشد' }),
-    firstname: z.string()
-        .min(3, { message: '!نام کوچک الزامی است' }),
-    lastname: z.string()
-        .min(3, { message: '!نام خانوادگی الزامی است' }),
-    phone: z.string()
-        .min(3, { message: '!شماره تلفن الزامی است' }),
-    address: z.string()
-        .min(3, { message: '!آدرس الزامی است' }),
-    bloodType: z.string()
-        .min(1, { message: '!گروه خونی الزامی است' }),
-    // اصلاح شده: مقدار رشته‌ای از input type="date"
-    birthday: z.string()
-        .nonempty('!تاریخ تولد الزامی است')
-        .transform((val) => new Date(val)),
-    sex: z.enum(["male", "female"], { message: "!جنسیت الزامی است" }),
-    img: z.instanceof(File, { message: "!عکس الزامی است" })
-});
-
-type Inputs = z.infer<typeof schema>;
 
 
 // =======================
 //  کامپوننت فرم دانش‌آموز
 // =======================
-function StudentForm({ type, data }: { type: 'create' | 'update'; data?: any }) {
+function StudentForm({
+    type,
+    data,
+    setOpen,
+    relatedData
+}: {
+    type: 'create' | 'update';
+    data?: any;
+    setOpen?: Dispatch<SetStateAction<boolean>>
+    relatedData?: any
+}) {
     // ایجاد فرم با React Hook Form و Zod
-    const { register, handleSubmit, formState: { errors } } = useForm<Inputs>({
+    const {
+        register,
+        handleSubmit,
+        formState: { errors }
+    } = useForm<StudentSchema>({
         resolver: zodResolver(studentSchema),
-        defaultValues: data || {}
+        defaultValues: {
+            birthday: data?.birthday
+                ? new Date(data.birthday).toISOString().split("T")[0]
+                : "",
+        }
     });
 
-    // تابع ارسال فرم
+    const [Img, setImg] = useState<any>()
+    const formattedDate = data?.birthday
+        ? new Date(data.birthday).toISOString().split("T")[0]
+        : ""; const [state, formAction] = useActionState(
+            type === "create" ? createStudent : updateStudent,
+            { success: false, error: false }
+        );
+
     const onSubmit = handleSubmit((formData) => {
-        console.log("اطلاعات فرم:", formData);
-    });
+
+        startTransition(() => {
+            formAction({
+                ...formData,
+                img: Img?.secure_url || data?.img || undefined,
+            });
+        });
+    },
+        (errors) => {
+            console.log("FORM ERRORS", errors);
+
+            console.log("BIRTHDAY ERROR =", errors.birthday);
+            console.log("IMG ERROR =", errors.img);
+        });
+    const router = useRouter();
+
+    useEffect(() => {
+        if (state.success) {
+            toast(
+                type === "create"
+                    ? "دانش اموز با موفقیت ایجاد شد"
+                    : "دانش اموز با موفقیت بروزرسانی شد"
+            );
+
+            setOpen?.(false);
+
+            router.refresh();
+        }
+    }, [state, router, type, setOpen]);
+
+    const { classes, grades } = relatedData;
+
+
 
     return (
-        <form onSubmit={onSubmit} className="flex flex-col gap-8">
+        <form onSubmit={onSubmit} className="flex flex-col gap-2">
             {/* عنوان فرم */}
             <h1 className="text-xl font-semibold">{type === "create" ? "ایجاد دانش‌آموز جدید" : "بروزرسانی دانش‌آموز"}</h1>
 
             {/* بخش اطلاعات هویتی */}
             <span className="text-xs font-medium text-gray-400">اطلاعات هویتی</span>
-            <div className="flex flex-wrap gap-4 justify-between flex-row-reverse">
+            <div className="flex flex-wrap gap-2 justify-between flex-row-reverse">
                 <InputField
                     label="نام کاربری"
                     name="username"
@@ -87,20 +119,34 @@ function StudentForm({ type, data }: { type: 'create' | 'update'; data?: any }) 
 
             {/* بخش اطلاعات شخصی */}
             <span className="text-xs font-medium text-gray-400">اطلاعات شخصی</span>
-            <div className="flex flex-wrap gap-4 justify-between flex-row-reverse">
+            {/* آپلود تصویر */}
+            <CldUploadWidget uploadPreset="school" onSuccess={(result, { widget }) => {
+                setImg(result.info)
+                widget.close()
+            }}>
+                {({ open }) => {
+                    return (
+                        <div className="text-xs text-gray-500 flex items-center gap-2 cursor-pointer" onClick={() => open()}>
+                            <span>عکسی را بارگذاری کنید</span>
+                            <Image src='/upload.png' width={28} height={28} alt="" />
+                        </div>
+                    );
+                }}
+            </CldUploadWidget>
+            <div className="flex flex-wrap gap-0.5 justify-between flex-row-reverse">
                 <InputField
                     label="نام"
-                    name="firstname"
+                    name="name"
                     defaultValue={data?.firstname}
                     register={register}
-                    error={errors?.firstname as FieldError | undefined}
+                    error={errors?.name as FieldError | undefined}
                 />
                 <InputField
                     label="نام خانوادگی"
-                    name="lastname"
+                    name="surname"
                     defaultValue={data?.lastname}
                     register={register}
-                    error={errors?.lastname as FieldError | undefined}
+                    error={errors?.surname as FieldError | undefined}
                 />
                 <InputField
                     label="شماره تلفن"
@@ -131,7 +177,21 @@ function StudentForm({ type, data }: { type: 'create' | 'update'; data?: any }) 
                     error={errors?.birthday as FieldError | undefined}
                     type="date"
                 />
-
+                <InputField
+                    label="شناسه والدین"
+                    name="parentId"
+                    defaultValue={data?.paretId}
+                    register={register}
+                    error={errors?.parentId as FieldError | undefined}
+                />
+                
+                {data && (
+                    <input
+                        type="hidden"
+                        {...register("id")}
+                        defaultValue={data.id}
+                    />
+                )}
                 {/* انتخاب جنسیت */}
                 <div className="flex flex-col gap-2 w-full md:w-1/4 text-right">
                     <label className="text-xs text-gray-500">جنسیت</label>
@@ -140,28 +200,56 @@ function StudentForm({ type, data }: { type: 'create' | 'update'; data?: any }) 
                         {...register("sex")}
                         defaultValue={data?.sex}
                     >
-                        <option value="male">مذکر</option>
-                        <option value="female">مونث</option>
+                        <option value="MALE">مذکر</option>
+                        <option value="FEMALE">مونث</option>
                     </select>
                     {errors.sex?.message && (
                         <p className="text-xs text-red-400">{errors.sex.message.toString()}</p>
                     )}
                 </div>
-
-                {/* آپلود تصویر */}
-                <div className="flex flex-col gap-2 w-full md:w-1/4 text-right justify-center pt-4">
-                    <label
-                        className="text-xs text-gray-500 flex items-center gap-2 cursor-pointer"
-                        htmlFor="img"
+                <div className="flex flex-col gap-2 w-full md:w-1/4 text-right">
+                    <label className="text-xs text-gray-500">پایه </label>
+                    <select
+                        multiple
+                        className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
+                        {...register("gradeId")}
+                        defaultValue={
+                            data?.gradeId
+                        }
                     >
-                        <span>عکسی را بارگذاری کنید</span>
-                        <Image src='/upload.png' width={28} height={28} alt="upload icon" />
-                    </label>
-                    <input type="file" id="img" {...register('img')} className="hidden" />
-                    {errors.img?.message && (
-                        <p className="text-xs text-red-400">{errors.img.message.toString()}</p>
-                    )}
+                        {grades.map(
+                            (grade: { id: number; level: number }) => (
+                                <option value={grade.id} key={grade.id}>
+                                    {grade.level}
+                                </option>
+                            )
+                        )}
+                    </select>
+                    {errors.gradeId?.message && <p className="text-xs text-red-400">{errors.gradeId.message.toString()}</p>}
                 </div>
+
+                <div className="flex flex-col gap-2 w-full md:w-1/4 text-right">
+                    <label className="text-xs text-gray-500">کلاس </label>
+                    <select
+                        multiple
+                        className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
+                        {...register("classId")}
+                        defaultValue={
+                            data?.classId
+                        }
+                    >
+                        {classes.map(
+                            (classItem: { id: number; name: string; capacity: number; _count: { students: number } }) => (
+                                <option value={classItem.id} key={classItem.id}>
+                                    {classItem.name} - {classItem._count.students + " (" + classItem.capacity}{" ظرفیت)"}
+                                </option>
+                            )
+                        )}
+                    </select>
+                    {errors.classId?.message && <p className="text-xs text-red-400">{errors.classId.message.toString()}</p>}
+                </div>
+
+
             </div>
 
             {/* دکمه ارسال فرم */}
