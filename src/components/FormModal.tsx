@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 import { OrbitProgress } from "react-loading-indicators";
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
-import { deleteClass, deleteSubject, deleteTeacher } from '@/lib/actions';
+import { deleteClass, deleteStudent, deleteSubject, deleteTeacher } from '@/lib/actions';
 import { FormContainerProps } from './forms/FormContainer';
 import ClassForm from './forms/ClassForm';
 
@@ -14,7 +14,7 @@ const deleteActionMap = {
     subject: deleteSubject,
     class: deleteClass,
     teacher: deleteTeacher,
-    student: deleteSubject,
+    student: deleteStudent,
     parent: deleteSubject,
     lesson: deleteSubject,
     exam: deleteSubject,
@@ -92,9 +92,9 @@ const forms: {
     teacher: (setOpen, type, data, relatedData) => (
         <TeacherForm type={type} data={data} setOpen={setOpen} relatedData={relatedData} />
     ),
-    // student: (setOpen, type, data) => (
-    //     <StudentForm type={type} data={data} setOpen={setOpen} relatedData={relatedData} />
-    // )
+    student: (setOpen, type, data, relatedData) => (
+        <StudentForm type={type} data={data} setOpen={setOpen} relatedData={relatedData} />
+    )
 };
 
 function FormModal({

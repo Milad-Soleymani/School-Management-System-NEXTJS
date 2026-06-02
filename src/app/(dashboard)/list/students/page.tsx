@@ -1,4 +1,4 @@
-import FormModal from '@/components/FormModal'
+import FormContainer from '@/components/forms/FormContainer'
 import Pagination from '@/components/Pagination'
 import Table from '@/components/Table'
 import TableSearch from '@/components/TableSearch'
@@ -56,7 +56,7 @@ const renderRow = (item: StudentList, role: string) => (
         </Link>
 
         {/* Delete Button for Admin Only / دکمه حذف فقط برای مدیر */}
-        {role === 'admin' && <FormModal table="student" type="delete" id={item.id} />}
+        {role === 'admin' && <FormContainer table="student" type="delete" id={item.id} />}
       </div>
     </td>
   </tr>
@@ -143,7 +143,7 @@ const StudentListPage = async ({ searchParams }: { searchParams: Promise<{ [key:
             </button>
 
             {/* Create Button for Admin / دکمه ایجاد فقط برای مدیر */}
-            {role === 'admin' && <FormModal table="student" type="create" />}
+            {role === 'admin' && <FormContainer table="student" type="create" />}
 
             {/* Table Search / جستجوی جدول */}
             <TableSearch />
