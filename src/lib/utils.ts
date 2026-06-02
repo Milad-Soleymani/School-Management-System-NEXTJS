@@ -51,3 +51,9 @@ export const adjustScheduleToCurrentWeek = (
     };
   });
 };
+
+export function toPersianDigits(value: string | number) {
+  return value.toString().replace(/\d/g, (d) =>
+    "۰۱۲۳۴۵۶۷۸۹"[Number(d)]
+  );
+}
