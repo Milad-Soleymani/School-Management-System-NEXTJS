@@ -7,6 +7,7 @@ import { OrbitProgress } from "react-loading-indicators";
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { deleteSubject } from '@/lib/actions';
+import { FormContainerProps } from './forms/FormContainer';
 
 const deleteActionMap = {
     subject: deleteSubject,
@@ -29,7 +30,7 @@ const TABLE_NAMES_FA = {
     parent: 'والدین',
     subject: 'ماده درسی',
     class: 'کلاس',
-    lesson: 'درس',        
+    lesson: 'درس',
     exam: 'امتحان',
     assignment: 'تکلیف',
     result: 'نتیجه',
@@ -63,7 +64,7 @@ const forms: {
         setOpen: Dispatch<SetStateAction<boolean>>,
         type: "create" | "update",
         data?: unknown,
-        relatedData?: any  // اضافه کن
+        relatedData?: any
     ) => React.ReactNode
 } = {
     subject: (setOpen, type, data, relatedData) => (
@@ -71,14 +72,14 @@ const forms: {
             type={type}
             data={data}
             setOpen={setOpen}
-            relatedData={relatedData}  // اینو پاس بده
+            relatedData={relatedData}
         />
     ),
     teacher: (setOpen, type, data) => (
-        <TeacherForm type={type} data={data} setOpen={setOpen} />
+        <TeacherForm type={type} data={data} setOpen={setOpen} relatedData={relatedData} />
     ),
     student: (setOpen, type, data) => (
-        <StudentForm type={type} data={data} setOpen={setOpen} />
+        <StudentForm type={type} data={data} setOpen={setOpen} relatedData={relatedData} />
     )
 };
 
@@ -88,13 +89,7 @@ function FormModal({
     data,
     id,
     relatedData  // اینو از props بگیر
-}: {
-    table: "teacher" | "student" | "parent" | "subject" | "class" | "lesson" | "exam" | "assignment" | "result" | "attendance" | "event" | "announcement";
-    type: "create" | "update" | "delete";
-    data?: unknown;
-    id?: string | number;
-    relatedData?: any;  // اضافه کن
-}) {
+}: FormContainerProps & { relatedData?: any }) {
     const [open, setOpen] = useState(false);
     const size = type === "create" ? "w-8 h-8" : "w-7 h-7";
     const bgColor = type === "create" ? "bg-specialYellow" : type === "update" ? "bg-blueSky" : "bg-specialPurple";
@@ -119,7 +114,7 @@ function FormModal({
                 <form action={formAction} className="p-4 flex flex-col gap-4">
                     <input type="text | number" name='id' value={id} hidden />
                     <span className="text-center font-medium">
-                        ایا مطمئنید که میخواهید این {persianTable} را حذف کنید. همه داده ها حذف خواهد شد 
+                        ایا مطمئنید که میخواهید این {persianTable} را حذف کنید. همه داده ها حذف خواهد شد
                     </span>
                     <button className="bg-red-700 text-white py-2 px-4 rounded-md border-none w-max self-center">
                         حذف کن

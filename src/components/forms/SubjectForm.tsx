@@ -35,6 +35,7 @@ const SubjectForm = ({
   );
 
   const onSubmit = handleSubmit((formData) => {
+      console.log(formData);
     startTransition(() => {
       formAction(formData);
     });
@@ -73,12 +74,17 @@ const SubjectForm = ({
           error={errors?.name}
         />
 
+
+
         {/* فقط در حالت update یک فیلد مخفی برای id می‌سازیم */}
         {data && (
           <input
-            type="hidden"
-            value={data.id}
+            label="شناسه"
+            name="id"
+            defaultValue={data.id}
             {...register("id", { valueAsNumber: true })}
+            error={errors?.id}
+            hidden
           />
         )}
 
