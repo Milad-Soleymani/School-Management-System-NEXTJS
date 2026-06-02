@@ -46,13 +46,7 @@ function TeacherForm({
       type === "create" ? createTeacher : updateTeacher,
       { success: false, error: false }
     );
-  console.log("birthday =", data?.birthday);
-  console.log(
-    "formatted =",
-    data?.birthday
-      ? new Date(data.birthday).toISOString().split("T")[0]
-      : ""
-  );
+
   const onSubmit = handleSubmit((formData) => {
 
     startTransition(() => {
@@ -149,7 +143,7 @@ function TeacherForm({
           register={register}
           error={errors?.birthday}
         />
-        {console.log("FORMATTED DATE =", formattedDate)}
+
         {data && (
           <input
             type="hidden"
