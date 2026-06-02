@@ -117,12 +117,12 @@ function FormModal({
         if (type === "delete" && id) {
             return (
                 <form action={formAction} className="p-4 flex flex-col gap-4">
-                    <input type="text" name='id' value={id} hidden readOnly />
+                    <input type="text | number" name='id' value={id} hidden />
                     <span className="text-center font-medium">
                         ایا مطمئنید که میخواهید این {persianTable} را حذف کنید. همه داده ها حذف خواهد شد 
                     </span>
                     <button className="bg-red-700 text-white py-2 px-4 rounded-md border-none w-max self-center">
-                        Delete
+                        حذف کن
                     </button>
                 </form>
             );
@@ -130,7 +130,7 @@ function FormModal({
             // ✅ relatedData رو پاس بده
             return forms[table](setOpen, type, data, relatedData);
         } else {
-            return <span>Form Not Found</span>;
+            return <span>فرم پیدا نشد</span>;
         }
     };
 
