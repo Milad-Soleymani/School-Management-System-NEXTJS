@@ -23,39 +23,54 @@ const deleteActionMap = {
     announcement: deleteSubject,
 }
 
+const TABLE_NAMES_FA = {
+    teacher: 'معلم',
+    student: 'دانش‌آموز',
+    parent: 'والدین',
+    subject: 'ماده درسی',
+    class: 'کلاس',
+    lesson: 'درس',        
+    exam: 'امتحان',
+    assignment: 'تکلیف',
+    result: 'نتیجه',
+    attendance: 'حضور و غیاب',
+    event: 'رویداد',
+    announcement: 'اطلاعیه',
+};
+
 // لود داینامیک فرم‌ها با loading indicator
-const TeacherForm = dynamic(() => import("./fomrs/TeacherForm"), {
+const TeacherForm = dynamic(() => import("./forms/TeacherForm"), {
     loading: () => <div className="flex justify-center items-center">
         <OrbitProgress color="#CFCEFF" size="medium" text="" textColor="" />
     </div>
 });
 
-const StudentForm = dynamic(() => import("./fomrs/StudentForm"), {
+const StudentForm = dynamic(() => import("./forms/StudentForm"), {
     loading: () => <div className="flex justify-center items-center">
         <OrbitProgress color="#CFCEFF" size="medium" text="" textColor="" />
     </div>
 });
 
-const SubjectForm = dynamic(() => import("./fomrs/SubjectForm"), {
+const SubjectForm = dynamic(() => import("./forms/SubjectForm"), {
     loading: () => <div className="flex justify-center items-center">
         <OrbitProgress color="#CFCEFF" size="medium" text="" textColor="" />
     </div>
 });
 
 // ✅ درست - اضافه کردن relatedData
-const forms: { 
+const forms: {
     [key: string]: (
-        setOpen: Dispatch<SetStateAction<boolean>>, 
-        type: "create" | "update", 
+        setOpen: Dispatch<SetStateAction<boolean>>,
+        type: "create" | "update",
         data?: unknown,
         relatedData?: any  // اضافه کن
-    ) => React.ReactNode 
+    ) => React.ReactNode
 } = {
     subject: (setOpen, type, data, relatedData) => (
-        <SubjectForm 
-            type={type} 
-            data={data} 
-            setOpen={setOpen} 
+        <SubjectForm
+            type={type}
+            data={data}
+            setOpen={setOpen}
             relatedData={relatedData}  // اینو پاس بده
         />
     ),
@@ -97,14 +112,14 @@ function FormModal({
             router.refresh();
         }
     }, [state]);
-
+    const persianTable = TABLE_NAMES_FA[table];
     const renderForm = () => {
         if (type === "delete" && id) {
             return (
                 <form action={formAction} className="p-4 flex flex-col gap-4">
                     <input type="text" name='id' value={id} hidden readOnly />
                     <span className="text-center font-medium">
-                        All data will be lost. Are you sure you want to delete this {table}?
+                        ایا مطمئنید که میخواهید این {persianTable} را حذف کنید. همه داده ها حذف خواهد شد 
                     </span>
                     <button className="bg-red-700 text-white py-2 px-4 rounded-md border-none w-max self-center">
                         Delete

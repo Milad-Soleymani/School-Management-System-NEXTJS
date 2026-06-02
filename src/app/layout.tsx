@@ -6,7 +6,6 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import { ClerkProvider } from "@clerk/nextjs";
 import Head from "next/head";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 
 export const metadata: Metadata = {

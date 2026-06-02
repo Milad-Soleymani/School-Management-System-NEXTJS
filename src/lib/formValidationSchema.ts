@@ -1,9 +1,9 @@
 import { z } from "zod";
 
-// تعریف اسکیمای اعتبارسنجی با Zod
 export const subjectSchema = z.object({
-  name: z.string().min(1, { message: 'نام الزامی است' }),
+  id: z.number().optional(),
+  name: z.string().min(1, { message: "نام ماده درسی الزامی است" }),
+  teachers: z.array(z.string()).optional(),
 });
 
-// تایپ ورودی استخراج شده از اسکیمای بالا
 export type SubjectSchema = z.infer<typeof subjectSchema>;

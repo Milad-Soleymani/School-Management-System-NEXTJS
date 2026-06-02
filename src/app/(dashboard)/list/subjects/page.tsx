@@ -22,7 +22,7 @@ const renderRow = (item: SubjectList, role: string) => (
       <div className="flex items-center gap-2">
         {role === "admin" && (
           <>
-            <FormModal table="subject" type="update" data={item} />
+            <FormModal table="subject" type="update" data={item} id={item.id} />
             <FormModal table="subject" type="delete" id={item.id} />
           </>
         )}
@@ -42,7 +42,6 @@ const SubjectListPage = async ({ searchParams }: { searchParams: Promise<{ [key:
     { header: "اعمال", accessor: "actions" },
   ];
   const params = await searchParams;
-  console.log(params);
 
   const { page, ...queryParams } = params;
   const p = page ? parseInt(page) : 1;

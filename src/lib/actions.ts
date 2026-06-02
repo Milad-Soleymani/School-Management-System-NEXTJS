@@ -8,14 +8,15 @@ type CurrentState = { success: boolean; error: boolean };
 
 export const createSubject = async (
   currentState: CurrentState,
-  data: SubjectSchema
+  data: SubjectSchema,
 ) => {
   try {
     await prisma.subject.create({
       data: {
         name: data.name,
         teachers: {
-          connect: data.teachers.map((teacherId) => ({ id: teacherId })),
+          connect:
+            data.teachers?.map((id: any) => ({ id: parseInt(id) })) || [],
         },
       },
     });
@@ -29,44 +30,33 @@ export const createSubject = async (
 };
 
 export const updateSubject = async (
-  currentState: CurrentState,
-  data: SubjectSchema
+  currentState: { success: boolean; error: boolean },
+  data: SubjectSchema & { id?: number },
 ) => {
   try {
-    // اول همه ارتباطات قبلی رو پاک کن
     await prisma.subject.update({
-      where: {
-        id: data.id,
-      },
+      where: { id: data.id },
       data: {
         name: data.name,
         teachers: {
-          // disconnect: همه معلم‌های قبلی رو جدا کن
-          set: data.teachers.map((teacherId) => ({ id: teacherId })), // معلم‌های جدید رو وصل کن
+          set: data.teachers?.map((id: any) => ({ id: parseInt(id) })) || [],
         },
       },
     });
-
     revalidatePath("/list/subjects");
     return { success: true, error: false };
-  } catch (err) {
-    console.error("Error updating subject:", err);
+  } catch (error) {
+    console.log(error);
     return { success: false, error: true };
   }
 };
-
 export const deleteSubject = async (
   currentState: CurrentState,
-  data: FormData
+  data: FormData,
 ) => {
   try {
-    const id = data.get("id") as string;
-    await prisma.subject.delete({
-      where: {
-        id: parseInt(id),
-      },
-    });
-
+    const id = parseInt(data.get("id") as string);
+    await prisma.subject.delete({ where: { id } });
     revalidatePath("/list/subjects");
     return { success: true, error: false };
   } catch (err) {
