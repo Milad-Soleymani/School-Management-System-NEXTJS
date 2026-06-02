@@ -31,18 +31,33 @@ export const adjustScheduleToCurrentWeek = (
 
     const adjustedStartDate = new Date(latestMonday);
 
-    adjustedStartDate.setDate(latestMonday.getDate() + daysFromMonday);
+    adjustedStartDate.setDate(
+      latestMonday.getDate() + daysFromMonday
+    );
+
     adjustedStartDate.setHours(
       lesson.start.getHours(),
       lesson.start.getMinutes(),
-      lesson.start.getSeconds()
+      lesson.start.getSeconds(),
+      0
     );
+
     const adjustedEndDate = new Date(adjustedStartDate);
+
     adjustedEndDate.setHours(
       lesson.end.getHours(),
       lesson.end.getMinutes(),
-      lesson.end.getSeconds()
+      lesson.end.getSeconds(),
+      0
     );
+
+    // اگر زمان پایان قبل از شروع بود،
+    // یعنی درس از نیمه‌شب عبور کرده است
+    if (adjustedEndDate <= adjustedStartDate) {
+      adjustedEndDate.setDate(
+        adjustedEndDate.getDate() + 1
+      );
+    }
 
     return {
       title: lesson.title,

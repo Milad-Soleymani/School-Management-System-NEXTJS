@@ -15,9 +15,12 @@ const BigCalendarContainer = async ({ type, id }: { type: "teacherId" | "classId
         start: lesson.startTime,
         end: lesson.endTime
     }))
-
     const schedule = adjustScheduleToCurrentWeek(data)
-
+    schedule.forEach((item) => {
+        if (item.start >= item.end) {
+            console.log("INVALID EVENT:", item);
+        }
+    });
     return <div> <BigCalendar data={schedule} /></div>
 
 }

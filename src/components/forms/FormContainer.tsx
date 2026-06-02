@@ -67,7 +67,7 @@ const FormContainer = async ({
       default:
         break;
     }
-  }
+  };
 
   return (
     <div>

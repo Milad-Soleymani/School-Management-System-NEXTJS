@@ -40,11 +40,12 @@ function TeacherForm({
 
 
   const [Img, setImg] = useState<any>()
-  const formattedDate = new Date(data.birthday).toISOString().split("T")[0]
-  const [state, formAction] = useActionState(
-    type === "create" ? createTeacher : updateTeacher,
-    { success: false, error: false }
-  );
+  const formattedDate = data?.birthday
+    ? new Date(data.birthday).toISOString().split("T")[0]
+    : ""; const [state, formAction] = useActionState(
+      type === "create" ? createTeacher : updateTeacher,
+      { success: false, error: false }
+    );
   console.log("birthday =", data?.birthday);
   console.log(
     "formatted =",
