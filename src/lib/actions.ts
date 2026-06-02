@@ -182,33 +182,103 @@ export const createTeacher = async (
   }
 };
 
-// export const updateTeacher = async (
-//   currentState: { success: boolean; error: boolean },
-//   data: TeacherSchema,
-// ) => {
-//   try {
-//     await prisma.teacher.update({
-//       where: { id: data.id },
-//       data,
-//     });
-//     revalidatePath("/list/teachers");
-//     return { success: true, error: false };
-//   } catch (error) {
-//     console.log(error);
-//     return { success: false, error: true };
-//   }
-// };
-// export const deleteTeacher = async (
-//   currentState: CurrentState,
-//   data: FormData,
-// ) => {
-//   const id = parseInt(data.get("id") as string);
-//   try {
-//     await prisma.teacher.delete({ where: { id } });
-//     revalidatePath("/list/teachers");
-//     return { success: true, error: false };
-//   } catch (err) {
-//     console.error("Error deleting subject:", err);
-//     return { success: false, error: true };
-//   }
-// };
+export const updateTeacher = async (
+  currentState: { success: boolean; error: boolean },
+  data: TeacherSchema,
+) => {
+  console.log("UPDATE ACTION CALLED");
+  console.log(data);
+  console.log(data);
+  console.log(data?.birthday);
+
+  try {
+    if (!data.id) {
+      return { success: false, error: true };
+    }
+    const client = await clerkClient();
+
+    const user = await client.users.updateUser(data.id, {
+      username: data.username,
+      ...(data.password !== "" && { password: data.password }),
+      firstName: data.name,
+      lastName: data.surname,
+      publicMetadata: {
+        role: "teacher",
+      },
+    });
+
+    await prisma.teacher.update({
+      where: { id: data.id },
+      data: {
+        ...(data.password !== "" && { password: data.password }),
+        username: data.username,
+        name: data.name,
+        surname: data.surname,
+        email: data.email || null,
+        phone: data.phone || null,
+        address: data.address,
+        img: data.img || null,
+        bloodType: data.bloodType,
+        sex: data.sex,
+        birthday: new Date(data.birthday),
+        subjects: {
+          connect:
+            data.subjects?.map((subjectId: string) => ({
+              id: parseInt(subjectId),
+            })) || [],
+        },
+      },
+    });
+    revalidatePath("/list/teachers");
+    return { success: true, error: false };
+  } catch (error) {
+    console.log(error);
+    return { success: false, error: true };
+  }
+};
+export const deleteTeacher = async (
+  currentState: CurrentState,
+  data: FormData,
+) => {
+  const id = data.get("id") as string;
+
+  try {
+    // حذف همه درس‌های این معلم
+    await prisma.lesson.deleteMany({
+      where: {
+        teacherId: id,
+      },
+    });
+
+    // حذف ارتباط معلم با درس‌ها (Many-to-Many)
+    await prisma.teacher.update({
+      where: { id },
+      data: {
+        subjects: {
+          set: [],
+        },
+      },
+    });
+
+    // حذف خود معلم
+    await prisma.teacher.delete({
+      where: {
+        id,
+      },
+    });
+
+    revalidatePath("/list/teachers");
+
+    return {
+      success: true,
+      error: false,
+    };
+  } catch (err) {
+    console.error("خطا هنگامم حذف معلم:", err);
+
+    return {
+      success: false,
+      error: true,
+    };
+  }
+};

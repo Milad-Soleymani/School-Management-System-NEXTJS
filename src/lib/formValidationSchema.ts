@@ -26,7 +26,9 @@ export const teacherSchema = z.object({
     .max(20, { message: "!نام کاربری باید حداکثر ۲۰ کاراکتر باشد" }),
   password: z
     .string()
-    .min(8, { message: "!رمز عبور باید حداقل ۸ کاراکتر باشد" }),
+    .min(8, { message: "!رمز عبور باید حداقل ۸ کاراکتر باشد" })
+    .optional()
+    .or(z.literal("")),
   name: z.string().min(3, { message: "!نام کوچک الزامی است" }),
   surname: z.string().min(3, { message: "!نام خانوادگی الزامی است" }),
   email: z
@@ -36,12 +38,11 @@ export const teacherSchema = z.object({
     .or(z.literal("")),
   phone: z.string().optional(),
   address: z.string(),
-  img: z.string().optional(),
+  img: z.string().optional().nullable(),
   bloodType: z.string().min(1, { message: "!گروه خونی الزامی است" }),
-  birthday: z.coerce.string(),
+  birthday: z.string().min(1, "تاریخ تولد الزامی است"),
   sex: z.enum(["MALE", "FEMALE"], { message: "!جنسیت الزامی است" }),
   subjects: z.array(z.string()).optional(), //subject ids
-
 });
 
 export type TeacherSchema = z.infer<typeof teacherSchema>;
