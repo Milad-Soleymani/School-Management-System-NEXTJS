@@ -98,7 +98,7 @@ const SubjectListPage = async ({ searchParams }: { searchParams: Promise<{ [key:
           <button className="w-8 h-8 flex items-center justify-center rounded-full bg-specialYellow">
             <Image src="/sort.png" width={14} height={14} alt="مرتب‌سازی" />
           </button>
-          {role === "admin" && <FormModal table="subject" type="create" />}
+          {role === "admin" && <FormContainer table="subject" type="create" />}
           <TableSearch />
         </div>
 
