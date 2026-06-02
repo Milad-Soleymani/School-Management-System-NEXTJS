@@ -19,7 +19,7 @@ const StudentAttendanceCard = async ({ id }: { id: string }) => {
     return (
         <div>
 
-            <h1 className="text-xl font-semibold text-right">{toPersianDigits(percentage)}٪</h1>
+            <h1 className="text-xl font-semibold text-right">{toPersianDigits(percentage) || "-"}٪</h1>
             <span className="text-sm text-gray-400">حضور و غیاب</span>
 
         </div>
