@@ -2,7 +2,7 @@
 // صفحه لیست تکالیف - نمایش تکالیف همراه با جستجو، مرتب‌سازی و CRUD
 // Assignments List Page - shows assignments with search, sorting, and CRUD actions
 
-import FormModal from "@/components/FormModal";
+import FormContainer from "@/components/forms/FormContainer";
 import Pagination from "@/components/Pagination";
 import Table from "@/components/Table";
 import TableSearch from "@/components/TableSearch";
@@ -49,8 +49,8 @@ const renderRow = (item: AssignmentList, role: string) => (
       <div className="flex items-center gap-2">
         {(role === "admin" || role === "teacher") && (
           <>
-            <FormModal table="assignment" type="update" data={item} />
-            <FormModal table="assignment" type="delete" id={item.id} />
+            <FormContainer table="assignment" type="update" data={item} />
+            <FormContainer table="assignment" type="delete" id={item.id} />
           </>
         )}
       </div>
@@ -195,7 +195,7 @@ const AssignmentListPage = async ({ searchParams }: { searchParams: { [key: stri
             </button>
 
             {/* Create new assignment (admin only) */}
-            {role === "admin" && <FormModal table="assignment" type="create" />}
+            {role === "admin" && <FormContainer table="assignment" type="create" />}
 
             {/* Search input */}
             <TableSearch />
