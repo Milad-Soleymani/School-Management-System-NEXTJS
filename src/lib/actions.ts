@@ -9,6 +9,7 @@ import {
   StudentSchema,
   ExamSchema,
   AssignmentSchema,
+  EventSchema,
 } from "./formValidationSchema";
 import { auth, clerkClient } from "@clerk/nextjs/server";
 import { success } from "zod";
@@ -494,8 +495,8 @@ export const updateExam = async (
     }
 
     await prisma.exam.update({
-      where:{
-        id: data.id
+      where: {
+        id: data.id,
       },
       data: {
         title: data.title,
@@ -660,5 +661,101 @@ export const deleteAssignment = async (
   } catch (err) {
     console.error("Error deleting assignment:", err);
     return { success: false, error: true };
+  }
+};
+
+export const createEvent = async (
+  currentState: CurrentState,
+  data: EventSchema,
+) => {
+  try {
+
+    console.log("EVENT DATA =", data);
+    await prisma.event.create({
+      data: {
+        title: data.title,
+        description: data.description,
+        startTime: data.startTime,
+        endTime: data.endTime,
+        classId: data.classId || null,
+      },
+    });
+
+    revalidatePath("/list/events");
+
+    return {
+      success: true,
+      error: false,
+    };
+  } catch (err) {
+    console.log(err);
+
+    return {
+      success: false,
+      error: true,
+    };
+  }
+};
+
+export const updateEvent = async (
+  currentState: CurrentState,
+  data: EventSchema,
+) => {
+  try {
+    await prisma.event.update({
+      where: {
+        id: data.id,
+      },
+      data: {
+        title: data.title,
+        description: data.description,
+        startTime: data.startTime,
+        endTime: data.endTime,
+        classId: data.classId || null,
+      },
+    });
+
+    revalidatePath("/list/events");
+
+    return {
+      success: true,
+      error: false,
+    };
+  } catch (err) {
+    console.log(err);
+
+    return {
+      success: false,
+      error: true,
+    };
+  }
+};
+
+export const deleteEvent = async (
+  currentState: CurrentState,
+  data: FormData,
+) => {
+  try {
+    const id = parseInt(data.get("id") as string);
+
+    await prisma.event.delete({
+      where: {
+        id,
+      },
+    });
+
+    revalidatePath("/list/events");
+
+    return {
+      success: true,
+      error: false,
+    };
+  } catch (err) {
+    console.log(err);
+
+    return {
+      success: false,
+      error: true,
+    };
   }
 };

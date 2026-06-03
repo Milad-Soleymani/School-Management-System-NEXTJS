@@ -98,3 +98,14 @@ export const assignmentSchema = z.object({
 });
 
 export type AssignmentSchema = z.infer<typeof assignmentSchema>;
+
+export const eventSchema = z.object({
+  id: z.number().optional(),
+  title: z.string().min(1, { message: "!عنوان رویداد الزامی است" }),
+  description: z.string().min(1, { message: "!توضیحات الزامی است" }),
+  startTime: z.coerce.date({ message: "!زمان شروع الزامی است" }),
+  endTime: z.coerce.date({ message: "!زمان پایان الزامی است" }),
+  classId: z.coerce.number().optional().nullable(),
+});
+
+export type EventSchema = z.infer<typeof eventSchema>;

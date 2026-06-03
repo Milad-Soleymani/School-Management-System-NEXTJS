@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 import { OrbitProgress } from "react-loading-indicators";
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
-import { deleteAssignment, deleteClass, deleteExam, deleteStudent, deleteSubject, deleteTeacher } from '@/lib/actions';
+import { deleteAssignment, deleteClass, deleteEvent, deleteExam, deleteStudent, deleteSubject, deleteTeacher } from '@/lib/actions';
 import { FormContainerProps } from './forms/FormContainer';
 import ClassForm from './forms/ClassForm';
 import AssignmentForm from './forms/AssignmentForm';
@@ -22,7 +22,7 @@ const deleteActionMap = {
     assignment: deleteAssignment,
     result: deleteSubject,
     attendance: deleteSubject,
-    event: deleteSubject,
+    event: deleteEvent,
     announcement: deleteSubject,
 }
 
@@ -70,6 +70,21 @@ const ExamForm = dynamic(() => import("./forms/ExamForm"), {
         <OrbitProgress color="#CFCEFF" size="medium" text="" textColor="" />
     </div>
 })
+const AssignmentForm = dynamic(() => import("./forms/AssignmentForm"), {
+    loading: () => (
+        <div className="flex justify-center items-center">
+            <OrbitProgress color="#CFCEFF" size="medium" />
+        </div>
+    ),
+});
+
+const EventForm = dynamic(() => import("./forms/EventForm"), {
+    loading: () => (
+        <div className="flex justify-center items-center">
+            <OrbitProgress color="#CFCEFF" size="medium" />
+        </div>
+    ),
+});
 
 // ✅ درست - اضافه کردن relatedData
 const forms: {
@@ -107,7 +122,15 @@ const forms: {
     ),
     assignment: (setOpen, type, data, relatedData) => (
         <AssignmentForm type={type} data={data} setOpen={setOpen} relatedData={relatedData} />
-    )
+    ),
+    event: (setOpen, type, data, relatedData) => (
+        <EventForm
+            type={type}
+            data={data}
+            setOpen={setOpen}
+            relatedData={relatedData}
+        />
+    ),
 };
 
 function FormModal({
