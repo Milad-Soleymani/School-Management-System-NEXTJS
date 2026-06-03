@@ -78,3 +78,13 @@ export const studentSchema = z.object({
 
 
 export type StudentSchema = z.infer<typeof studentSchema>;
+
+export const examSchema = z.object({
+  id: z.number().optional(),
+  title: z.string().min(1, { message: "نام ماده درسی الزامی است" }),
+  startTime: z.coerce.date({message:"!زمان شروع الزامی است"}),
+  endTime: z.coerce.date({message:"!زمان پایان الزامی است"}),
+  lessonId: z.number({message:"!درس الزامی است"}),
+});
+
+export type ExamSchema = z.infer<typeof examSchema>;

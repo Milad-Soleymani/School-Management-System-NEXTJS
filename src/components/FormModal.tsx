@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 import { OrbitProgress } from "react-loading-indicators";
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
-import { deleteClass, deleteStudent, deleteSubject, deleteTeacher } from '@/lib/actions';
+import { deleteClass, deleteExam, deleteStudent, deleteSubject, deleteTeacher } from '@/lib/actions';
 import { FormContainerProps } from './forms/FormContainer';
 import ClassForm from './forms/ClassForm';
 
@@ -17,7 +17,7 @@ const deleteActionMap = {
     student: deleteStudent,
     parent: deleteSubject,
     lesson: deleteSubject,
-    exam: deleteSubject,
+    exam: deleteExam,
     assignment: deleteSubject,
     result: deleteSubject,
     attendance: deleteSubject,
@@ -62,7 +62,13 @@ const ClassForm = dynamic(() => import("./forms/ClassForm"), {
     loading: () => <div className="flex justify-center items-center">
         <OrbitProgress color="#CFCEFF" size="medium" text="" textColor="" />
     </div>
-    })
+})
+
+const ExamForm = dynamic(() => import("./forms/ExamForm"), {
+    loading: () => <div className="flex justify-center items-center">
+        <OrbitProgress color="#CFCEFF" size="medium" text="" textColor="" />
+    </div>
+})
 
 // ✅ درست - اضافه کردن relatedData
 const forms: {
@@ -94,6 +100,9 @@ const forms: {
     ),
     student: (setOpen, type, data, relatedData) => (
         <StudentForm type={type} data={data} setOpen={setOpen} relatedData={relatedData} />
+    ),
+    exam: (setOpen, type, data, relatedData) => (
+        <ExamForm type={type} data={data} setOpen={setOpen} relatedData={relatedData} />
     )
 };
 

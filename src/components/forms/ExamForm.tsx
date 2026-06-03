@@ -3,14 +3,14 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import InputField from "../InputField";
-import { subjectSchema, SubjectSchema } from "@/lib/formValidationSchema";
-import { createSubject, updateSubject } from "@/lib/actions";
+import { ExamSchema, examSchema, subjectSchema, SubjectSchema } from "@/lib/formValidationSchema";
+import { createExam, createSubject, updateExam, updateSubject } from "@/lib/actions";
 import { useActionState, startTransition, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import type { Dispatch, SetStateAction } from "react";
 
-const SubjectForm = ({
+const ExamForm = ({
   type,
   data,
   setOpen,
@@ -25,20 +25,24 @@ const SubjectForm = ({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<SubjectSchema>({
-    resolver: zodResolver(subjectSchema),
+  } = useForm<ExamSchema>({
+    resolver: zodResolver(examSchema),
   });
-
   const [state, formAction] = useActionState(
-    type === "create" ? createSubject : updateSubject,
+    type === "create" ? createExam : updateExam,
     { success: false, error: false }
   );
 
-  const onSubmit = handleSubmit((formData) => {
+const onSubmit = handleSubmit(
+  (formData) => {
+
     startTransition(() => {
       formAction(formData);
     });
-  });
+  },
+  (errors) => {
+    console.log("ERRORS", errors);
+  })
 
   const router = useRouter();
 
@@ -46,30 +50,48 @@ const SubjectForm = ({
     if (state.success) {
       toast(
         type === "create"
-          ? "ماده درسی با موفقیت ایجاد شد"
-          : "ماده درسی با موفقیت به‌روزرسانی شد"
+          ? "امتحان با موفقیت ایجاد شد"
+          : "امتحان با موفقیت به‌روزرسانی شد"
       );
       setOpen(false);
       router.refresh();
     }
   }, [state, router, type, setOpen]);
 
-  const { teachers = [] } = relatedData || {};
+  const { lessons = [] } = relatedData || {};
   return (
     <form className="flex flex-col gap-8" onSubmit={onSubmit}>
       <h1 className="text-xl font-semibold">
         {type === "create"
-          ? "ایجاد ماده درسی جدید"
-          : "ویرایش ماده درسی"}
+          ? "ایجاد امتحان جدید"
+          : "ویرایش امتحان"}
       </h1>
 
       <div className="flex justify-between flex-wrap gap-4">
         <InputField
-          label="نام ماده درسی"
-          name="name"
-          defaultValue={data?.name}
+          label="نام امتحان"
+          name="title"
+          defaultValue={data?.title}
           register={register}
-          error={errors?.name}
+          error={errors?.title}
+        />
+
+        <InputField
+          label="تاریخ شروع امتحان"
+          name="startTime"
+          defaultValue={data?.startTime}
+          register={register}
+          error={errors?.startTime}
+          type="datetime-local"
+        />
+
+        <InputField
+          label="تاریخ پایان امتحان"
+          name="endTime"
+          defaultValue={data?.endTime}
+          register={register}
+          error={errors?.endTime}
+          type="datetime-local"
         />
 
 
@@ -87,28 +109,28 @@ const SubjectForm = ({
         )}
 
         <div className="flex flex-col gap-2 w-full md:w-1/4">
-          <label className="text-xs text-gray-500">معلم‌ها</label>
+          <label className="text-xs text-gray-500">دروس</label>
           <select
-            multiple
+
             className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
-            {...register("teachers")}
-            defaultValue={data?.teachers?.map((t: any) => t.id) ?? []}
+            {...register("lessonId", { valueAsNumber: true })}
+            defaultValue={data?.lessonId}
           >
-            {teachers.length > 0 ? (
-              teachers.map(
-                (teacher: { id: string; name: string; surname: string }) => (
-                  <option value={teacher.id} key={teacher.id}>
-                    {teacher.name + " " + teacher.surname}
+            {lessons.length > 0 ? (
+              lessons.map(
+                (lesson: { id: number; title: string; }) => (
+                  <option value={lesson.id} key={lesson.id}>
+                    {lesson.name}
                   </option>
                 )
               )
             ) : (
-              <option disabled>معلمی یافت نشد</option>
+              <option disabled>درسی یافت نشد</option>
             )}
           </select>
-          {errors.teachers?.message && (
+          {errors.lessonId?.message && (
             <p className="text-xs text-red-400">
-              {errors.teachers.message.toString()}
+              {errors.lessonId.message.toString()}
             </p>
           )}
         </div>
@@ -125,4 +147,4 @@ const SubjectForm = ({
   );
 };
 
-export default SubjectForm;
+export default ExamForm;

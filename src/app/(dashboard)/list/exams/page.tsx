@@ -1,4 +1,5 @@
-import FormModal from '@/components/FormModal';
+import FormContainer from '@/components/forms/FormContainer';
+import Fexam from '@/components/forms/FormContainer';
 import Pagination from '@/components/Pagination';
 import Table from '@/components/Table';
 import TableSearch from '@/components/TableSearch';
@@ -49,8 +50,8 @@ const renderRow = (item: ExamList, role: string) => (
       <div className="flex items-center gap-2">
         {role === "admin" || role === "teacher" && (
           <>
-            <FormModal table="subject" type="update" data={item} />
-            <FormModal table="subject" type="delete" id={item.id} />
+            <FormContainer table="exam" type="update" data={item} />
+            <FormContainer table="exam" type="delete" id={item.id} />
           </>
         )}
       </div>
@@ -186,7 +187,7 @@ const ExamListPage = async ({ searchParams }: { searchParams: Promise<{ [key: st
             </button>
 
             {/* Create New Exam | ایجاد امتحان جدید */}
-            {role === "admin" && <FormModal table="subject" type="create" />}
+            {role === "teacher" && <FormContainer table="exam" type="create" />}
 
             {/* Search | جستجو */}
             <TableSearch />
