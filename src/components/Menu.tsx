@@ -13,7 +13,7 @@ const menuItems = [
       { icon: "/parent.png", label: "والدین", href: "/list/parents", visible: ["admin", "teacher"] },
       { icon: "/subject.png", label: "مواد درسی", href: "/list/subjects", visible: ["admin"] },
       { icon: "/class.png", label: "کلاس ها", href: "/list/classes", visible: ["admin", "teacher"] },
-      { icon: "/lesson.png", label: "دروس", href: "/list/lessons", visible: ["admin", "teacher"] },
+      { icon: "/lesson.png", label: "دروس", href: "/list/lessons", visible: ["admin"] },
       { icon: "/exam.png", label: "امتحانات", href: "/list/exams", visible: ["admin", "teacher", "student", "parent"] },
       { icon: "/assignment.png", label: "تکالیف", href: "/list/assignments", visible: ["admin", "teacher", "student", "parent"] },
       { icon: "/result.png", label: "نتایج", href: "/list/results", visible: ["admin", "teacher", "student", "parent"] },
