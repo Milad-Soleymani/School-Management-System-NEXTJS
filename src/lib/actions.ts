@@ -292,8 +292,8 @@ export const createStudent = async (
   data: StudentSchema,
 ) => {
 
-  
   try {
+    
     
       const classItem = await prisma.class.findUnique({
         where:{

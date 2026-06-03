@@ -1,6 +1,7 @@
 import Announcements from "@/components/Announcements";
 import BigCalendar from "@/components/BigCalendar";
 import BigCalendarContainer from "@/components/BigCalendarContainer";
+import FormContainer from "@/components/forms/FormContainer";
 import Performance from "@/components/Performance";
 import StudentAttendanceCard from "@/components/StudentAttendanceCard";
 import prisma from "@/lib/prisma";
@@ -80,7 +81,18 @@ const SingleStudentPage =
               </div>
               {/* اطلاعات دانش‌آموز / Student info */}
               <div className="w-2/3 flex flex-col justify-between gap-4 text-right">
+              <div className="flex items-center justify-between">
+
                 <h1 className="text-xl font-semibold">{student.name + " " + student.surname}</h1>
+
+                {role == "admin" && (
+                  <FormContainer
+                    table="student"
+                    type="update"
+                    data={student}
+                  />
+                )}
+                </div> 
                 <p className="text-sm text-gray-500">
                   لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.
                 </p>

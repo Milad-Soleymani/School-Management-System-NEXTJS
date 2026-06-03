@@ -60,10 +60,8 @@ function StudentForm({
         });
     },
         (errors) => {
-            console.log("FORM ERRORS", errors);
-
-            console.log("BIRTHDAY ERROR =", errors.birthday);
-            console.log("IMG ERROR =", errors.img);
+            { errors.gradeId && <p>{errors.gradeId.message}</p> }
+            { errors.classId && <p>{errors.classId.message}</p> }
         });
     const router = useRouter();
 
@@ -137,14 +135,14 @@ function StudentForm({
                 <InputField
                     label="نام"
                     name="name"
-                    defaultValue={data?.firstname}
+                    defaultValue={data?.name}
                     register={register}
                     error={errors?.name as FieldError | undefined}
                 />
                 <InputField
                     label="نام خانوادگی"
                     name="surname"
-                    defaultValue={data?.lastname}
+                    defaultValue={data?.surname}
                     register={register}
                     error={errors?.surname as FieldError | undefined}
                 />
@@ -180,11 +178,11 @@ function StudentForm({
                 <InputField
                     label="شناسه والدین"
                     name="parentId"
-                    defaultValue={data?.paretId}
+                    defaultValue={data?.parentId}
                     register={register}
                     error={errors?.parentId as FieldError | undefined}
                 />
-                
+
                 {data && (
                     <input
                         type="hidden"
@@ -212,7 +210,7 @@ function StudentForm({
                     <select
                         multiple
                         className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
-                        {...register("gradeId")}
+                        {...register("gradeId", { valueAsNumber: true })}
                         defaultValue={
                             data?.gradeId
                         }
@@ -233,7 +231,7 @@ function StudentForm({
                     <select
                         multiple
                         className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
-                        {...register("classId")}
+                        {...register("classId", { valueAsNumber: true })}
                         defaultValue={
                             data?.classId
                         }
