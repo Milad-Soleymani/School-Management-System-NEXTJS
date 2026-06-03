@@ -208,7 +208,6 @@ function StudentForm({
                 <div className="flex flex-col gap-2 w-full md:w-1/4 text-right">
                     <label className="text-xs text-gray-500">پایه </label>
                     <select
-                        multiple
                         className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
                         {...register("gradeId", { valueAsNumber: true })}
                         defaultValue={
@@ -229,7 +228,6 @@ function StudentForm({
                 <div className="flex flex-col gap-2 w-full md:w-1/4 text-right">
                     <label className="text-xs text-gray-500">کلاس </label>
                     <select
-                        multiple
                         className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
                         {...register("classId", { valueAsNumber: true })}
                         defaultValue={
