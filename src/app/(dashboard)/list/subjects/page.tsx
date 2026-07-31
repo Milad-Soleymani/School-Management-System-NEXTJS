@@ -107,7 +107,7 @@ const SubjectListPage = async ({ searchParams }: { searchParams: Promise<{ [key:
       </div>
 
       {/* جدول لیست */}
-      <Table columns={columns} renderRow={(item) => renderRow(item, role)} data={data} />
+      <Table columns={columns} renderRow={(item) => renderRow(item, role!)} data={data} />
 
       {/* صفحه‌بندی */}
       <Pagination page={p} count={count} />

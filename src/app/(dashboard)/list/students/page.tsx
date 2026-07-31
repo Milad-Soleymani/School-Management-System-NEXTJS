@@ -154,7 +154,7 @@ const StudentListPage = async ({ searchParams }: { searchParams: Promise<{ [key:
       </div>
 
       {/* Table / جدول */}
-      <Table columns={columns} renderRow={(item) => renderRow(item, role)} data={data} />
+      <Table columns={columns} renderRow={(item) => renderRow(item, role!)} data={data} />
 
       {/* Pagination / صفحه‌بندی */}
       <Pagination page={p} count={count} />

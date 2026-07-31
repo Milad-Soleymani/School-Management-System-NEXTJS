@@ -225,7 +225,7 @@ const AssignmentListPage = async ({
       {/* Assignments Table */}
       <Table
         columns={columns}
-        renderRow={(item) => renderRow(item, role)}
+        renderRow={(item) => renderRow(item, role!)}
         data={data}
       />
       {/* ================= PAGINATION ================= */}

@@ -8,6 +8,7 @@ const roleMap = {
   parent: "والدین",
   teacher: "معلم"
 };
+type Role = keyof typeof roleMap;
 
 const NavBar =async () => {
   const user = await currentUser();
@@ -43,7 +44,7 @@ const NavBar =async () => {
         {/* USER NAME AND ROLE */}
         <div className="flex flex-col text-right">
           <span className="text-xs leading-3 font-medium">{user?.fullName}</span>
-          <span className="text-[10px] text-gray-500">{roleMap[user?.publicMetadata.role as string]}</span>
+          <span className="text-[10px] text-gray-500">{roleMap[user?.publicMetadata.role as Role]}</span>
         </div>
 
         {/* USER AVATAR */}

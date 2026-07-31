@@ -10,7 +10,7 @@ function ParentPage() {
           <h1 className="text-xl font-semibold text-right mb-2">
             برنامه زمانی علی قاسمی
           </h1>
-          <BigCalendar />
+          <BigCalendar  data={[]} />
         </div>
       </div>
 

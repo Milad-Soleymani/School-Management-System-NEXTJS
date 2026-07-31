@@ -19,6 +19,14 @@ import {
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import type { Dispatch, SetStateAction } from "react";
+import z from "zod";
+
+
+type Lesson = {
+    id: number;
+    name: string;
+};
+
 
 const formatDateTimeLocal = (value?: string | Date) => {
     if (!value) return "";
@@ -42,7 +50,11 @@ const AssignmentForm = ({
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm<AssignmentSchema>({
+    } = useForm<
+        z.input<typeof assignmentSchema>,
+        any,
+        z.output<typeof assignmentSchema>
+    >({
         resolver: zodResolver(assignmentSchema),
     });
 
@@ -76,8 +88,7 @@ const AssignmentForm = ({
         }
     }, [state, router, type, setOpen]);
 
-    const { lessons = [] } = relatedData || {};
-    return (
+    const lessons: Lesson[] = relatedData?.lessons ?? []; return (
         <form className="flex flex-col gap-8" onSubmit={onSubmit}>
             <h1 className="text-xl font-semibold">
                 {type === "create" ? "ایجاد تکلیف جدید" : "ویرایش تکلیف"}

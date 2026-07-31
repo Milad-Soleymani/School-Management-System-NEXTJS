@@ -9,6 +9,7 @@ import { useActionState, startTransition, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import type { Dispatch, SetStateAction } from "react";
+import z from "zod";
 
 const EventForm = ({
   type,
@@ -21,13 +22,17 @@ const EventForm = ({
   setOpen: Dispatch<SetStateAction<boolean>>;
   relatedData?: any;
 }) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<EventSchema>({
-    resolver: zodResolver(eventSchema),
-  });
+const {
+ register,
+ handleSubmit,
+ formState:{errors}
+} = useForm<
+  z.input<typeof eventSchema>,
+  any,
+  z.output<typeof eventSchema>
+>({
+  resolver: zodResolver(eventSchema),
+});
 
   const [state, formAction] = useActionState(
     type === "create" ? createEvent : updateEvent,

@@ -136,7 +136,7 @@ const LessonListPage = async ({ searchParams }: { searchParams: Promise<{ [key: 
       </div>
 
       {/* جدول دروس / Lessons table */}
-      <Table columns={columns} renderRow={(item) => renderRow(item, role)} data={data} />
+      <Table columns={columns} renderRow={(item) => renderRow(item, role!)} data={data} />
 
       {/* صفحه‌بندی / Pagination */}
       <Pagination page={p} count={count} />

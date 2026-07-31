@@ -40,7 +40,7 @@ const SingleStudentPage =
 
     const { role } = await getUserRole();
 
-    const student: (Student & {class: (Class & {_count: {lessons:true}})}) | null = await prisma.student.findUnique({
+    const student = await prisma.student.findUnique({
       where: {
         id
       },
@@ -81,18 +81,18 @@ const SingleStudentPage =
               </div>
               {/* اطلاعات دانش‌آموز / Student info */}
               <div className="w-2/3 flex flex-col justify-between gap-4 text-right">
-              <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between">
 
-                <h1 className="text-xl font-semibold">{student.name + " " + student.surname}</h1>
+                  <h1 className="text-xl font-semibold">{student.name + " " + student.surname}</h1>
 
-                {role == "admin" && (
-                  <FormContainer
-                    table="student"
-                    type="update"
-                    data={student}
-                  />
-                )}
-                </div> 
+                  {role == "admin" && (
+                    <FormContainer
+                      table="student"
+                      type="update"
+                      data={student}
+                    />
+                  )}
+                </div>
                 <p className="text-sm text-gray-500">
                   لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.
                 </p>
@@ -134,10 +134,10 @@ const SingleStudentPage =
               <div className="bg-white p-4 rounded-md flex gap-4 w-full md:w-[48%] xl:w-[45%] flex-row-reverse">
                 <Image src="/singleAttendance.png" alt="حضور" width={24} height={24} className="w-6 h-6" />
                 <div>
-                  
-                <Suspense fallback="در حال بارگزاری ...">
-                  <StudentAttendanceCard id={student.id} />
-                </Suspense>
+
+                  <Suspense fallback="در حال بارگزاری ...">
+                    <StudentAttendanceCard id={student.id} />
+                  </Suspense>
                 </div>
               </div>
               {/* CARD 2 */}

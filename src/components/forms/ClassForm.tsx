@@ -9,6 +9,7 @@ import { useActionState, startTransition, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import type { Dispatch, SetStateAction } from "react";
+import z from "zod";
 
 const ClassForm = ({
   type,
@@ -25,7 +26,11 @@ const ClassForm = ({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<ClassSchema>({
+  } = useForm<
+    z.input<typeof classSchema>,
+    any,
+    z.output<typeof classSchema>
+  >({
     resolver: zodResolver(classSchema),
   });
 
@@ -84,12 +89,9 @@ const ClassForm = ({
 
         {data && (
           <input
-            label="شناسه"
-            name="id"
-            defaultValue={data.id}
+            type="hidden"
             {...register("id", { valueAsNumber: true })}
-            error={errors?.id}
-            hidden
+            defaultValue={data.id}
           />
         )}
 

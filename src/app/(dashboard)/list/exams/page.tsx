@@ -208,7 +208,7 @@ const ExamListPage = async ({ searchParams }: { searchParams: Promise<{ [key: st
       {/* -------------------- */}
       {/* LIST SECTION | لیست امتحانات */}
       {/* -------------------- */}
-      <Table columns={columns} renderRow={(item) => renderRow(item, role)} data={data} />
+      <Table columns={columns} renderRow={(item) => renderRow(item, role!)} data={data} />
 
       {/* -------------------- */}
       {/* PAGINATION | صفحه‌بندی */}

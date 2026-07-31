@@ -165,27 +165,29 @@ const ResultListPage = async ({ searchParams }: { searchParams: Promise<{ [key: 
     prisma.result.count({ where: query })
   ]
   );
-  const data = dataRes.map((item) => {
-    const assessment = item.exam || item.assignment
+  const data = dataRes
+    .map((item) => {
+      const assessment = item.exam || item.assignment;
 
-    if (!assessment) return null;
+      if (!assessment) return null;
 
-    const isExam = "startTime" in assessment;
+      const isExam = "startTime" in assessment;
 
-
-    return {
-
-      id: item.id,
-      title: assessment.title,
-      studentName: item.student.name,
-      studentSurname: item.student.surname,
-      teacherName: assessment.lesson.teacher.name,
-      teacherSurname: assessment.lesson.teacher.surname,
-      score: item.score,
-      className: assessment.lesson.class.name,
-      startTime: isExam ? assessment.startTime : assessment.startDate
-    }
-  });
+      return {
+        id: item.id,
+        title: assessment.title,
+        studentName: item.student.name,
+        studentSurname: item.student.surname,
+        teacherName: assessment.lesson.teacher.name,
+        teacherSurname: assessment.lesson.teacher.surname,
+        score: item.score,
+        className: assessment.lesson.class.name,
+        startTime: isExam
+          ? assessment.startTime
+          : assessment.startDate,
+      };
+    })
+    .filter((item): item is ResultList => item !== null);
   return (
     <div className="bg-white p-4 rounded-md flex-1 m-4 mt-0">
       {/* بالای صفحه - فیلتر و جستجو */}
@@ -220,7 +222,7 @@ const ResultListPage = async ({ searchParams }: { searchParams: Promise<{ [key: 
 
       {/* جدول نتایج */}
       {/* Results Table */}
-      <Table columns={columns} renderRow={(item) => renderRow(item, role)} data={data} />
+      <Table columns={columns} renderRow={(item) => renderRow(item, role!)} data={data} />
 
       {/* صفحه‌بندی */}
       {/* Pagination */}

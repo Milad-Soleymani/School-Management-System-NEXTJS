@@ -192,7 +192,7 @@ const ClassListPage = async ({
       {/* TABLE */}
       <Table
         columns={columns}
-        renderRow={(item) => renderRow(item, role)}
+        renderRow={(item) => renderRow(item, role!)}
         data={data}
       />
 

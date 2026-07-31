@@ -138,7 +138,7 @@ const columns = [
       </div>
 
       {/* جدول لیست والدین */}
-      <Table columns={columns} renderRow={(item) => renderRow(item, role)} data={data} />
+      <Table columns={columns} renderRow={(item) => renderRow(item, role!)} data={data} />
 
       {/* صفحه‌بندی */}
       <Pagination page={p} count={count} />

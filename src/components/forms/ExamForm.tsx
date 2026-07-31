@@ -9,6 +9,7 @@ import { useActionState, startTransition, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import type { Dispatch, SetStateAction } from "react";
+import z from "zod";
 
 const ExamForm = ({
   type,
@@ -25,7 +26,11 @@ const ExamForm = ({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<ExamSchema>({
+  } = useForm<
+    z.input<typeof examSchema>,
+    any,
+    z.output<typeof examSchema>
+  >({
     resolver: zodResolver(examSchema),
   });
   const [state, formAction] = useActionState(
@@ -33,16 +38,16 @@ const ExamForm = ({
     { success: false, error: false }
   );
 
-const onSubmit = handleSubmit(
-  (formData) => {
+  const onSubmit = handleSubmit(
+    (formData) => {
 
-    startTransition(() => {
-      formAction(formData);
-    });
-  },
-  (errors) => {
-    console.log("ERRORS", errors);
-  })
+      startTransition(() => {
+        formAction(formData);
+      });
+    },
+    (errors) => {
+      console.log("ERRORS", errors);
+    })
 
   const router = useRouter();
 
@@ -96,15 +101,11 @@ const onSubmit = handleSubmit(
 
 
 
-        {/* فقط در حالت update یک فیلد مخفی برای id می‌سازیم */}
         {data && (
           <input
-            label="شناسه"
-            name="id"
-            defaultValue={data.id}
+            type="hidden"
             {...register("id", { valueAsNumber: true })}
-            error={errors?.id}
-            hidden
+            defaultValue={data.id}
           />
         )}
 
@@ -118,7 +119,7 @@ const onSubmit = handleSubmit(
           >
             {lessons.length > 0 ? (
               lessons.map(
-                (lesson: { id: number; title: string; }) => (
+                (lesson: { id: number; name: string }) => (
                   <option value={lesson.id} key={lesson.id}>
                     {lesson.name}
                   </option>

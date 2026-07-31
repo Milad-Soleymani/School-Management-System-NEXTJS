@@ -187,7 +187,7 @@ if (role !== "admin") {
 
       {/* 📌 EVENTS TABLE */}
       {/* فارسی: جدول رویدادها */}
-      <Table columns={columns} renderRow={(item) => renderRow(item, role)} data={data} />
+      <Table columns={columns} renderRow={(item) => renderRow(item, role!)} data={data} />
 
       {/* 📌 PAGINATION */}
       {/* فارسی: صفحه‌بندی */}

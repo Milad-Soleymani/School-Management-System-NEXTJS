@@ -28,18 +28,16 @@ function StudentForm({
     setOpen?: Dispatch<SetStateAction<boolean>>
     relatedData?: any
 }) {
-    // ایجاد فرم با React Hook Form و Zod
     const {
         register,
         handleSubmit,
-        formState: { errors }
-    } = useForm<StudentSchema>({
+        formState: { errors },
+    } = useForm<
+        z.input<typeof studentSchema>,
+        any,
+        z.output<typeof studentSchema>
+    >({
         resolver: zodResolver(studentSchema),
-        defaultValues: {
-            birthday: data?.birthday
-                ? new Date(data.birthday).toISOString().split("T")[0]
-                : "",
-        }
     });
 
     const [Img, setImg] = useState<any>()

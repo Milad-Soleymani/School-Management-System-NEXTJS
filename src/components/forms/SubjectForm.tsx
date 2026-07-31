@@ -77,12 +77,9 @@ const SubjectForm = ({
         {/* فقط در حالت update یک فیلد مخفی برای id می‌سازیم */}
         {data && (
           <input
-            label="شناسه"
-            name="id"
-            defaultValue={data.id}
+            type="hidden"
             {...register("id", { valueAsNumber: true })}
-            error={errors?.id}
-            hidden
+            defaultValue={data.id}
           />
         )}
 
