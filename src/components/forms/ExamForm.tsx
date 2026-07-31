@@ -82,15 +82,6 @@ const ExamForm = ({
         />
 
         <InputField
-          label="تاریخ شروع امتحان"
-          name="startTime"
-          defaultValue={data?.startTime}
-          register={register}
-          error={errors?.startTime}
-          type="datetime-local"
-        />
-
-        <InputField
           label="تاریخ پایان امتحان"
           name="endTime"
           defaultValue={data?.endTime}
@@ -99,6 +90,14 @@ const ExamForm = ({
           type="datetime-local"
         />
 
+        <InputField
+          label="تاریخ شروع امتحان"
+          name="startTime"
+          defaultValue={data?.startTime}
+          register={register}
+          error={errors?.startTime}
+          type="datetime-local"
+        />
 
 
         {data && (
