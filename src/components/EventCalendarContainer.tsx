@@ -4,12 +4,12 @@ import EventList from './EventList'
 import EventCalendar from './EventCalendar'
 import Link from 'next/link'
 
-const EventCalendarContainer = async ({ 
-  searchParams 
-}: { 
-  searchParams: Promise<{ [key: string]: string | undefined }> 
+const EventCalendarContainer = ({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | undefined }
 }) => {
-  const params = await searchParams
+  const params = searchParams
   const dateParam = params?.date
 
   return (

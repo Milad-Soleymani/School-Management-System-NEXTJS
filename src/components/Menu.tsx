@@ -17,17 +17,13 @@ const menuItems = [
       { icon: "/exam.png", label: "امتحانات", href: "/list/exams", visible: ["admin", "teacher", "student", "parent"] },
       { icon: "/assignment.png", label: "تکالیف", href: "/list/assignments", visible: ["admin", "teacher", "student", "parent"] },
       { icon: "/result.png", label: "نتایج", href: "/list/results", visible: ["admin", "teacher", "student", "parent"] },
-      { icon: "/attendance.png", label: "حضور و غیاب", href: "/list/attendance", visible: ["admin", "teacher", "student", "parent"] },
       { icon: "/calendar.png", label: "رویداد ها", href: "/list/events", visible: ["admin", "teacher", "student", "parent"] },
-      { icon: "/message.png", label: "پیام ها", href: "/list/messages", visible: ["admin", "teacher", "student", "parent"] },
       { icon: "/announcement.png", label: "اطلاعیه ها", href: "/list/announcements", visible: ["admin", "teacher", "student", "parent"] },
     ],
   },
   {
     title: "دیگر",
     items: [
-      { icon: "/profile.png", label: "پروفایل", href: "/profile", visible: ["admin", "teacher", "student", "parent"] },
-      { icon: "/setting.png", label: "تنظیمات", href: "/settings", visible: ["admin", "teacher", "student", "parent"] },
       { icon: "/logout.png", label: "خروج از حساب", href: "/logout", visible: ["admin", "teacher", "student", "parent"] },
     ],
   },

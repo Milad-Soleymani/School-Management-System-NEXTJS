@@ -1,4 +1,3 @@
-// AdminPage.tsx
 import Announcements from "@/components/Announcements";
 import AttendanceChartContainer from "@/components/AttendanceChartContainer";
 import CountChart from "@/components/CountChart";
@@ -7,10 +6,20 @@ import FinanceChart from "@/components/FinanceChart";
 import UserCard from "@/components/UserCard";
 import prisma from "@/lib/prisma";
 
-const AdminPage = async ({ searchParams }: { searchParams: { [key: string]: string | undefined } }) => {
-  // سرور: تعداد دانش‌آموزان هر پایه
-  const firstGrade = await prisma.student.count({ where: { gradeId: 1 } });
-  const secondGrade = await prisma.student.count({ where: { gradeId: 2 } });
+const AdminPage = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | undefined }>;
+}) => {
+  const params = await searchParams;
+
+  const firstGrade = await prisma.student.count({
+    where: { gradeId: 1 },
+  });
+
+  const secondGrade = await prisma.student.count({
+    where: { gradeId: 2 },
+  });
 
   return (
     <div className="p-4 flex flex-col gap-4 md:flex-row">
@@ -26,12 +35,13 @@ const AdminPage = async ({ searchParams }: { searchParams: { [key: string]: stri
 
         {/* ==== MIDDLE CHARTS ==== */}
         <div className="flex flex-col gap-4 lg:flex-row">
-          {/* COUNT CHART */}
           <div className="w-full lg:w-1/3 h-[450px]">
-            <CountChart firstGrade={firstGrade} secondGrade={secondGrade} />
+            <CountChart
+              firstGrade={firstGrade}
+              secondGrade={secondGrade}
+            />
           </div>
 
-          {/* ATTENDANCE CHART */}
           <div className="w-full lg:w-2/3 h-[450px]">
             <AttendanceChartContainer />
           </div>
@@ -45,10 +55,8 @@ const AdminPage = async ({ searchParams }: { searchParams: { [key: string]: stri
 
       {/* ================= RIGHT SIDE ================= */}
       <div className="w-full lg:w-1/3 flex flex-col gap-4">
-        {/* Event Calendar Container - ارسال searchParams به آن */}
-        <EventCalendarContainer searchParams={searchParams} />
+        <EventCalendarContainer searchParams={params} />
 
-        {/* Announcements */}
         <Announcements />
       </div>
     </div>

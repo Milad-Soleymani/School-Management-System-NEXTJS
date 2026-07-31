@@ -15,11 +15,14 @@ import React from "react";
 
 // ==== Types ====
 // مدل داده‌ای اطلاعیه
-type AnnouncementList = Announcement & { class: Class };
+type AnnouncementList = Announcement & { class: Class | null };
 
 // ==== تابع رندر هر سطر ====
 // خارج از کامپوننت، role به عنوان آرگومان داده می‌شود
-const renderRow = (item: AnnouncementList, role: string) => (
+const renderRow = (
+  item: AnnouncementList,
+  role: string = ""
+) => (
   <tr
     key={item.id}
     className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-specialPurpleLight"
@@ -45,18 +48,18 @@ const renderRow = (item: AnnouncementList, role: string) => (
 const AnnouncementListPage = async ({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | undefined };
+  searchParams: Promise<{ [key: string]: string | undefined }>;
 }) => {
   // ==== دریافت رول کاربر ====
-  const {role, currentUserId} = await getUserRole(); // رول کاربر را می‌گیریم
+  const { role, currentUserId } = await getUserRole(); // رول کاربر را می‌گیریم
   // ==== ستون‌های جدول ====
   const columns = [
     { header: "موضوع", accessor: "title" },
     { header: "کلاس", accessor: "class", className: "hidden md:table-cell" },
     { header: "تاریخ", accessor: "date", className: "hidden md:table-cell" },
     ...(role === "admin"
-    ? [{ header: "اعمال", accessor: "actions", className: "text-center" }]
-    : []),
+      ? [{ header: "اعمال", accessor: "actions", className: "text-center" }]
+      : []),
   ];
 
   // ==== دریافت پارامترهای URL ====
@@ -79,40 +82,40 @@ const AnnouncementListPage = async ({
     }
   }
 
-   // ROLE CONDITION
+  // ROLE CONDITION
 
   const roleConditions = {
     teacher: {
-      lessons:{
-        some:{
+      lessons: {
+        some: {
           teacherId: currentUserId!
         }
       }
     },
 
     student: {
-      students:{
-        some:{
+      students: {
+        some: {
           id: currentUserId!
         }
       }
     },
 
     parent: {
-      students:{
-        some:{
+      students: {
+        some: {
           parentId: currentUserId!
         }
       }
     }
   };
-if (role !== "admin") {
-  query.OR = [
-    {classId: null},{
-      class: roleConditions[role as keyof typeof roleConditions] || {},
-    }
-  ]
- }
+  if (role !== "admin") {
+    query.OR = [
+      { classId: null }, {
+        class: roleConditions[role as keyof typeof roleConditions] || {},
+      }
+    ]
+  }
   // ==== گرفتن داده‌ها از دیتابیس ====
   const [data, count] = await prisma.$transaction([
     prisma.announcement.findMany({

@@ -18,16 +18,25 @@ import React from "react";
 // Assignment data model
 type AssignmentList = Assignment & {
   lesson: {
-    subject: Subject,
-    class: Class,
-    teacher: Teacher
-  }
-}
-
+    subject: {
+      name: string;
+    };
+    class: {
+      name: string;
+    };
+    teacher: {
+      name: string;
+      surname: string;
+    };
+  };
+};
 // ==== Render Row Function ====
 // تابع برای نمایش هر سطر از جدول
 // Function to render each row in the table
-const renderRow = (item: AssignmentList, role: string) => (
+const renderRow = (
+  item: AssignmentList,
+  role: string = ""
+) => (
   <tr
     key={item.id}
     className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-specialPurpleLight"
@@ -58,8 +67,11 @@ const renderRow = (item: AssignmentList, role: string) => (
   </tr>
 );
 
-const AssignmentListPage = async ({ searchParams }: { searchParams: { [key: string]: string | undefined } }) => {
-
+const AssignmentListPage = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | undefined }>;
+}) => {
   // console.log(data)
   const { role, currentUserId } = await getUserRole();
 
@@ -89,7 +101,7 @@ const AssignmentListPage = async ({ searchParams }: { searchParams: { [key: stri
     ...(role === "admin" || "teacher" ? [{ header: "اعمال", accessor: "actions" }] : []),
 
   ];
-  const params = searchParams;
+  const params = await searchParams;
   console.log(params);
 
   const { page, ...queryParams } = params;

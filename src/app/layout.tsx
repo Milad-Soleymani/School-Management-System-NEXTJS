@@ -4,7 +4,6 @@ import "./globals.css";
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { ClerkProvider } from "@clerk/nextjs";
-import Head from "next/head";
 import { ToastContainer } from "react-toastify";
 
 
@@ -41,12 +40,12 @@ export default function RootLayout({
     <ClerkProvider>
 
       <html lang="en">
-        <Head>
-          <link rel="shortcut icon" href="/logo.png" />
-        </Head>
-        <body>{children}<ToastContainer position="bottom-right" theme="dark" /></body>
+        
+        <body>
         <Analytics />
         <SpeedInsights />
+          {children}<ToastContainer position="bottom-right" theme="dark" />
+          </body>
 
       </html>
     </ClerkProvider>
