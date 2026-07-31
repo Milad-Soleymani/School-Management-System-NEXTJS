@@ -44,7 +44,7 @@ const renderRow = (item: LessonList, role: string) => (
 )
 const LessonListPage = async ({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) => {
 
-  const {role, currentUserId} = await getUserRole();
+  const { role, currentUserId } = await getUserRole();
   // console.log(data)
 
   // تعریف ستون‌های جدول / Table column definitions
@@ -52,7 +52,7 @@ const LessonListPage = async ({ searchParams }: { searchParams: Promise<{ [key: 
     { header: "نام کلاس", accessor: "subject" }, // عنوان ستون / Column title
     { header: "کلاس", accessor: "class", className: "hidden md:table-cell" },
     { header: "معلم", accessor: "teacher", className: "hidden md:table-cell" },
-    ...(role === "admin" ?[{ header: "اعمال", accessor: "actions" }]: [])
+    ...(role === "admin" ? [{ header: "اعمال", accessor: "actions" }] : [])
   ]
   const params = await searchParams;
   console.log(params);
@@ -93,9 +93,9 @@ const LessonListPage = async ({ searchParams }: { searchParams: Promise<{ [key: 
     prisma.lesson.findMany({
       where: query,
       include: {
-        subject: { select: { name: true } },
-        class: { select: { name: true } },
-        teacher: { select: { name: true, surname: true } },
+        subject: true,
+        class: true,
+        teacher: true,
       },
       take: ITEM_PER_PAGE,
       skip: ITEM_PER_PAGE * (p - 1)
@@ -136,7 +136,7 @@ const LessonListPage = async ({ searchParams }: { searchParams: Promise<{ [key: 
       </div>
 
       {/* جدول دروس / Lessons table */}
-      <Table columns={columns} renderRow={(item) =>renderRow(item, role)} data={data} />
+      <Table columns={columns} renderRow={(item) => renderRow(item, role)} data={data} />
 
       {/* صفحه‌بندی / Pagination */}
       <Pagination page={p} count={count} />

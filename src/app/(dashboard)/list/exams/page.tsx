@@ -13,20 +13,27 @@ import React from 'react';
 // ==============================
 // Type Definition | تعریف نوع داده
 // ==============================
-type ExamList = Exam & {
-  lesson: {
-    subject: Subject,
-    class: Class,
-    teacher: Teacher
-  }
-}
+type ExamList = Prisma.ExamGetPayload<{
+  include: {
+    lesson: {
+      include: {
+        subject: true;
+        class: true;
+        teacher: true;
+      };
+    };
+  };
+}>;
 
 
 // ==============================
 // Render Row Function
 // تابع رندر هر سطر جدول
 // ==============================
-const renderRow = (item: ExamList, role: string) => (
+const renderRow = (
+  item: ExamList,
+  role: string | undefined
+) => (
   <tr
     key={item.id}
     className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-specialPurpleLight"
@@ -122,8 +129,8 @@ const ExamListPage = async ({ searchParams }: { searchParams: Promise<{ [key: st
       break;
     case "student":
       query.lesson.class = {
-        students:{
-          some:{
+        students: {
+          some: {
             id: currentUserId!
           }
         }
@@ -131,9 +138,9 @@ const ExamListPage = async ({ searchParams }: { searchParams: Promise<{ [key: st
       break;
     case "parent":
       query.lesson.class = {
-        students:{
-          some:{
-            parentId:currentUserId!
+        students: {
+          some: {
+            parentId: currentUserId!
           }
         }
       };
@@ -148,15 +155,15 @@ const ExamListPage = async ({ searchParams }: { searchParams: Promise<{ [key: st
       where: query,
       include: {
         lesson: {
-          select: {
-            subject: { select: { name: true } },
-            teacher: { select: { name: true, surname: true } },
-            class: { select: { name: true } },
-          }
-        }
+          include: {
+            subject: true,
+            class: true,
+            teacher: true,
+          },
+        },
       },
       take: ITEM_PER_PAGE,
-      skip: ITEM_PER_PAGE * (p - 1)
+      skip: ITEM_PER_PAGE * (p - 1),
     }),
     prisma.exam.count({ where: query })
   ]

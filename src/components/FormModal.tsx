@@ -8,8 +8,6 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { deleteAssignment, deleteClass, deleteEvent, deleteExam, deleteStudent, deleteSubject, deleteTeacher } from '@/lib/actions';
 import { FormContainerProps } from './forms/FormContainer';
-import ClassForm from './forms/ClassForm';
-import AssignmentForm from './forms/AssignmentForm';
 
 const deleteActionMap = {
     subject: deleteSubject,

@@ -457,6 +457,25 @@ export const createExam = async (
         return { success: false, error: true };
       }
     }
+    console.log("Exam data:", data);
+
+    const exams = await prisma.exam.findMany({
+      orderBy: {
+        id: "desc",
+      },
+      take: 5,
+    });
+
+    await prisma.$executeRawUnsafe(`
+SELECT setval(
+    pg_get_serial_sequence('"Exam"', 'id'),
+    (SELECT COALESCE(MAX(id),1) FROM "Exam")
+);
+`);
+    const next = await prisma.$queryRawUnsafe(`
+SELECT nextval(pg_get_serial_sequence('"Exam"', 'id')) as id;
+`);
+
     await prisma.exam.create({
       data: {
         title: data.title,
@@ -669,7 +688,6 @@ export const createEvent = async (
   data: EventSchema,
 ) => {
   try {
-
     console.log("EVENT DATA =", data);
     await prisma.event.create({
       data: {

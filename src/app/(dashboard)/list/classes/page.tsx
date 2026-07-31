@@ -10,12 +10,17 @@ import { Class, Grade, Prisma, Teacher } from '@prisma/client'
 import Image from 'next/image'
 import React from 'react'
 
-type ClassList = Class & {
-  supervisor: Teacher | null
-  grade: Grade
-}
+type ClassList = Prisma.ClassGetPayload<{
+  include: {
+    supervisor: true;
+    grade: true;
+  };
+}>;
 
-const renderRow = (item: ClassList, role: string) => (
+const renderRow = (
+  item: ClassList,
+  role: string | undefined
+) => (
   <tr
     key={item.id}
     className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-specialPurpleLight"
@@ -90,12 +95,12 @@ const ClassListPage = async ({
     },
     ...(role === "admin"
       ? [
-          {
-            header: "اعمال",
-            accessor: "actions",
-            className: "text-center",
-          },
-        ]
+        {
+          header: "اعمال",
+          accessor: "actions",
+          className: "text-center",
+        },
+      ]
       : []),
   ]
 

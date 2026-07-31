@@ -16,12 +16,12 @@ import React from 'react'
 
 // 📌 Type definition for Event object
 // فارسی: تعریف نوع داده رویداد
-type EventList = Event & { class: Class }
+type EventList = Event & { class: Class | null }
 
 
 // 📌 Render a single row of the table
 // فارسی: رندر کردن یک ردیف جدول
-const renderRow = (item: EventList, role: string) => (
+const renderRow = (item: EventList, role?: string) => (
   <tr
     key={item.id}
     className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-specialPurpleLight"
